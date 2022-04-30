@@ -4,7 +4,7 @@
 
 <img src="https://github.com/moyomogi/flutter_testing/raw/master/docs/suggestion.jpg" title="suggestion" height="210">
 
-今までは WSL 上で開発してばっかりだったので、Flutter は Windows 上で開発する練習になっていいね。
+よもぎは今まで WSL 上で開発してばっかりだったので、Flutter は Windows 上で開発する練習になっていいな、と思ってます。
 
 ## よもぎ docs
 
