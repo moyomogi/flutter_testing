@@ -2,7 +2,7 @@
 
 # 📱 Flutter Testing
 
-<img src="https://github.com/moyomogi/flutter_testing/raw/master/docs/suggestion.jpg" title="suggestion" height="210">
+<img src="https://github.com/moyomogi/flutter_testing/raw/master/docs/suggestion-web.jpg" title="suggestion-web" height="280">
 
 よもぎは今まで WSL 上で開発してばっかりだったので、Flutter は Windows 上で開発する練習になっていいな、と思ってます。
 

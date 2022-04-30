@@ -7,7 +7,7 @@ VSCommunity, Android Studio を導入しなければならず、かなり容量�
 従って、ここでは、WSL 上に Flutter 環境を構築しようと思います。  
 WSL 上に Flutter 環境を構築すれば、VSCommunity, Android Studio が両方不要で、VSCode だけでよくなります。
 
-## 1. Java SDK を追加
+## 1. Java SDK を導入
 
 ```sh
 sudo apt update
@@ -170,7 +170,7 @@ flutter upgrade
 flutter build XXX
 ```
 
-### 6-3. Flutter アプリとして実行可能なデバイス一覧
+### 6-3. Flutter アプリとして実行可能なデバイス一覧の表示
 
 Android/iOS エミュレータの場合は、事前に立ち上げた状態でなければ表示されません。
 
