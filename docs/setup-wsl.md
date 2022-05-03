@@ -2,6 +2,8 @@
 
 <img src="https://i.imgur.com/rHZDb5q.png" title="shiroko" width="180">
 
+## 0. 緒言
+
 Flutter を Windows に直置きしてもいいですが、  
 VSCommunity, Android Studio を導入しなければならず、かなり容量を食います。  
 従って、ここでは、WSL 上に Flutter 環境を構築しようと思います。  
@@ -121,6 +123,8 @@ flutter doctor
    すると、`/home/YOUR_NAME/flutter_testing` 配下にテンプレートプロジェクトが生成されます。
 
 ## 5. テンプレートプロジェクトをサーブ
+
+<img src="https://github.com/moyomogi/flutter_testing/raw/master/docs/imgs/suggestion-web.jpg" title="suggestion-web" height="280">
 
 ## 5-1. VSCode にてフォルダ `flutter_testing` を開く
 

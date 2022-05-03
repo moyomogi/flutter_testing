@@ -17,7 +17,7 @@
 
 - IDE に関しては Android Studio で完結することも可能なんですが、  
   よもぎは VSCode が好きなので VSCode で。
-- Flutter で作れるものは以下の通りです。
+- Flutter で作ったアプリは以下の環境で起動可能です。
   - Web sites
   - Mobile applications (Android, iOS)
   - Desktop applications (Windows, Mac OS, Linux)
@@ -43,12 +43,29 @@ where flutter dart
 
 - TODO: `4-1.`, `4-2.` も共通要件かも？
 
-## 2. Web Application を起動
+## 2. Web Application を作る
 
 <img src="https://github.com/moyomogi/flutter_testing/raw/master/docs/imgs/suggestion-web.jpg" title="suggestion-web" height="280">
 
+### 2-1. Web Application を起動
+
 1. VSCode の右下で Device を `Chrome (web-javascript)` に変更。
 2. `lib/main.dart` 上で `f5` を押すと起動する。
+
+### 2-2. Web Application をデプロイ
+
+[Firebase CLI リファレンス](https://firebase.google.com/docs/cli?hl=ja#install-cli-windows) を参考に。  
+本来は、まず Firebase プロジェクトを作成するんですが、  
+僕のプロジェクトを共用しようかなと思います。
+
+```sh
+npm install -g firebase-tools
+firebase login
+firebase projects:list
+firebase init
+firebase serve --only hosting
+firebase deploy -m "First deploy"
+```
 
 ## 3. (任意、重い) Windows desktop development のための追加要件
 
@@ -99,13 +116,15 @@ flutter config --android-studio-dir "D:\sys\Android\Android Studio"
 flutter doctor --android-licenses
 ```
 
-6.  `C:\Users\USER_NAME\AppData\Local\Android\Sdk\platforms\android-31\android.jar` がなければ、  
-    `C:\Users\USER_NAME\AppData\Local\Android\Sdk\platforms\android-32\android.jar` を  
-    `C:\Users\USER_NAME\AppData\Local\Android\Sdk\platforms\android-31\android.jar` に貼り付け。
+6. `C:\Users\USER_NAME\AppData\Local\Android\Sdk\platforms\android-31\android.jar` がなければ、  
+   `C:\Users\USER_NAME\AppData\Local\Android\Sdk\platforms\android-32\android.jar` を  
+   `C:\Users\USER_NAME\AppData\Local\Android\Sdk\platforms\android-31\android.jar` に貼り付け。
 
 ### 4-3A. Android 実機上で起動
 
 <img src="https://github.com/moyomogi/flutter_testing/raw/master/docs/imgs/suggestion-physical-android.jpg" title="suggestion-physical-android" width="160">
+
+もし、実機で Android スマホを持っていれば、Android 上で Flutter で作ったアプリを動かせます。
 
 #### 4-3A-1. Android 実機の設定
 
@@ -129,15 +148,26 @@ flutter doctor --android-licenses
 
 <img src="https://github.com/moyomogi/flutter_testing/raw/master/docs/imgs/suggestion-virtual-android.jpg" title="suggestion-virtual-android" width="160">
 
+Android エミュレーターを使う意味は、以下の通りです。
+
+- Android スマホを持っていない人でも、Anroid 上でアプリを動かせる。
+- 自分の持っていない機種 (古い機種や、特殊なアスペクト比の機種) 上でも動かせる。
+
+Android エミュレーターは、1 台につき 10 GB くらい使うので、  
+C ドライブの容量がやばい人は入れないでください。
+
 #### 4-3B-1. Android エミュレーター (Pixel 4 API 32) を導入
 
 1. `Phone` > `Pixel 4` を押す。
 2. `API 32` の右にある `Download` を押す。
-3. Android Studio を起動。
-4. `Projects` > `More Actions ∨` > `Virtual Device Manager` を開く。
-5. `Pixel 4 API 32` の `▷` を押す。  
+
+#### 4-3B-2. Android エミュレーターにて起動
+
+1. Android Studio を起動。
+2. `Projects` > `More Actions ∨` > `Virtual Device Manager` を開く。
+3. `Pixel 4 API 32` の `▷` を押す。  
    これでエミュレーターが起動完了。
-6. 実行する方法は以下のいずれか。
+4. 実行する方法は以下のいずれか。
    - Android Studio にて `ctrl + f5` を押す。
    - VSCode にて `lib/main.dart` を開いた状態で `f5`。
 
@@ -167,7 +197,7 @@ flutter doctor --android-licenses
 - `$FLUTTER_ROOT/bin/cache/lockfile` が残っていることが原因なので、削除したい。  
   削除するには `dart.exe` を終了する必要があるので、`ctrl + shift + esc` で  
   タスクマネージャーを開いて `dart.exe` に対し「タスクの終了」をする。  
-  その後、`$FLUTTER_ROOT/bin/cache/lockfile` を削除する。
+  その後、`$FLUTTER_ROOT/bin/cache/lockfile` を削除する。  
   Ref: [flutter コマンドを打った時に"Waiting for another flutter command to release the startup lock..."が出た時の対処法](https://qiita.com/konifar/items/29f2ed4bcc2a970014c1)
 
 ```ps1
@@ -179,5 +209,6 @@ taskkill /F /IM dart.exe
 
 - [Flutter 環境構築 -Windows 編-](https://www.ccs1981.jp/blog/flutter%E7%92%B0%E5%A2%83%E6%A7%8B%E7%AF%89-windows%E7%B7%A8/)
 - [Windows install | Flutter](https://docs.flutter.dev/get-started/install/windows)
+- [【Flutter】Web アプリを 🚀 爆速 🚀 で Firebase Hosting にデプロイする](https://zenn.dev/pressedkonbu/articles/deploy-flutter-web-app-with-firebase-hosting)
 - [Failed to launch emulator: Error: Emulator didn't connected within 60 seconds 【AndroidStudio/VScode】](https://ticktickboom.hatenablog.com/entry/2021/02/22/235914)
 - [【Android Studio】Flutter で開発したアプリを実機でデバッグする](http://www.toshioblog.com/archives/27396852.html)

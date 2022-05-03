@@ -47,6 +47,8 @@ app.*.map.json
 
 
 # Directory
+node_modules
+
 /.vscode
 /bin
 /book
