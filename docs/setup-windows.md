@@ -52,22 +52,29 @@ where flutter dart
 1. VSCode の右下で Device を `Chrome (web-javascript)` に変更。
 2. `lib/main.dart` 上で `f5` を押すと起動する。
 
-### 2-2. Web Application をデプロイ
+### 2-2. (今回は飛ばす) Web Application を Firebase Hosting にデプロイ
 
-[Firebase CLI リファレンス](https://firebase.google.com/docs/cli?hl=ja#install-cli-windows) を参考に。  
+[Firebase 用 Github Actions 設定 | [Flutter] カウンターアプリを Firebase Hosting で Web アプリとして動かす](https://runble1.com/flutter-firebase-hosting-github-actions/#toc6)
 本来は、まず Firebase プロジェクトを作成するんですが、  
 僕のプロジェクトを共用しようかなと思います。
+
+1. インストール
 
 ```sh
 npm install -g firebase-tools
 firebase login
 firebase projects:list
 firebase init
-firebase serve --only hosting
+```
+
+2. デプロイする。  
+   僕の場合は: [Flutter Demo](https://fluttertesting-63ba1.web.app/#/)
+
+```sh
 firebase deploy -m "First deploy"
 ```
 
-## 3. (任意、重い) Windows desktop development のための追加要件
+## 3. (任意、容量大きい) Windows desktop development のための追加要件
 
 <img src="https://github.com/moyomogi/flutter_testing/raw/master/docs/imgs/suggestion-windows.jpg" title="suggestion-windows" height="280">
 
@@ -209,6 +216,7 @@ taskkill /F /IM dart.exe
 
 - [Flutter 環境構築 -Windows 編-](https://www.ccs1981.jp/blog/flutter%E7%92%B0%E5%A2%83%E6%A7%8B%E7%AF%89-windows%E7%B7%A8/)
 - [Windows install | Flutter](https://docs.flutter.dev/get-started/install/windows)
+- [Firebase CLI リファレンス](https://firebase.google.com/docs/cli?hl=ja#install-cli-windows)
 - [【Flutter】Web アプリを 🚀 爆速 🚀 で Firebase Hosting にデプロイする](https://zenn.dev/pressedkonbu/articles/deploy-flutter-web-app-with-firebase-hosting)
 - [Failed to launch emulator: Error: Emulator didn't connected within 60 seconds 【AndroidStudio/VScode】](https://ticktickboom.hatenablog.com/entry/2021/02/22/235914)
 - [【Android Studio】Flutter で開発したアプリを実機でデバッグする](http://www.toshioblog.com/archives/27396852.html)
