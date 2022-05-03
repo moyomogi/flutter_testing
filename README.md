@@ -34,6 +34,7 @@
 
 - [Flutter の効率良い学び方](https://medium.com/flutter-jp/flutter-learning-c5640c5f05b9)
 - [Flutter はじめの一歩](https://medium.com/flutter-jp/first-step-9b7f2c74fb08)
+- [Flutter で始めるアプリ開発](https://www.flutter-study.dev/introduction/about-flutter)
 
 ## 色んな機能の実装まとめサイト
 
