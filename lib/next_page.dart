@@ -5,7 +5,6 @@ class NextPage extends StatefulWidget {
   const NextPage(this.title);
 
   final String title;
-  // ignore: use_key_in_widget_constructors
 
   @override
   _NextPageState createState() => _NextPageState();
