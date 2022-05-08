@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_testing/next_page.dart';
 
 void main() {
   runApp(const MyApp());
@@ -11,7 +12,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      // widget.title なのか？1
+      title: 'Flutter Hackathon 1',
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -24,7 +26,8 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      // widget.title なのか？2
+      home: const MyHomePage(title: 'パスワード管理'),
     );
   }
 }
@@ -48,18 +51,19 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  int _counter = 0;
+  // int _counter = 0;
+  List<String> titleList = ['Amazon', '楽天', 'Yahoo!'];
 
-  void _incrementCounter() {
-    setState(() {
-      // This call to setState tells the Flutter framework that something has
-      // changed in this State, which causes it to rerun the build method below
-      // so that the display can reflect the updated values. If we changed
-      // _counter without calling setState(), then the build method would not be
-      // called again, and so nothing would appear to happen.
-      _counter++;
-    });
-  }
+  // void _incrementCounter() {
+  //   setState(() {
+  //     // This call to setState tells the Flutter framework that something has
+  //     // changed in this State, which causes it to rerun the build method below
+  //     // so that the display can reflect the updated values. If we changed
+  //     // _counter without calling setState(), then the build method would not be
+  //     // called again, and so nothing would appear to happen.
+  //     // _counter++;
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -75,41 +79,95 @@ class _MyHomePageState extends State<MyHomePage> {
         // the App.build method, and use it to set our appbar title.
         title: Text(widget.title),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
+      body: ListView.builder(
+        itemCount: titleList.length,
+        itemBuilder: (BuildContext context, int index) {
+          return Column(children: <Widget>[
+            ListTile(
+                // leading: const Icon(Icons.security),
+                leading: const Icon(Icons.vpn_key),
+                title: Text(titleList[index]),
+                onTap: () {
+                  // タップした時の処理
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const NextPage()));
+                }),
+            const Divider(),
+          ]);
+        },
       ),
+      // body: ListView(
+      //   //【ListView】複数のウィジェットを表示できるウィジェット。画面からはみ出たらスクロールで表示できる。
+      //   children: <Widget>[
+      //     ListTile(
+      //       // アイコンです。
+      //       //【ListTile】リストの１項目を表示するためのウィジェット
+      //       leading: const Icon(Icons.security),
+      //       // 名称です。
+      //       //（leading）左端に何を表示するかを決めるプロパティ
+      //       title: Text(titleList[0]), //（title）項目のタイトルを決めるプロパティ
+      //     ),
+      //     // 区切り線です。
+      //     const Divider(),
+      //     ListTile(
+      //       leading: const Icon(Icons.security),
+      //       title: Text(titleList[1]),
+      //     ),
+      //     const Divider(),
+      //     ListTile(
+      //       leading: const Icon(Icons.security),
+      //       title: Text(titleList[2]),
+      //     ),
+      //     const Divider(),
+      //   ],
+      // ),
+      // body: Center(
+      //   // Center is a layout widget. It takes a single child and positions it
+      //   // in the middle of the parent.
+      //   child: Column(
+      //     // Column is also a layout widget. It takes a list of children and
+      //     // arranges them vertically. By default, it sizes itself to fit its
+      //     // children horizontally, and tries to be as tall as its parent.
+      //     //
+      //     // Invoke "debug painting" (press "p" in the console, choose the
+      //     // "Toggle Debug Paint" action from the Flutter Inspector in Android
+      //     // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
+      //     // to see the wireframe for each widget.
+      //     //
+      //     // Column has various properties to control how it sizes itself and
+      //     // how it positions its children. Here we use mainAxisAlignment to
+      //     // center the children vertically; the main axis here is the vertical
+      //     // axis because Columns are vertical (the cross axis would be
+      //     // horizontal).
+      //     mainAxisAlignment: MainAxisAlignment.center,
+      //     children: <Widget>[
+      //       const Text(
+      //         'You have pushed the button this many times:',
+      //       ),
+      //       Text(
+      //         '$_counter',
+      //         style: Theme.of(context).textTheme.headline4,
+      //       ),
+      //     ],
+      //   ),
+      // ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: () {
+          titleList.add('Google');
+          // print(titleList);
+          debugPrint('$titleList');
+          setState(() {
+            // 画面の再描画
+            // List に追加されても、
+            // 画面の再描画されてないので。
+          });
+        },
+        // onPressed: _incrementCounter,
         tooltip: 'Increment',
         child: const Icon(Icons.add),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
+      ),
     );
   }
 }
