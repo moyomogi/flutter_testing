@@ -1,17 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_testing/next_page.dart';
 
 void main() {
   runApp(const MyApp());
 }
+//todo の追加
+//todo ホーム画面のタイトル変更
+//todo リスト表示
+//todo リスト間に区切り線表示
+//todo リスト表示を動的に
+//todo フロートアクションボタンをタップしたときに、リストにひとつ追加
+//todo 新しい画面を作成し、リストをタップしたときに遷移
+//todo 新しい画面のレイアウトを作成
+//todo 新しい画面にリストからデータを引き継ぐ
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {//変更済
+  Widget build(BuildContext context) {//nisk branch作ったよ
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: "Fultter",
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -24,7 +34,7 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
+      home: const MyHomePage(title: 'Flutter Demo Page'),
     );
   }
 }
@@ -49,6 +59,8 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   int _counter = 0;
+  List<String> titleList = ["Amazon","楽天","Yahoo"];
+  //Listへの要素の追加は.add()でおｋ
 
   void _incrementCounter() {
     setState(() {
@@ -73,40 +85,37 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text("パスワード管理"),
       ),
-      body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
-        child: Column(
-          // Column is also a layout widget. It takes a list of children and
-          // arranges them vertically. By default, it sizes itself to fit its
-          // children horizontally, and tries to be as tall as its parent.
-          //
-          // Invoke "debug painting" (press "p" in the console, choose the
-          // "Toggle Debug Paint" action from the Flutter Inspector in Android
-          // Studio, or the "Toggle Debug Paint" command in Visual Studio Code)
-          // to see the wireframe for each widget.
-          //
-          // Column has various properties to control how it sizes itself and
-          // how it positions its children. Here we use mainAxisAlignment to
-          // center the children vertically; the main axis here is the vertical
-          // axis because Columns are vertical (the cross axis would be
-          // horizontal).
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-              '$_counter',
-              style: Theme.of(context).textTheme.headline4,
-            ),
-          ],
-        ),
+      body: ListView.builder(
+        itemBuilder: (BuildContext context,int index){
+          return Column(
+            children: <Widget>[
+              ListTile( 
+                leading: Icon(Icons.security),
+                title: Text(titleList[index]),
+                onTap:(){
+                  //タップした時の処理をここで記述
+                  Navigator.push(
+                    context, MaterialPageRoute(builder: (context) => NextPage()
+                    )
+                  );
+                }
+              ),
+              Divider(),
+            ]
+          );
+        },
+        itemCount: titleList.length,
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: _incrementCounter,
+        onPressed: (){
+          titleList.add("Google");
+          print(titleList);//printの内容はデバックコンソールに表示される(debug時はprintで挙動確認)
+          setState((){//画面の再描画
+          });
+        },//ボタン押したときの処理内容はFloatingActionButton WidgetのonPressed Propertyに記述
+
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
