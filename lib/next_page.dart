@@ -17,18 +17,17 @@ class _NextPageState extends State<NextPage> {
       appBar: AppBar(
         title: Text(widget.title),
       ),
-      body: Padding(
-        padding: EdgeInsets.all(100.0),//bodyに含まれるWidget全体に余白を追加
+      body: Center(
         child: Column(
+          mainAxisSize: MainAxisSize.min,
           children: <Widget>[
             Row(
               children: <Widget>[
-                Container(width: 50, child: Text('ID'),),
-                Container(width: 20, child: Text(':'),),
+                Container(width: 50, child: Text('ID',textAlign: TextAlign.center,),),
+                Container(width: 20, child: Text(':',textAlign: TextAlign.center,),),
                 Text('毎回同じテキストを表示ID'),
               ]
             ),
-            Padding(padding: EdgeInsets.all(5.0),),
             Row(
               children: <Widget>[
                 Container(width: 50, child: Text('PW'),),
