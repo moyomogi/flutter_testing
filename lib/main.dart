@@ -1,18 +1,18 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:flutter_testing/auth.dart';
 import 'package:flutter_testing/next_page.dart';
+import 'firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-void main() {
+
+void main() async{
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
   runApp(const MyApp());
 }
 //todo の追加
-//todo ホーム画面のタイトル変更
-//todo リスト表示
-//todo リスト間に区切り線表示
-//todo リスト表示を動的に
-//todo フロートアクションボタンをタップしたときに、リストにひとつ追加
-//todo 新しい画面を作成し、リストをタップしたときに遷移
-//todo 新しい画面のレイアウトを作成
-//todo 新しい画面にリストからデータを引き継ぐ
+//todo Firebaseログイン
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
@@ -110,15 +110,23 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: (){
-          titleList.add("Google");
-          print(titleList);//printの内容はデバックコンソールに表示される(debug時はprintで挙動確認)
-          setState((){//画面の再描画
-          });
+          //新規登録&ログインテスト
+          Navigator.push(
+            context, MaterialPageRoute(builder: (context) => MyAuthPage()),
+          );
+
+          //titleList.add("Google");
+          //print(titleList);//printの内容はデバックコンソールに表示される(debug時はprintで挙動確認)
+          //setState((){//画面の再描画
+          //});
         },//ボタン押したときの処理内容はFloatingActionButton WidgetのonPressed Propertyに記述
 
         tooltip: 'Increment',
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
+      
     );
   }
 }
+
+
