@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 
-//新しいページは新しいdartファイル作成により実現
+// 新しいページは新しい dart ファイル作成により実現
 class NextPage extends StatefulWidget {
-  final String title;//変数の受け皿となる変数を定義する。
-  NextPage(this.title);
+  const NextPage(this.title);
 
+  final String title;
 
   @override
   _NextPageState createState() => _NextPageState();
@@ -18,26 +18,36 @@ class _NextPageState extends State<NextPage> {
         title: Text(widget.title),
       ),
       body: Padding(
-        padding: EdgeInsets.all(100.0),//bodyに含まれるWidget全体に余白を追加
+        padding: const EdgeInsets.all(30.0), //bodyに含まれるWidget全体に余白を追加
         child: Column(
-          children: <Widget>[
-            Row(
-              children: <Widget>[
-                Container(width: 50, child: Text('ID'),),
-                Container(width: 20, child: Text(':'),),
-                Text('毎回同じテキストを表示ID'),
-              ]
+          children: [
+            Row(children: const <Widget>[
+              SizedBox(width: 50),
+              Expanded(
+                child: Text('ID'),
+              ),
+              SizedBox(width: 20),
+              Expanded(
+                child: Text(':'),
+              ),
+              Text('毎回同じテキストを表示する'),
+            ]),
+            const Padding(
+              padding: EdgeInsets.all(5.0),
             ),
-            Padding(padding: EdgeInsets.all(5.0),),
-            Row(
-              children: <Widget>[
-                Container(width: 50, child: Text('PW'),),
-                Container(width: 20, child: Text(':'),),
-                Text('毎回同じテキストを表示PW')
-              ]
-            ),
-          ]
-        )
+            Row(children: const <Widget>[
+              SizedBox(width: 50),
+              Expanded(
+                child: Text('PW'),
+              ),
+              SizedBox(width: 20),
+              Expanded(
+                child: Text(':'),
+              ),
+              Text('毎回同じパスワードを表示する'),
+            ]),
+          ],
+        ),
       ),
     );
   }
