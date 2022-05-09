@@ -5,16 +5,24 @@ import 'firebase_options.dart';
 void main() {
   runApp(const MyApp());
 }
+//todo の追加
+//todo ホーム画面のタイトル変更
+//todo リスト表示
+//todo リスト間に区切り線表示
+//todo リスト表示を動的に
+//todo フロートアクションボタンをタップしたときに、リストにひとつ追加
+//todo 新しい画面を作成し、リストをタップしたときに遷移
+//todo 新しい画面のレイアウトを作成
+//todo 新しい画面にリストからデータを引き継ぐ
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key}) : super(key: key);
 
   // This widget is the root of your application.
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context) {//nisk branch作ったよ
     return MaterialApp(
-      // widget.title なのか？1
-      title: 'Flutter Hackathon 1',
+      title: "Fultter",
       theme: ThemeData(
         // This is the theme of your application.
         //
@@ -27,7 +35,6 @@ class MyApp extends StatelessWidget {
         // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      // widget.title なのか？2
       home: const MyHomePage(title: 'パスワード管理'),
     );
   }
@@ -78,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text("パスワード管理"),
       ),
       body: ListView.builder(
         itemCount: titleList.length,
