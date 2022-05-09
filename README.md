@@ -24,11 +24,8 @@
 
 - [Dart 言語の解説](https://dart.dev/guides/language/language-tour)
 
-### fireship.io
-
-- [Flutter Firebase](https://fireship.io/courses/flutter-firebase/)
-- [Dart - The Full Course](https://fireship.io/courses/dart/)
-- [Flutter Firebase Chat Demo](https://fireship.io/lessons/flutter-firebase-chat-demo/)
+## Firebase 公式
+- [Flutter アプリに Firebase を追加する](https://firebase.google.com/docs/flutter/setup?platform=web)
 
 ### その他のサイト
 

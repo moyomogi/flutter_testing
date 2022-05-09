@@ -60,5 +60,5 @@ node_modules
 *.pdf
 
 /cptest.py
-/cptest.sh
 /input.md
+/memo.md
