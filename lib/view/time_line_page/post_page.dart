@@ -17,7 +17,7 @@ class _PostPageState extends State<PostPage> {
         centerTitle: true,
         title: Text("新規投稿",style: TextStyle(color: Colors.black),),
         backgroundColor: Theme.of(context).canvasColor,
-        elevation: 2,
+        //elevation: 2,
         iconTheme: IconThemeData(color: Colors.black),//戻るアイコン
       ),
       body: Padding(

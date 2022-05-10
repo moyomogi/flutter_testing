@@ -1,8 +1,9 @@
 class Post{
   String id;
-  String content;
-  String postAccountId;
-  DateTime? createTime;
+  String userId;
+  String roomId;
+  String text;
+  DateTime? postTime;
 
-  Post({this.id = '',this.content = '',this.postAccountId = '',this.createTime});
+  Post({this.id = '',this.userId = '',this.roomId = '',this.text = '',this.postTime});
 }

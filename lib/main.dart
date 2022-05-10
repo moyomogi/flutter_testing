@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_testing/auth.dart';
-import 'package:flutter_testing/next_page.dart';
 import 'package:flutter_testing/screen.dart';
 import 'package:flutter_testing/view/time_line_page/time_line_page.dart';
 import 'firebase_options.dart';

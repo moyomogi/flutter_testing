@@ -1,13 +1,15 @@
 class Account {
-  String id;//FireStoreで管理用
-  String name;//ユーザー名
-  String imagePath;
-  String selfIntroduction;
+  String internalId;//FireStoreで管理用
   String userId;
-  DateTime? createdTime;
-  DateTime? updatedTime;
+  String name;//ユーザー名
+  String undergraduate;//Listにしてぇ～
+  //int maxId = 20;
+  String subjectIds;//Listにしてぇ～
+  String imagePath;
 
 
-  Account({this.id = '',this.name = '',this.imagePath = '',this.selfIntroduction = '',this.userId = '',this.createdTime,this.updatedTime});
-  
+
+
+  Account({this.internalId = '',this.userId = '',this.name = '',this.undergraduate = '',this.subjectIds = '',this.imagePath = '',});
+
 }
