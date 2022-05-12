@@ -12,22 +12,14 @@ dart pub global activate flutterfire_cli
 %AppData%\Local\Pub\Cache\bin を環境変数に追加。
 
 ```sh
-# Flutter プロジェクトディレクトリで
-# Firebase を使用できるようにする。
-flutterfire configure
-# Flutter プロジェクトディレクトリに
-# コアプラグインをインストール。
 flutter pub add firebase_core
-
-# 以下 2 つは任意です。実装したい内容に応じてインストール。
-# ユーザ認証機能
 flutter pub add firebase_auth
-# データベース
 flutter pub add cloud_firestore
-
-# 「ビジネスロジックを表示ロジックから分離できるようにする」らしい
-# 何を言ってるんだ…
 flutter pub add provider
+
+dart pub global activate flutterfire_cli
+
+flutterfire configure
 ```
 
 2. `lib/main.dart` に追記
