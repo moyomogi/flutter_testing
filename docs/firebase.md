@@ -29,7 +29,11 @@ import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 ```
 
+## 補遺
+適宜 (merge 時など)、`flutter packages get` が必要。
+
 ## 参考文献
 
 - [Flutter アプリに Firebase を追加する](https://firebase.google.com/docs/flutter/setup?platform=web)
 - [Flutter の Firebase を知る](https://firebase.google.com/codelabs/firebase-get-to-know-flutter#0)
+- [isual Studio Code - Target of URI doesn't exist 'package:flutter/material.dart'](https://stackoverflow.com/questions/44909653/visual-studio-code-target-of-uri-doesnt-exist-packageflutter-material-dart)
