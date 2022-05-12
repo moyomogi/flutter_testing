@@ -1,4 +1,8 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_testing/model/subject.dart';
+import 'package:flutter_testing/utils/authentication.dart';
+import 'package:flutter_testing/utils/firestore.dart';
 import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/model/post.dart';
 import 'package:flutter_testing/view/time_line_page/post_page.dart';
@@ -8,8 +12,8 @@ import 'package:intl/intl.dart';
 
 class TimeLinePage extends StatefulWidget {
 
-  final String subjectName;
-  TimeLinePage(this.subjectName);
+  final Subject subject;
+  TimeLinePage(this.subject);
 
   @override
   State<TimeLinePage> createState() => _TimeLinePageState();
@@ -20,21 +24,21 @@ class _TimeLinePageState extends State<TimeLinePage> {
     internalId: '1',
     name: 'やたぺんぎん',
     userId: 'yatapngn',
-    undergraduate: '工学域電気電子系学類情報工学課程',
-    subjectIds: '1',
+    undergraduate: ["工学域","電気電子系学類","情報工学課程"],
+    subjectIds: ['0','1'],
     imagePath: 'https://1.bp.blogspot.com/-_CVATibRMZQ/XQjt4fzUmjI/AAAAAAABTNY/nprVPKTfsHcihF4py1KrLfIqioNc_c41gCLcBGAs/s800/animal_chara_smartphone_penguin.png',
   );
 
   List<Post> postList = [
-    Post(id: '1',userId: '1',roomId:'',text: 'やぁ＾＾',postTime:DateTime.now()),
-    Post(id: '1',userId: '1',roomId:'',text: 'やぁ＾＾',postTime:DateTime.now()),
-    Post(id: '1',userId: '1',roomId:'',text: 'やぁ＾＾',postTime:DateTime.now()),
-    Post(id: '1',userId: '1',roomId:'',text: 'やぁ＾＾',postTime:DateTime.now()),
-    Post(id: '1',userId: '1',roomId:'',text: 'やぁ＾＾',postTime:DateTime.now()),
-    Post(id: '1',userId: '1',roomId:'',text: 'やぁ＾＾',postTime:DateTime.now()),
-    Post(id: '1',userId: '1',roomId:'',text: 'やぁ＾＾',postTime:DateTime.now()),
-    Post(id: '1',userId: '1',roomId:'',text: 'やぁ＾＾',postTime:DateTime.now()),
-    Post(id: '1',userId: '1',roomId:'',text: 'やぁ＾＾',postTime:DateTime.now()),
+    Post(id: '1',userId: '1',roomId:'',text: 'やぁ＾＾',postTime:Timestamp.now()),
+    Post(id: '1',userId: '1',roomId:'',text: 'やぁ＾＾',postTime:Timestamp.now()),
+    Post(id: '1',userId: '1',roomId:'',text: 'やぁ＾＾',postTime:Timestamp.now()),
+    Post(id: '1',userId: '1',roomId:'',text: 'やぁ＾＾',postTime:Timestamp.now()),
+    Post(id: '1',userId: '1',roomId:'',text: 'やぁ＾＾',postTime:Timestamp.now()),
+    Post(id: '1',userId: '1',roomId:'',text: 'やぁ＾＾',postTime:Timestamp.now()),
+    Post(id: '1',userId: '1',roomId:'',text: 'やぁ＾＾',postTime:Timestamp.now()),
+    Post(id: '1',userId: '1',roomId:'',text: 'やぁ＾＾',postTime:Timestamp.now()),
+    Post(id: '1',userId: '1',roomId:'',text: 'やぁ＾＾',postTime:Timestamp.now()),
   ];
 
   TextEditingController controller = TextEditingController();//送信するメッセージを格納
@@ -43,7 +47,7 @@ class _TimeLinePageState extends State<TimeLinePage> {
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
-        title: Text(widget.subjectName,style: TextStyle(color: Colors.black),),
+        title: Text(widget.subject.name,style: TextStyle(color: Colors.black),),
         backgroundColor: Theme.of(context).canvasColor,
         elevation: 2,
         iconTheme: IconThemeData(color: Colors.black),
@@ -79,11 +83,18 @@ class _TimeLinePageState extends State<TimeLinePage> {
                                 children: [
                                   Row(
                                     children: [
-                                      Text(myAccount.name,style: TextStyle(fontWeight: FontWeight.bold),),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal:2.0),
+                                        child: Text(myAccount.name,style: TextStyle(fontWeight: FontWeight.bold),),
+                                      ),
                                       Text("@${myAccount.userId}", style: TextStyle(color: Colors.grey),),
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal:8.0),
+                                        child: Text(DateFormat('20yy/M/d H:m').format(postList[index].postTime!.toDate())),
+                                      ),//year:month/day hour:minute
                                     ]
                                   ),
-                                  Text(DateFormat('20yy/M/d H:m').format(postList[index].postTime!))//year:month/day hour:minute
+                                  //Text(DateFormat('20yy/M/d H:m').format(postList[index].postTime!.toDate()))//year:month/day hour:minute
                                 ],
                               ),
                               Text(postList[index].text),
@@ -108,15 +119,22 @@ class _TimeLinePageState extends State<TimeLinePage> {
                     child: TextField(
                         controller: controller,//送信するメッセージ
                         decoration: InputDecoration(
-                        border: OutlineInputBorder()
+                        border: OutlineInputBorder(),
+                        hintText: "ツイートを送信",
                       ),
                     ),
                   )),
                   IconButton(icon: Icon(Icons.send),
-                    onPressed: (){
+                    onPressed: () async{
                       print("ツイート");
                       if(controller.text.isNotEmpty){
-                        print(controller.text);
+                        Post newPost = Post(
+                          text: controller.text,
+                          userId: myAccount.internalId,
+                          roomId: widget.subject.id,
+                        );
+                        await Firestore.addPost(newPost);
+                        
                         controller.clear();
                       }
                     },
