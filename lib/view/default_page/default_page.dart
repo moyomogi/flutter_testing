@@ -22,8 +22,8 @@ class _DefaultPageState extends State<DefaultPage> {
       internalId: '1',
       name: 'やたぺんぎん',
       userId: 'yatapngn',
-      undergraduate: '工学域電気電子系学類情報工学課程',
-      subjectIds: '1',
+      undergraduate: ["工学域","電気電子系学類","情報工学課程"],
+      subjectIds: ["1","2"],
       imagePath: 'https://1.bp.blogspot.com/-_CVATibRMZQ/XQjt4fzUmjI/AAAAAAABTNY/nprVPKTfsHcihF4py1KrLfIqioNc_c41gCLcBGAs/s800/animal_chara_smartphone_penguin.png',
     );
 
@@ -31,36 +31,36 @@ class _DefaultPageState extends State<DefaultPage> {
       Subject(
         id: '1',
         name: 'アルゴリズムとデータ構造',
-        professers: '宇野',
-        dayOfTheWeek: 'Mon3',
+        professers: ['宇野'],
+        dayOfTheWeek: ['Mon3'],
         grade: 2
       ),
       Subject(
         id: '2',
         name: '人工知能',
-        professers: '黄瀬',
-        dayOfTheWeek: 'Wed3',
+        professers: ['黄瀬','内海'],
+        dayOfTheWeek: ['Wed3'],
         grade: 3
       ),
       Subject(
-        id: '1',
+        id: '3',
         name: '情報工学実験',
-        professers: 'たくさん',
-        dayOfTheWeek: 'Wed3',
+        professers: ['生方','内海'],
+        dayOfTheWeek: ['Wed3'],
         grade: 3
       ),
       Subject(
-        id: '1',
+        id: '4',
         name: '情報工学演習',
-        professers: 'たくさん',
-        dayOfTheWeek: 'Thu3',
+        professers: ['生方','本多'],
+        dayOfTheWeek: ['Thu3'],
         grade: 3
       ),
       Subject(
-        id: '1',
+        id: '5',
         name: 'データ解析',
-        professers: '林',
-        dayOfTheWeek: 'Fri3',
+        professers: ['林'],
+        dayOfTheWeek: ['Fri3'],
         grade: 3
       )
     ];
@@ -69,12 +69,12 @@ class _DefaultPageState extends State<DefaultPage> {
 
     for(int i=0;i<myAccount.subjectIds.length;i++){
       for(var j=0;j<subjetList.length;j++){
-        subjetList[j].id == myAccount.subjectIds
+        subjetList[j].id == myAccount.subjectIds[i]
           ? appopriateIndexs.add(j)
           : print("Inapporiate");
       }
     }
-
+    appopriateIndexs.sort((a, b) => a.compareTo(b));
     print(appopriateIndexs);
     
 
@@ -92,7 +92,7 @@ class _DefaultPageState extends State<DefaultPage> {
           return InkWell(
             onTap: (){
               print("tap");
-              Navigator.push(context, MaterialPageRoute(builder: (context) => TimeLinePage(subjetList[appopriateIndexs[index]].name)));
+              Navigator.push(context, MaterialPageRoute(builder: (context) => TimeLinePage(subjetList[appopriateIndexs[index]])));
             },
             child: Column(
               children: [
@@ -102,7 +102,7 @@ class _DefaultPageState extends State<DefaultPage> {
                       children: [
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10.0),
-                          child: CircleAvatar(backgroundImage: NetworkImage('assets/'+ subjetList[appopriateIndexs[index]].dayOfTheWeek.substring(0,3) + '.png'),//dayOfTheWeekの最初の3文字取って曜日
+                          child: CircleAvatar(backgroundImage: NetworkImage('assets/'+ subjetList[appopriateIndexs[index]].dayOfTheWeek[0].substring(0,3) + '.png'),//dayOfTheWeekの最初の3文字取って曜日(一週間の中で複数ある場合は早い方)
                           backgroundColor: Colors.white,),
                         ),
                         Text(subjetList[appopriateIndexs[index]].name),
