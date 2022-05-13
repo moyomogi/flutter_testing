@@ -5,16 +5,15 @@ import 'package:flutter_testing/view/account/create_account_page.dart';
 import 'package:flutter_testing/view/account/login_page.dart';
 
 class Screen extends StatefulWidget {
-  const Screen({ Key? key }) : super(key: key);
+  const Screen({Key? key}) : super(key: key);
 
   @override
   State<Screen> createState() => _ScreenState();
 }
 
 class _ScreenState extends State<Screen> {
-  int selectedIndex = 0;//0が最初の画面
-  List<Widget> pageList = [DefaultPage(), LoginPage()];//ページ追加するなら
-
+  int selectedIndex = 0; //0が最初の画面
+  List<Widget> pageList = [DefaultPage(), LoginPage()]; //ページ追加するなら
 
   @override
   Widget build(BuildContext context) {
@@ -22,17 +21,13 @@ class _ScreenState extends State<Screen> {
       body: pageList[selectedIndex],
       bottomNavigationBar: BottomNavigationBar(
         items: [
+          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: ''),
           BottomNavigationBarItem(
-            icon: Icon(Icons.home_outlined),
-            label: ''
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.perm_identity_outlined),
-            label: ''
-          ),
+              icon: Icon(Icons.perm_identity_outlined), label: ''),
         ],
         currentIndex: selectedIndex,
-        onTap: (index){//押したタイミングでindexの値が変わる
+        onTap: (index) {
+          //押したタイミングでindexの値が変わる
           setState(() {
             selectedIndex = index;
           });
