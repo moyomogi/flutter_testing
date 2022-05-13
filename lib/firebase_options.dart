@@ -10,9 +10,9 @@ import 'package:flutter/foundation.dart'
 /// ```dart
 /// import 'firebase_options.dart';
 /// // ...
-///await Firebase.initializeApp(
-///  options: DefaultFirebaseOptions.currentPlatform,
-///);
+/// await Firebase.initializeApp(
+///   options: DefaultFirebaseOptions.currentPlatform,
+/// );
 /// ```
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
@@ -21,10 +21,7 @@ class DefaultFirebaseOptions {
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for android - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return android;
       case TargetPlatform.iOS:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for ios - '
@@ -50,5 +47,13 @@ class DefaultFirebaseOptions {
     authDomain: 'fluttertesting-63ba1.firebaseapp.com',
     storageBucket: 'fluttertesting-63ba1.appspot.com',
     measurementId: 'G-Y22245SCDH',
+  );
+
+  static const FirebaseOptions android = FirebaseOptions(
+    apiKey: 'AIzaSyCedOsJ-3zDFIbm_vWInEMfUX-xvsvf6Zc',
+    appId: '1:366881475838:android:a5f7d8a79af5bc919369af',
+    messagingSenderId: '366881475838',
+    projectId: 'fluttertesting-63ba1',
+    storageBucket: 'fluttertesting-63ba1.appspot.com',
   );
 }
