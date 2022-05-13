@@ -11,7 +11,7 @@ import 'package:flutter_testing/model/subject.dart';
 //todo ヒューマンコンピュータインタラクション課題
 //todo ソフトウェア工学第4回課題
 //todo GithubDesktopの記事書く
-
+//aaaaaaa
 
 class Firestore {
   static final _firestoreInstance = FirebaseFirestore.instance;
