@@ -5,7 +5,6 @@ import 'package:flutter_testing/utils/authentication.dart';
 import 'package:flutter_testing/utils/firestore.dart';
 import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/model/post.dart';
-import 'package:flutter_testing/view/time_line_page/post_page.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:intl/intl.dart';
 
