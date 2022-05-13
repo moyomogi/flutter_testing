@@ -1,4 +1,11 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_testing/utils/authentication.dart';
+import 'dart:html';
+import 'package:image_picker_for_web/image_picker_for_web.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:image_picker_web/image_picker_web.dart';
+import 'package:flutter_testing/model/account.dart';
 
 class CreateAccountPage extends StatefulWidget {
   const CreateAccountPage({ Key? key }) : super(key: key);
@@ -9,15 +16,34 @@ class CreateAccountPage extends StatefulWidget {
 
 class _CreateAccountPageState extends State<CreateAccountPage> {
 
+  /*XFile? Ximage;
+  File? image;
+  ImagePicker picker = ImagePicker();
+
+  Future<void> getImageFromGallery() async{
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if(pickedFile != null){
+      setState(() {
+        Ximage = pickedFile;
+        print(Ximage.path);
+      });
+    }
+  }*/
+
   TextEditingController nameController = TextEditingController();
   TextEditingController userIdController = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
 
-  String? gakuiki = 'aa';
-  String? gakurui = 'bb';
-  String? katei = 'cc';
+  TextEditingController gakuikiController = TextEditingController();
+  TextEditingController gakuruiController = TextEditingController();
+  TextEditingController kateiController = TextEditingController();
+
+  TextEditingController kamoku1Controller = TextEditingController();
+  TextEditingController kamoku2Controller = TextEditingController();
+  TextEditingController kamoku3Controller = TextEditingController();
   
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,76 +59,135 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         child: Column(
           children: [
             SizedBox(height: 30),
-            CircleAvatar(
-              radius: 40,
-              child: Icon(Icons.add),
+            GestureDetector(
+              /*onTap: (){
+                getImageFromGallery();
+              },*/
+              child: CircleAvatar(
+                //foregroundImage: Ximage == null ? null: FileImage(Ximage),
+                radius: 40,
+                child: Icon(Icons.add),
+              ),
             ),
-            TextField(),
-
-            /*DropdownButton(//学域
-              items: const [
-                DropdownMenuItem(
-                  child: Text('i'),
-                  value: 'i',
+            Container(
+              width: 300,
+              child: TextField(
+                controller: nameController,
+                decoration: InputDecoration(
+                  hintText: '名前',
                 ),
-                DropdownMenuItem(
-                  child: Text('a'),
-                  value: 'a',
-                ),
-              ],
-              onChanged: (String? value) {
-                setState(() {
-                  gakuiki = value;
-                });
-              },
-              value: gakuiki,
-            ),*/
-            /*DropdownButton(//学類
-              items: const [
-                DropdownMenuItem(
-                  child: Text('電気電子系学類'),
-                  value: '電気電子系学類',
-                ),
-                DropdownMenuItem(
-                  child: Text('機械系学類'),
-                  value: '機械系学類',
-                ),
-                DropdownMenuItem(
-                  child: Text("物質科学系学類"),
-                  value: "物質科学系学類",
-                )
-              ],
-              onChanged: (String? value) {
-                setState(() {
-                  gakurui = value;
-                });
-              },
-              value: gakurui,
+              ),
             ),
-            DropdownButton(//課程
-              items: const [
-                DropdownMenuItem(
-                  child: Text('情報工学課程'),
-                  value: '情報工学課程',
+            Container(
+              width: 300,
+              child: TextField(
+                controller: userIdController,
+                decoration: InputDecoration(
+                  hintText: 'ユーザーID',
                 ),
-                DropdownMenuItem(
-                  child: Text('電気電子システム課程'),
-                  value: '電気電子システム課程',
+              ),
+            ),
+            Container(
+              width: 300,
+              child: TextField(
+                controller: gakuruiController,
+                decoration: InputDecoration(
+                  hintText: '学類',
                 ),
-                DropdownMenuItem(
-                  child: Text("電子物理課程"),
-                  value: "電子物理課程",
-                )
-              ],
-              onChanged: (String? value) {
-                setState(() {
-                  katei = value;
-                });
+              ),
+            ),
+            Container(
+              width: 300,
+              child: TextField(
+                controller: gakuikiController,
+                decoration: InputDecoration(
+                  hintText: '学域',
+                ),
+              ),
+            ),
+            Container(
+              width: 300,
+              child: TextField(
+                controller: kateiController,
+                decoration: InputDecoration(
+                  hintText: '課程',
+                ),
+              ),
+            ),
+            Container(
+              width: 300,
+              child: TextField(
+                controller: kamoku1Controller,
+                decoration: InputDecoration(
+                  hintText: '科目名1',
+                ),
+              ),
+            ),
+            Container(
+              width: 300,
+              child: TextField(
+                controller: kamoku2Controller,
+                decoration: InputDecoration(
+                  hintText: '科目名2',
+                ),
+              ),
+            ),
+            Container(
+              width: 300,
+              child: TextField(
+                controller: kamoku3Controller,
+                decoration: InputDecoration(
+                  hintText: '科目名3',
+                ),
+              ),
+            ),
+            Container(
+              width: 300,
+              child: TextField(
+                controller: emailController,
+                decoration: InputDecoration(
+                  hintText: 'メールアドレス',
+                ),
+              ),
+            ),
+            Container(
+              width: 300,
+              child: TextField(
+                controller: passController,
+                decoration: InputDecoration(
+                  hintText: 'パスワード',
+                ),
+              ),
+            ),
+            SizedBox(height: 50),
+            ElevatedButton(
+              onPressed: () async{
+                if(nameController.text.isNotEmpty
+                && userIdController.text.isNotEmpty
+                && gakuruiController.text.isNotEmpty
+                && gakuikiController.text.isNotEmpty
+                && gakuruiController.text.isNotEmpty
+                && kateiController.text.isNotEmpty
+                && kamoku1Controller.text.isNotEmpty
+                && kamoku2Controller.text.isNotEmpty
+                && kamoku3Controller.text.isNotEmpty
+                && emailController.text.isNotEmpty
+                && passController.text.isNotEmpty
+                //&& image != null
+                ) {
+                  var result = await Authentication.signUp(email: emailController.text, pass: passController.text);
+                  /*if(result is UserCredential){
+                    Account newAccount = Account(
+                      userId: 
+                    );
+                  }*/
+                  if(result == true){
+                    Navigator.pop(context);  
+                  }
+                }
               },
-              value: katei,
-            ),*/
-            
-
+              child: Text('アカウントを作成'),
+            )
           ],
         ),
       )

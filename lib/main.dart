@@ -4,17 +4,18 @@ import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/screen.dart';
 import 'package:flutter_testing/utils/authentication.dart';
 import 'package:flutter_testing/utils/firestore.dart';
+import 'package:flutter_testing/view/account/login_page.dart';
 import 'package:flutter_testing/view/time_line_page/time_line_page.dart';
 import 'firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-void main() async {
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  Account newAccount = Account(
+
+void main() async{
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform,);
+  /*Account newAccount = Account(
+
     name: 'やたぺんぎん',
     userId: 'yatapngn',
     undergraduate: ["工学域", "電気電子系学類", "情報工学課程"],
@@ -22,12 +23,13 @@ void main() async {
     imagePath:
         'https://1.bp.blogspot.com/-_CVATibRMZQ/XQjt4fzUmjI/AAAAAAABTNY/nprVPKTfsHcihF4py1KrLfIqioNc_c41gCLcBGAs/s800/animal_chara_smartphone_penguin.png',
   );
-  Firestore.setUser(newAccount);
-  var result = await Authentication.emailSignIn(
-      email: "nisknishimura@gmail.com", pass: "Shouken0306");
-  if (result == true) {
-    initializeDateFormatting('fr_FR', null).then((_) => runApp(const MyApp()));
-  }
+
+  Firestore.setUser(newAccount);*/
+  //var result = await Authentication.emailSignIn(email: "nisknishimura@gmail.com",pass: "Shouken0306");
+  //if(result == true){
+  initializeDateFormatting('fr_FR', null).then((_) => runApp(const MyApp()));
+  //}
+
   //Firestore.getUser();
   //initializeDateFormatting('fr_FR', null).then((_) => runApp(const MyApp()));
 }
@@ -47,7 +49,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: Screen(),
+      home: LoginPage(),
     );
   }
 }

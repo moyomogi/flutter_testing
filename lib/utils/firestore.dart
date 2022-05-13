@@ -11,6 +11,7 @@ import 'package:flutter_testing/model/subject.dart';
 //todo ソフトウェア工学第4回課題
 //todo GithubDesktopの記事書く
 
+
 class Firestore {
   static final _firestoreInstance = FirebaseFirestore.instance;
   static final userRef = _firestoreInstance.collection('users');
