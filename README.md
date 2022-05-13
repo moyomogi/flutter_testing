@@ -1,5 +1,5 @@
 [![hp](https://raw.githubusercontent.com/moyomogi/flutter_testing/master/docs/imgs/hp.svg)](https://fluttertesting-63ba1.web.app/#/)
-[![actions-status](https://github.com/moyomogi/flutter_testing/actions/workflows/firebase-hosting-merge.yml/badge.svg)](https://github.com/moyomogi/flutter_testing/actions/workflows/firebase-hosting-merge.yml)
+[![actions-status](https://github.com/moyomogi/flutter_testing/actions/workflows/deploy-on-merge.yml/badge.svg)](https://github.com/moyomogi/flutter_testing/actions/workflows/deploy-on-merge.yml)
 [![last-commit](https://img.shields.io/github/last-commit/moyomogi/flutter_testing)](https://github.com/moyomogi/flutter_testing/commits/master)
 [![license](https://img.shields.io/badge/license-CC0--1.0-blue)](https://github.com/moyomogi/flutter_testing/blob/master/LICENSE)
 
@@ -14,6 +14,7 @@
 - Flutter 環境構築 for Windows [docs/setup-windows.md](https://github.com/moyomogi/flutter_testing/blob/master/docs/setup-windows.md)
 - Flutter 環境構築 for WSL [docs/setup-wsl.md](https://github.com/moyomogi/flutter_testing/blob/master/docs/setup-wsl.md)
 - Flutter + Firebase [docs/firebase.md](https://github.com/moyomogi/flutter_testing/blob/master/docs/firebase.md)
+- Fork して共同開発 [docs/git-fork.md](https://github.com/moyomogi/flutter_testing/blob/master/docs/git-fork.md)
 
 ## 指南系サイト
 
