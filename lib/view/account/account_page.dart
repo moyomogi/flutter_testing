@@ -1,9 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/utils/authentication.dart';
+import 'package:flutter_testing/utils/firestore.dart';
+import 'package:flutter_testing/screen.dart';
+import 'package:flutter_testing/view/default_page/default_page.dart';
 
 class AccountPage extends StatefulWidget {
-  const AccountPage({ Key? key }) : super(key: key);
+  
+  final Account myAccount;
+  AccountPage(this.myAccount);
 
   @override
   State<AccountPage> createState() => _AccountPageState();
@@ -13,18 +18,34 @@ class _AccountPageState extends State<AccountPage> {
 
   TextEditingController nameController = TextEditingController();
   TextEditingController userIdController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
-  TextEditingController passController = TextEditingController();
 
   TextEditingController gakuikiController = TextEditingController();
-  TextEditingController gakuruiController = TextEditingController();
+  //TextEditingController gakuruiController = TextEditingController();
   TextEditingController kateiController = TextEditingController();
 
   TextEditingController kamoku1Controller = TextEditingController();
   TextEditingController kamoku2Controller = TextEditingController();
   TextEditingController kamoku3Controller = TextEditingController();
 
-  Account myAccount = Authentication.myAccount!;
+  //Account myAccount = Authentication.myAccount!;
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    nameController = TextEditingController(text: widget.myAccount.name);
+    userIdController = TextEditingController(text: widget.myAccount.userId);
+    gakuikiController = TextEditingController(text: widget.myAccount.undergraduate[0]);
+    kateiController = TextEditingController(text: widget.myAccount.undergraduate[1]);
+
+    for(var i=0;i< widget.myAccount.subjectIds.length;i++){
+      
+    }//ここの処理 idから名前に変換してどうすんだろ
+
+    kamoku1Controller = TextEditingController(text: widget.myAccount.subjectIds[0]);
+    kamoku2Controller = TextEditingController(text: widget.myAccount.subjectIds[1]);
+    kamoku3Controller = TextEditingController(text: widget.myAccount.subjectIds[2]);
+  }
   
   @override
   Widget build(BuildContext context) {
@@ -53,13 +74,13 @@ class _AccountPageState extends State<AccountPage> {
                       children: [
                         CircleAvatar(
                           radius: 32,
-                          foregroundImage: NetworkImage(myAccount.imagePath),
+                          foregroundImage: NetworkImage(widget.myAccount.imagePath),
                         ),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
-                            Text(myAccount.name,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
-                            Text('@${myAccount.userId}'),
+                            Text(widget.myAccount.name,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                            Text('@${widget.myAccount.userId}'),
                           ],
                         )
                       ],
@@ -89,9 +110,9 @@ class _AccountPageState extends State<AccountPage> {
             Container(
               width: 300,
               child: TextField(
-                controller: gakuruiController,
+                controller: gakuikiController,
                 decoration: InputDecoration(
-                  hintText: '学類',
+                  hintText: '学域/学部',
                 ),
               ),
             ),
@@ -100,7 +121,7 @@ class _AccountPageState extends State<AccountPage> {
               child: TextField(
                 controller: kateiController,
                 decoration: InputDecoration(
-                  hintText: '課程',
+                  hintText: '課程/学科',
                 ),
               ),
             ),
@@ -133,20 +154,30 @@ class _AccountPageState extends State<AccountPage> {
             ),
             SizedBox(height: 50),
             ElevatedButton(
-              onPressed: (){
+              onPressed: () async{
                 if(nameController.text.isNotEmpty
                 && userIdController.text.isNotEmpty
-                && gakuruiController.text.isNotEmpty
                 && gakuikiController.text.isNotEmpty
-                && gakuruiController.text.isNotEmpty
                 && kateiController.text.isNotEmpty
                 && kamoku1Controller.text.isNotEmpty
                 && kamoku2Controller.text.isNotEmpty
                 && kamoku3Controller.text.isNotEmpty
-                && emailController.text.isNotEmpty
-                && passController.text.isNotEmpty){
-                  Navigator.pop(context);
-                }
+                ) {
+                    Account updateAccount = Account(
+                      internalId: widget.myAccount.internalId,
+                      userId: userIdController.text,
+                      name: nameController.text,
+                      undergraduate: [gakuikiController.text , kateiController.text],
+                      subjectIds: [kamoku1Controller.text,kamoku2Controller.text,kamoku3Controller.text],//ここsubjectListでidに変更したい
+                      imagePath: widget.myAccount.imagePath
+                    );
+                    Authentication.myAccount = updateAccount;
+                    var result = await Firestore.updateUser(updateAccount);
+                    if(result == true){
+                      print("DefaultPageに遷移");
+                      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Screen(0)));
+                    }
+                  }
               },
               child: Text('編集完了'),
             )

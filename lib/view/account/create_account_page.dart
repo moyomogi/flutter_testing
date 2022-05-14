@@ -40,7 +40,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   TextEditingController passController = TextEditingController();
 
   //TextEditingController gakuikiController = TextEditingController();
-  TextEditingController gakuruiController = TextEditingController();
+  TextEditingController gakuikiController = TextEditingController();
   TextEditingController kateiController = TextEditingController();
 
   TextEditingController kamoku1Controller = TextEditingController();
@@ -94,9 +94,18 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               Container(
                 width: 300,
                 child: TextField(
-                  controller: gakuruiController,
+                  controller: userIdController,
                   decoration: InputDecoration(
-                    hintText: '学類/学部',
+                    hintText: 'ユーザーID',
+                  ),
+                ),
+              ),
+              Container(
+                width: 300,
+                child: TextField(
+                  controller: gakuikiController,
+                  decoration: InputDecoration(
+                    hintText: '学域/学部',
                   ),
                 ),
               ),
@@ -105,7 +114,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 child: TextField(
                   controller: kateiController,
                   decoration: InputDecoration(
-                    hintText: '課程/科',
+                    hintText: '課程/学科',
                   ),
                 ),
               ),
@@ -163,7 +172,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     );
                     return;
                   }
-                  if (gakuruiController.text.isEmpty) {
+                  if (gakuikiController.text.isEmpty) {
                     Scaffold.of(context).showSnackBar(
                       SnackBar(content: Text('学部を入力してください')),
                     );
@@ -214,8 +223,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       internalId: result.user!.uid,
                       userId: userIdController.text,
                       name: nameController.text,
+
                       undergraduate: [
-                        gakuruiController.text,
+                        gakuikiController.text,
                         kateiController.text
                       ],
                       subjectIds: [
