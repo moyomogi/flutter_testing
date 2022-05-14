@@ -3,6 +3,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter_testing/model/subject.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 
@@ -10,6 +11,7 @@ import 'package:flutter_testing/model/post.dart';
 import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/utils/authentication.dart';
 import 'package:flutter_testing/view/account/login_page.dart';
+import 'package:flutter_testing/view/time_line_page/time_line_page.dart';
 import 'firebase_options.dart';
 
 void main() async {
@@ -38,12 +40,7 @@ void main() async {
   // 【Flutter】現在日時を日本語で取得する
   // https://zenn.dev/kenara/articles/7f93790003da50
   // DateFormat.yMMMMEEEEd('ja').format(DateTime.now()).toString() が使えるようになる。
-  initializeDateFormatting('ja').then((_) => runApp(
-        ChangeNotifierProvider(
-          create: (context) => ApplicationState(),
-          builder: (context, _) => const MyApp(),
-        ),
-      ));
+  initializeDateFormatting('fr_FR', null).then((_) => runApp(const MyApp()));
 }
 //todo の追加
 //todo Firebaseログイン
@@ -76,7 +73,7 @@ class MyApp extends StatelessWidget {
 //   Singleton._internal();
 // }
 
-class ApplicationState extends ChangeNotifier {
+/*class ApplicationState extends ChangeNotifier {
   ApplicationState() {
     init();
   }
@@ -218,4 +215,4 @@ class ApplicationState extends ChangeNotifier {
     });
   }
   // To here
-}
+}*/
