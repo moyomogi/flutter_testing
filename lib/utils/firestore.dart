@@ -146,4 +146,32 @@ class Firestore {
       return false;
     }
   }
+  //部屋に参加してツイートしてる垢のMap
+  static Future<Map<String,Account>?> getPostUserMap(List<String> internalIds) async{
+  Map<String,Account> map = {};
+  try{
+    await Future.forEach(internalIds, (String internalId) async{
+      var doc = await userRef.doc(internalId).get();
+      Map<String,dynamic> data = doc.data() as Map<String, dynamic>;
+      List<String> undergraduate = List<String>.from(data['undergraduate'] as List);
+      List<String> subjectIds = List<String>.from(data['subjectIds'] as List);
+      Account postAccount = Account(
+        internalId: internalId,
+        userId: data['userid'],
+        name: data['name'],
+        imagePath: data['imagePath'],
+        undergraduate: undergraduate,
+        subjectIds: subjectIds
+      );
+      map[internalId] = postAccount;
+    });
+    print('投稿ユーザーの情報取得完了');
+    return map;
+  } on FirebaseException catch(e){
+    print('投稿ユーザーの情報取得エラー');
+    return null;
+  }
 }
+}
+
+
