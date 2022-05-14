@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_testing/view/default_page/default_page.dart';
 import 'package:flutter_testing/view/time_line_page/time_line_page.dart';
 import 'package:flutter_testing/view/account/create_account_page.dart';
+import 'package:flutter_testing/view/account/account_page.dart';
 import 'package:flutter_testing/view/account/login_page.dart';
 
 class Screen extends StatefulWidget {
@@ -13,7 +14,7 @@ class Screen extends StatefulWidget {
 
 class _ScreenState extends State<Screen> {
   int selectedIndex = 0; //0が最初の画面
-  List<Widget> pageList = [DefaultPage(), LoginPage()]; //ページ追加するなら
+  List<Widget> pageList = [DefaultPage(), AccountPage()]; //ページ追加するなら
 
   @override
   Widget build(BuildContext context) {

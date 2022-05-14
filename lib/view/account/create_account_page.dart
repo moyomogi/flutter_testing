@@ -1,11 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_testing/utils/authentication.dart';
+import 'package:flutter_testing/utils/firestore.dart';
 import 'dart:html';
 import 'package:image_picker_for_web/image_picker_for_web.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 import 'package:flutter_testing/model/account.dart';
+import 'dart:math' as math;
+
 
 class CreateAccountPage extends StatefulWidget {
   const CreateAccountPage({ Key? key }) : super(key: key);
@@ -35,13 +38,20 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
 
-  TextEditingController gakuikiController = TextEditingController();
+  //TextEditingController gakuikiController = TextEditingController();
   TextEditingController gakuruiController = TextEditingController();
   TextEditingController kateiController = TextEditingController();
 
   TextEditingController kamoku1Controller = TextEditingController();
   TextEditingController kamoku2Controller = TextEditingController();
   TextEditingController kamoku3Controller = TextEditingController();
+
+  var random = math.Random();
+  var iconNum;
+
+  void AssignIconNumber(){
+    iconNum = random.nextInt(5);
+  }
   
 
   @override
@@ -58,7 +68,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
         width: double.infinity,
         child: Column(
           children: [
-            SizedBox(height: 30),
+            /*SizedBox(height: 30),
             GestureDetector(
               /*onTap: (){
                 getImageFromGallery();
@@ -68,7 +78,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 radius: 40,
                 child: Icon(Icons.add),
               ),
-            ),
+            ),*/
             Container(
               width: 300,
               child: TextField(
@@ -92,16 +102,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               child: TextField(
                 controller: gakuruiController,
                 decoration: InputDecoration(
-                  hintText: '学類',
-                ),
-              ),
-            ),
-            Container(
-              width: 300,
-              child: TextField(
-                controller: gakuikiController,
-                decoration: InputDecoration(
-                  hintText: '学域',
+                  hintText: '学類/学部',
                 ),
               ),
             ),
@@ -110,7 +111,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               child: TextField(
                 controller: kateiController,
                 decoration: InputDecoration(
-                  hintText: '課程',
+                  hintText: '課程/科',
                 ),
               ),
             ),
@@ -165,8 +166,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 if(nameController.text.isNotEmpty
                 && userIdController.text.isNotEmpty
                 && gakuruiController.text.isNotEmpty
-                && gakuikiController.text.isNotEmpty
-                && gakuruiController.text.isNotEmpty
                 && kateiController.text.isNotEmpty
                 && kamoku1Controller.text.isNotEmpty
                 && kamoku2Controller.text.isNotEmpty
@@ -175,14 +174,22 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 && passController.text.isNotEmpty
                 //&& image != null
                 ) {
+                  AssignIconNumber();
+                  print(iconNum);
                   var result = await Authentication.signUp(email: emailController.text, pass: passController.text);
-                  /*if(result is UserCredential){
+                  if(result is UserCredential){
                     Account newAccount = Account(
-                      userId: 
+                      internalId: result.user!.uid,
+                      userId: userIdController.text,
+                      name: nameController.text,
+                      undergraduate: [gakuruiController.text , kateiController.text],
+                      subjectIds: [kamoku1Controller.text,kamoku2Controller.text,kamoku3Controller.text],//ここsubjectListでidに変更したい
+                      imagePath: "assets/Icons/Icon_" + iconNum.toString() + ".png",
                     );
-                  }*/
-                  if(result == true){
-                    Navigator.pop(context);  
+                    var _result = await Firestore.setUser(newAccount);
+                    if(_result == true){
+                      Navigator.pop(context);
+                    }
                   }
                 }
               },

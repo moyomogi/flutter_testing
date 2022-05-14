@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_testing/model/account.dart';
+import 'package:flutter_testing/utils/authentication.dart';
 
 class AccountPage extends StatefulWidget {
   const AccountPage({ Key? key }) : super(key: key);
@@ -21,9 +23,12 @@ class _AccountPageState extends State<AccountPage> {
   TextEditingController kamoku1Controller = TextEditingController();
   TextEditingController kamoku2Controller = TextEditingController();
   TextEditingController kamoku3Controller = TextEditingController();
+
+  Account myAccount = Authentication.myAccount!;
   
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
@@ -36,10 +41,32 @@ class _AccountPageState extends State<AccountPage> {
         width: double.infinity,
         child: Column(
           children: [
-            SizedBox(height: 30),
-            CircleAvatar(
-              radius: 40,
-              child: Icon(Icons.add),
+            Center(
+              child: Container(
+                color: Colors.blue.withOpacity(0.3),
+                height: 70,
+                width: 300,
+                child: Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        CircleAvatar(
+                          radius: 32,
+                          foregroundImage: NetworkImage(myAccount.imagePath),
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            Text(myAccount.name,style: TextStyle(fontSize: 20,fontWeight: FontWeight.bold),),
+                            Text('@${myAccount.userId}'),
+                          ],
+                        )
+                      ],
+                    ),
+                  ],
+                ),
+              ),
             ),
             Container(
               width: 300,
@@ -65,15 +92,6 @@ class _AccountPageState extends State<AccountPage> {
                 controller: gakuruiController,
                 decoration: InputDecoration(
                   hintText: '学類',
-                ),
-              ),
-            ),
-            Container(
-              width: 300,
-              child: TextField(
-                controller: gakuikiController,
-                decoration: InputDecoration(
-                  hintText: '学域',
                 ),
               ),
             ),
@@ -110,24 +128,6 @@ class _AccountPageState extends State<AccountPage> {
                 controller: kamoku3Controller,
                 decoration: InputDecoration(
                   hintText: '科目名3',
-                ),
-              ),
-            ),
-            Container(
-              width: 300,
-              child: TextField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  hintText: 'メールアドレス',
-                ),
-              ),
-            ),
-            Container(
-              width: 300,
-              child: TextField(
-                controller: passController,
-                decoration: InputDecoration(
-                  hintText: 'パスワード',
                 ),
               ),
             ),
