@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+
+import 'package:flutter_testing/main.dart';
 import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/model/subject.dart';
 import 'package:flutter_testing/utils/authentication.dart';
@@ -52,6 +55,10 @@ class _DefaultPageState extends State<DefaultPage> {
           grade: 3)
     ];
 
+    // https://stackoverflow.com/questions/67078111/flutter-app-hide-appbar-action-according-to-applicationstate-value
+    // final appState = Provider.of<ApplicationState>(context);
+
+    // List<Subject> subjetList;
     // accountのsubjects_idに合致したsubjectListのindexを以下のfor文で格納O(n^2)
     // 長さ myAccount.subjectIds.length の List
     List<int> appropriateIndices = List.filled(widget.myAccount.subjectIds.length, -1);
@@ -74,19 +81,19 @@ class _DefaultPageState extends State<DefaultPage> {
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "ルーム一覧",
+          'ルーム一覧',
           style: TextStyle(color: Colors.black),
         ),
         backgroundColor: Theme.of(context).canvasColor,
         elevation: 2,
       ),
       body: ListView.builder(
-        itemCount: appropriateIndices.length,
+        itemCount: widget.subjectList.length,
         itemBuilder: (context, index) {
           return InkWell(
             // s
             onTap: () {
-              debugPrint("tap");
+              debugPrint('tap');
               Navigator.push(
                   context,
                   MaterialPageRoute(

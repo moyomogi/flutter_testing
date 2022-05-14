@@ -23,7 +23,7 @@ class TimeLinePage extends StatefulWidget {
 }
 
 class _TimeLinePageState extends State<TimeLinePage> {
-  
+
   Account myAccount = Authentication.myAccount!;
 
   List<Post> postList = [
@@ -35,48 +35,6 @@ class _TimeLinePageState extends State<TimeLinePage> {
          postTime: Timestamp.now()),
      ];
   // List<Post> postList = [
-  //   Post(
-  //       id: '1',
-  //       userId: '1',
-  //       roomId: '',
-  //       text: 'やぁ＾＾',
-  //       postTime: Timestamp.now()),
-  //   Post(
-  //       id: '1',
-  //       userId: '1',
-  //       roomId: '',
-  //       text: 'やぁ＾＾',
-  //       postTime: Timestamp.now()),
-  //   Post(
-  //       id: '1',
-  //       userId: '1',
-  //       roomId: '',
-  //       text: 'やぁ＾＾',
-  //       postTime: Timestamp.now()),
-  //   Post(
-  //       id: '1',
-  //       userId: '1',
-  //       roomId: '',
-  //       text: 'やぁ＾＾',
-  //       postTime: Timestamp.now()),
-  //   Post(
-  //       id: '1',
-  //       userId: '1',
-  //       roomId: '',
-  //       text: 'やぁ＾＾',
-  //       postTime: Timestamp.now()),
-  //   Post(
-  //       id: '1',
-  //       userId: '1',
-  //       roomId: '',
-  //       text: 'やぁ＾＾',
-  //       postTime: Timestamp.now()),
-  //   Post(
-  //       id: '1',
-  //       userId: '1',
-  //       roomId: '',
-  //       text: 'やぁ＾＾',
-  //       postTime: Timestamp.now()),
   //   Post(
   //       id: '1',
   //       userId: '1',
@@ -106,8 +64,10 @@ class _TimeLinePageState extends State<TimeLinePage> {
         elevation: 2,
         iconTheme: IconThemeData(color: Colors.black),
       ),
-      body: Stack(
+      body: Consumer<ApplicationState>(
+              builder: (context, appState, _) => Stack(
         children: [
+
           Padding(
             padding: const EdgeInsets.only(bottom: 60.0),
             child: ListView.builder(
@@ -206,9 +166,13 @@ class _TimeLinePageState extends State<TimeLinePage> {
                       // controller: 送信するメッセージ
                       if (controller.text.isNotEmpty) {
                         Post newPost = Post(
-                          id: myAccount.internalId,
+                          id: appState.myAccount!.internalId,
                           text: controller.text,
+<<<<<<< HEAD
                           userId: myAccount.internalId,
+=======
+                          userId: appState.myAccount!.userId,
+>>>>>>> d4bd105 (Add critical bug (2))
                           roomId: widget.subject.id,
                         );
                         await Firestore.addPost(newPost);
@@ -229,6 +193,7 @@ class _TimeLinePageState extends State<TimeLinePage> {
         },
         child: Icon(Icons.chat_bubble_outline_sharp),
       ),*/
+      ),
     );
   }
 }

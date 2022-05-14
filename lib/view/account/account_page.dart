@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'package:flutter_testing/model/subject.dart';
 import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/utils/authentication.dart';
 import 'package:flutter_testing/utils/firestore.dart';
@@ -6,7 +8,7 @@ import 'package:flutter_testing/screen.dart';
 import 'package:flutter_testing/view/default_page/default_page.dart';
 
 class AccountPage extends StatefulWidget {
-  
+
   final Account myAccount;
   AccountPage(this.myAccount);
 
@@ -15,12 +17,11 @@ class AccountPage extends StatefulWidget {
 }
 
 class _AccountPageState extends State<AccountPage> {
-
   TextEditingController nameController = TextEditingController();
   TextEditingController userIdController = TextEditingController();
 
   TextEditingController gakuikiController = TextEditingController();
-  //TextEditingController gakuruiController = TextEditingController();
+  //TextEditingController gakuikiController = TextEditingController();
   TextEditingController kateiController = TextEditingController();
 
   TextEditingController kamoku1Controller = TextEditingController();
@@ -39,18 +40,17 @@ class _AccountPageState extends State<AccountPage> {
     kateiController = TextEditingController(text: widget.myAccount.undergraduate[1]);
 
     for(var i=0;i< widget.myAccount.subjectIds.length;i++){
-      
+
     }//ここの処理 idから名前に変換してどうすんだろ
 
     kamoku1Controller = TextEditingController(text: widget.myAccount.subjectIds[0]);
     kamoku2Controller = TextEditingController(text: widget.myAccount.subjectIds[1]);
     kamoku3Controller = TextEditingController(text: widget.myAccount.subjectIds[2]);
   }
-  
+
   @override
   Widget build(BuildContext context) {
-
-    return Scaffold(
+    return ScaffoldMessenger(
       appBar: AppBar(
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -183,7 +183,161 @@ class _AccountPageState extends State<AccountPage> {
             )
           ],
         ),
-      )
-    );
+        body: Container(
+          width: double.infinity,
+          child: Column(
+            children: [
+              Center(
+                child: Container(
+                  color: Colors.blue.withOpacity(0.3),
+                  height: 70,
+                  width: 300,
+                  child: Column(
+                    children: [
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          CircleAvatar(
+                            radius: 32,
+                            foregroundImage: NetworkImage(myAccount.imagePath),
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Text(
+                                myAccount.name,
+                                style: TextStyle(
+                                    fontSize: 20, fontWeight: FontWeight.bold),
+                              ),
+                              Text('@${myAccount.userId}'),
+                            ],
+                          )
+                        ],
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+              Container(
+                width: 300,
+                child: TextField(
+                  controller: nameController,
+                  decoration: InputDecoration(
+                    hintText: '名前',
+                  ),
+                ),
+              ),
+              Container(
+                width: 300,
+                child: TextField(
+                  controller: userIdController,
+                  decoration: InputDecoration(
+                    hintText: 'ユーザーID',
+                  ),
+                ),
+              ),
+              Container(
+                width: 300,
+                child: TextField(
+                  controller: gakuikiController,
+                  decoration: InputDecoration(
+                    hintText: '学類/学部',
+                  ),
+                ),
+              ),
+              Container(
+                width: 300,
+                child: TextField(
+                  controller: kateiController,
+                  decoration: InputDecoration(
+                    hintText: '課程/科',
+                  ),
+                ),
+              ),
+              Container(
+                width: 300,
+                child: TextField(
+                  controller: kamoku1Controller,
+                  decoration: InputDecoration(
+                    hintText: '科目名1',
+                  ),
+                ),
+              ),
+              Container(
+                width: 300,
+                child: TextField(
+                  controller: kamoku2Controller,
+                  decoration: InputDecoration(
+                    hintText: '科目名2',
+                  ),
+                ),
+              ),
+              Container(
+                width: 300,
+                child: TextField(
+                  controller: kamoku3Controller,
+                  decoration: InputDecoration(
+                    hintText: '科目名3',
+                  ),
+                ),
+              ),
+              SizedBox(height: 50),
+              ElevatedButton(
+                onPressed: () {
+                  if (userIdController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('ユーザーIDを入力してください')),
+                    );
+                    return;
+                  }
+                  if (gakuikiController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('学部を入力してください')),
+                    );
+                    return;
+                  }
+                  if (kateiController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('学科を入力してください')),
+                    );
+                    return;
+                  }
+                  if (kamoku1Controller.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('科目名1を入力してください')),
+                    );
+                    return;
+                  }
+                  if (kamoku2Controller.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('科目名2を入力してください')),
+                    );
+                    return;
+                  }
+                  if (kamoku3Controller.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('科目名3を入力してください')),
+                    );
+                    return;
+                  }
+                  if (emailController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('メールアドレスを入力してください')),
+                    );
+                    return;
+                  }
+                  if (passController.text.isEmpty) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(content: Text('パスワードを入力してください')),
+                    );
+                    return;
+                  }
+                  Navigator.pop(context);
+                },
+                child: Text('編集完了'),
+              )
+            ],
+          ),
+        ));
   }
 }

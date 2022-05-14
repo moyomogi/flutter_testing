@@ -8,6 +8,7 @@ import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 
 import 'package:flutter_testing/model/post.dart';
+import 'package:flutter_testing/model/subject.dart';
 import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/utils/authentication.dart';
 import 'package:flutter_testing/view/account/login_page.dart';
@@ -54,7 +55,7 @@ class MyApp extends StatelessWidget {
     //nisk branch作ったよ
     return MaterialApp(
       debugShowCheckedModeBanner: false, //デバッグバナー消す
-      title: "Fultter",
+      title: "大阪公立大学 非公式SNS",
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -73,7 +74,8 @@ class MyApp extends StatelessWidget {
 //   Singleton._internal();
 // }
 
-/*class ApplicationState extends ChangeNotifier {
+// 【グローバル変数置き場】
+class ApplicationState extends ChangeNotifier {
   ApplicationState() {
     init();
   }
@@ -86,7 +88,17 @@ class MyApp extends StatelessWidget {
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
         _loginState = ApplicationLoginState.loggedIn;
-        // Add from here
+
+        // _myAccount を生成
+        _myAccount = Account(
+          name: user.displayName!,
+          userId: user.uid,
+          imagePath:
+              'https://1.bp.blogspot.com/-_CVATibRMZQ/XQjt4fzUmjI/AAAAAAABTNY/nprVPKTfsHcihF4py1KrLfIqioNc_c41gCLcBGAs/s800/animal_chara_smartphone_penguin.png',
+        );
+        debugPrint('$_myAccount');
+
+        // firestore/posts -> postList を生成
         _postListSubscription = FirebaseFirestore.instance
             .collection('posts')
             .orderBy('timestamp', descending: true)
@@ -104,16 +116,8 @@ class MyApp extends StatelessWidget {
               ),
             );
           }
-          notifyListeners();
         });
-        _myAccount = Account(
-          name: user.displayName!,
-          userId: user.uid,
-          imagePath:
-              'https://1.bp.blogspot.com/-_CVATibRMZQ/XQjt4fzUmjI/AAAAAAABTNY/nprVPKTfsHcihF4py1KrLfIqioNc_c41gCLcBGAs/s800/animal_chara_smartphone_penguin.png',
-        );
-        notifyListeners(); // _myAccount の反映
-        // to here.
+        // account.subjectList -> subjectList を生成
       } else {
         _loginState = ApplicationLoginState.loggedOut;
         // Add from here
@@ -121,7 +125,7 @@ class MyApp extends StatelessWidget {
         _postListSubscription?.cancel();
         // to here.
       }
-      notifyListeners();
+      notifyListeners();  // 変更した変数の反映
     });
   }
 
@@ -137,6 +141,9 @@ class MyApp extends StatelessWidget {
   StreamSubscription<QuerySnapshot>? _postListSubscription;
   List<Post> _postLists = [];
   List<Post> get postList => _postLists;
+
+  List<Subject> _subjectLists = [];
+  List<Subject> get subjectList => _subjectLists;
 
   void startLoginFlow() {
     _loginState = ApplicationLoginState.emailAddress;
@@ -202,17 +209,20 @@ class MyApp extends StatelessWidget {
   }
 
   // Add from here
-  Future<DocumentReference> addPostToPostList(String text) {
+  Future<DocumentReference> addPostToPostList(String userId, String subjectId, String text) {
     if (_loginState != ApplicationLoginState.loggedIn) {
       throw Exception('Must be logged in');
     }
 
+    // Post
     return FirebaseFirestore.instance.collection('posts').add(<String, dynamic>{
+      'id': FirebaseAuth.instance.currentUser!.uid,
+      'userId': userId,
+      'subjectId': subjectId,
       'text': text,
       'timestamp': DateTime.now().millisecondsSinceEpoch,
       'name': FirebaseAuth.instance.currentUser!.displayName,
-      'userId': FirebaseAuth.instance.currentUser!.uid,
     });
   }
   // To here
-}*/
+}
