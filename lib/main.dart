@@ -29,13 +29,13 @@ void main() async {
         'https://1.bp.blogspot.com/-_CVATibRMZQ/XQjt4fzUmjI/AAAAAAABTNY/nprVPKTfsHcihF4py1KrLfIqioNc_c41gCLcBGAs/s800/animal_chara_smartphone_penguin.png',
   );
 
-  Firestore.setUser(newAccount);*/
+  Fire.setUser(newAccount);*/
   // var result = await Authentication.emailSignIn(email: "nisknishimura@gmail.com",pass: "Shouken0306");
   // if (result == true){
   // initializeDateFormatting('fr_FR', null).then((_) => runApp(const MyApp()));
   // }
 
-  // Firestore.getUser();
+  // Fire.getUser();
   // initializeDateFormatting('fr_FR', null).then((_) => runApp(const MyApp()));
 
   // 【Flutter】現在日時を日本語で取得する
@@ -74,7 +74,6 @@ class MyApp extends StatelessWidget {
 //   Singleton._internal();
 // }
 
-// 【グローバル変数置き場】
 class ApplicationState extends ChangeNotifier {
   ApplicationState() {
     init();
@@ -90,18 +89,18 @@ class ApplicationState extends ChangeNotifier {
         _loginState = ApplicationLoginState.loggedIn;
 
         // _myAccount を生成
-        _myAccount = Account(
-          name: user.displayName!,
-          userId: user.uid,
-          imagePath:
-              'https://1.bp.blogspot.com/-_CVATibRMZQ/XQjt4fzUmjI/AAAAAAABTNY/nprVPKTfsHcihF4py1KrLfIqioNc_c41gCLcBGAs/s800/animal_chara_smartphone_penguin.png',
-        );
-        debugPrint('$_myAccount');
+        // _myAccount = Account(
+        //   name: user.displayName!,
+        //   userId: user.uid,
+        //   imagePath:
+        //       'https://1.bp.blogspot.com/-_CVATibRMZQ/XQjt4fzUmjI/AAAAAAABTNY/nprVPKTfsHcihF4py1KrLfIqioNc_c41gCLcBGAs/s800/animal_chara_smartphone_penguin.png',
+        // );
+        // debugPrint('$_myAccount');
 
         // firestore/posts -> postList を生成
         _postListSubscription = FirebaseFirestore.instance
             .collection('posts')
-            .orderBy('timestamp', descending: true)
+            .orderBy('postTime', descending: true)
             .snapshots()
             .listen((snapshot) {
           _postLists = [];
@@ -132,8 +131,8 @@ class ApplicationState extends ChangeNotifier {
   ApplicationLoginState _loginState = ApplicationLoginState.loggedOut;
   ApplicationLoginState get loginState => _loginState;
 
-  Account? _myAccount;
-  Account? get myAccount => _myAccount;
+  // Account? _myAccount;
+  // Account? get myAccount => _myAccount;
 
   String? _email;
   String? get email => _email;
@@ -141,9 +140,6 @@ class ApplicationState extends ChangeNotifier {
   StreamSubscription<QuerySnapshot>? _postListSubscription;
   List<Post> _postLists = [];
   List<Post> get postList => _postLists;
-
-  List<Subject> _subjectLists = [];
-  List<Subject> get subjectList => _subjectLists;
 
   void startLoginFlow() {
     _loginState = ApplicationLoginState.emailAddress;
@@ -220,7 +216,7 @@ class ApplicationState extends ChangeNotifier {
       'userId': userId,
       'subjectId': subjectId,
       'text': text,
-      'timestamp': DateTime.now().millisecondsSinceEpoch,
+      'postTime': DateTime.now().millisecondsSinceEpoch,
       'name': FirebaseAuth.instance.currentUser!.displayName,
     });
   }

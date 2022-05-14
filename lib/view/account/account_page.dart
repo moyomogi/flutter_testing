@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_testing/model/subject.dart';
 import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/utils/vars.dart';
-import 'package:flutter_testing/utils/firestore.dart';
+import 'package:flutter_testing/utils/fire.dart';
 import 'package:flutter_testing/screen.dart';
 import 'package:flutter_testing/view/default_page/default_page.dart';
 
@@ -190,9 +190,9 @@ class _AccountPageState extends State<AccountPage> {
                           ], //ここsubjectListでidに変更したい
                           imagePath: widget.myAccount.imagePath);
                       Vars.myAccount = updateAccount;
-                      var result = await Firestore.updateUser(updateAccount);
+                      var result = await Fire.updateUser(updateAccount);
                       if (result == true) {
-                        print("DefaultPageに遷移");
+                        debugPrint("DefaultPageに遷移");
                         Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (context) => Screen(0)));
                       }
@@ -202,161 +202,5 @@ class _AccountPageState extends State<AccountPage> {
                 )
               ],
             )));
-    // body: Container(
-    //   width: double.infinity,
-    //   child: Column(
-    //     children: [
-    //       Center(
-    //         child: Container(
-    //           color: Colors.blue.withOpacity(0.3),
-    //           height: 70,
-    //           width: 300,
-    //           child: Column(
-    //             children: [
-    //               Row(
-    //                 mainAxisAlignment: MainAxisAlignment.center,
-    //                 children: [
-    //                   CircleAvatar(
-    //                     radius: 32,
-    //                     foregroundImage: NetworkImage(myAccount.imagePath),
-    //                   ),
-    //                   Column(
-    //                     crossAxisAlignment: CrossAxisAlignment.center,
-    //                     children: [
-    //                       Text(
-    //                         myAccount.name,
-    //                         style: TextStyle(
-    //                             fontSize: 20, fontWeight: FontWeight.bold),
-    //                       ),
-    //                       Text('@${myAccount.userId}'),
-    //                     ],
-    //                   )
-    //                 ],
-    //               ),
-    //             ],
-    //           ),
-    //         ),
-    //       ),
-    //       Container(
-    //         width: 300,
-    //         child: TextField(
-    //           controller: nameController,
-    //           decoration: InputDecoration(
-    //             hintText: '名前',
-    //           ),
-    //         ),
-    //       ),
-    //       Container(
-    //         width: 300,
-    //         child: TextField(
-    //           controller: userIdController,
-    //           decoration: InputDecoration(
-    //             hintText: 'ユーザーID',
-    //           ),
-    //         ),
-    //       ),
-    //       Container(
-    //         width: 300,
-    //         child: TextField(
-    //           controller: gakuikiController,
-    //           decoration: InputDecoration(
-    //             hintText: '学類/学部',
-    //           ),
-    //         ),
-    //       ),
-    //       Container(
-    //         width: 300,
-    //         child: TextField(
-    //           controller: kateiController,
-    //           decoration: InputDecoration(
-    //             hintText: '課程/科',
-    //           ),
-    //         ),
-    //       ),
-    //       Container(
-    //         width: 300,
-    //         child: TextField(
-    //           controller: kamoku1Controller,
-    //           decoration: InputDecoration(
-    //             hintText: '科目名1',
-    //           ),
-    //         ),
-    //       ),
-    //       Container(
-    //         width: 300,
-    //         child: TextField(
-    //           controller: kamoku2Controller,
-    //           decoration: InputDecoration(
-    //             hintText: '科目名2',
-    //           ),
-    //         ),
-    //       ),
-    //       Container(
-    //         width: 300,
-    //         child: TextField(
-    //           controller: kamoku3Controller,
-    //           decoration: InputDecoration(
-    //             hintText: '科目名3',
-    //           ),
-    //         ),
-    //       ),
-    //       SizedBox(height: 50),
-    //       ElevatedButton(
-    //         onPressed: () {
-    //           if (userIdController.text.isEmpty) {
-    //             ScaffoldMessenger.of(context).showSnackBar(
-    //               SnackBar(content: Text('ユーザーIDを入力してください')),
-    //             );
-    //             return;
-    //           }
-    //           if (gakuikiController.text.isEmpty) {
-    //             ScaffoldMessenger.of(context).showSnackBar(
-    //               SnackBar(content: Text('学部を入力してください')),
-    //             );
-    //             return;
-    //           }
-    //           if (kateiController.text.isEmpty) {
-    //             ScaffoldMessenger.of(context).showSnackBar(
-    //               SnackBar(content: Text('学科を入力してください')),
-    //             );
-    //             return;
-    //           }
-    //           if (kamoku1Controller.text.isEmpty) {
-    //             ScaffoldMessenger.of(context).showSnackBar(
-    //               SnackBar(content: Text('科目名1を入力してください')),
-    //             );
-    //             return;
-    //           }
-    //           if (kamoku2Controller.text.isEmpty) {
-    //             ScaffoldMessenger.of(context).showSnackBar(
-    //               SnackBar(content: Text('科目名2を入力してください')),
-    //             );
-    //             return;
-    //           }
-    //           if (kamoku3Controller.text.isEmpty) {
-    //             ScaffoldMessenger.of(context).showSnackBar(
-    //               SnackBar(content: Text('科目名3を入力してください')),
-    //             );
-    //             return;
-    //           }
-    //           if (emailController.text.isEmpty) {
-    //             ScaffoldMessenger.of(context).showSnackBar(
-    //               SnackBar(content: Text('メールアドレスを入力してください')),
-    //             );
-    //             return;
-    //           }
-    //           if (passController.text.isEmpty) {
-    //             ScaffoldMessenger.of(context).showSnackBar(
-    //               SnackBar(content: Text('パスワードを入力してください')),
-    //             );
-    //             return;
-    //           }
-    //           Navigator.pop(context);
-    //         },
-    //         child: Text('編集完了'),
-    //       )
-    //     ],
-    //   ),
-    // ));
   }
 }

@@ -18,7 +18,7 @@ import 'package:flutter_testing/utils/vars.dart';
 //todo GithubDesktopの記事書く
 
 // 【async 関数置き場】
-class Firestore {
+class Fire {
   static final _firestoreInstance = FirebaseFirestore.instance;
   static final usersRef = _firestoreInstance.collection('users');
   static final subjectsRef = _firestoreInstance.collection('subjects');
@@ -91,8 +91,8 @@ class Firestore {
 
   // 【Dart】Futureクラスとasync/awaitの基本的な使い方
   // https://zenn.dev/iwaku/articles/2020-12-29-iwaku
-  /*static Future<List<Post>> getPosts(String roomId) async {
-    List<Post> _postList = [];
+  static Future<void> assignPosts(String roomId) async {
+    List<Post> postList = [];
     try {
       // Get all posts whose roomId is equal to roomId
       FirebaseFirestore.instance
@@ -119,11 +119,11 @@ class Firestore {
           );
         }
       });
+      Vars.postList = postList;
     } on FirebaseException catch (_) {
       debugPrint("posts 取得エラー");
     }
-    return _postList;
-  }*/
+  }
 
   static Future<dynamic> updateUser(Account updateAccount) async {
     try {
@@ -133,39 +133,44 @@ class Firestore {
         'undergraduate': updateAccount.undergraduate,
         'subjectIds': updateAccount.subjectIds,
       });
-      print("アカウントの情報更新");
+      debugPrint("アカウントの情報更新");
       return true;
     } on FirebaseException catch (e) {
-      print("アカウントの情報更新失敗");
+      debugPrint("アカウントの情報更新失敗");
       return false;
     }
   }
 
-  static Future<List<Subject>> getSubjectList(List<String> subjectIds) async {
+  static Future<void> assignSubjectList(List<String> subjectIds) async {
     List<Subject> subjectList = [];
     try {
+      // 【Flutter×Firebase】Cloud Firestoreクエリ一覧
+      // https://zenn.dev/mamushi/articles/a5e6c9f71e6ea4
       // Get all rooms whose subject is contained in the subjectIds.
       FirebaseFirestore.instance
           .collection('subjects')
-          .where('subjectId', whereIn: subjectIds)
-          .orderBy('postTime', descending: true)
+          // .where('id', whereIn: subjectIds)
           .snapshots()
           .listen((snapshot) {
         for (final doc in snapshot.docs) {
-          subjectList.add(
-            Subject(
-              id: doc.data()['id'] as String,
-              name: doc.data()['name'] as String,
-              professors: doc.data()['professors'] as List<String>,
-              dayOfTheWeek: doc.data()['dayOfTheWeek'] as List<String>,
-              grade: doc.data()['grade'] as int,
-            ),
-          );
+          String s = doc.data()['id'] as String;
+          if (subjectIds.toSet().contains(s)) {
+            subjectList.add(
+              Subject(
+                id: doc.data()['id'] as String,
+                name: doc.data()['name'] as String,
+                professors: doc.data()['professors'] as List<String>,
+                dayOfTheWeek: doc.data()['dayOfTheWeek'] as List<String>,
+                grade: doc.data()['grade'] as int,
+              ),
+            );
+          }
         }
+        Vars.subjectList = subjectList;
+        debugPrint('try subjectList: $subjectList');
       });
     } on FirebaseException catch (_) {
-      debugPrint("posts 取得エラー");
+      debugPrint("subjectList 取得エラー");
     }
-    return subjectList;
   }
 }

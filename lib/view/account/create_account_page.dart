@@ -1,14 +1,14 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_testing/utils/authentication.dart';
-import 'package:flutter_testing/utils/firestore.dart';
+import 'package:flutter_testing/utils/fire.dart';
 import 'dart:html';
 import 'package:image_picker_for_web/image_picker_for_web.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_picker_web/image_picker_web.dart';
 
 import 'package:flutter_testing/utils/authentication.dart';
-import 'package:flutter_testing/utils/firestore.dart';
+import 'package:flutter_testing/utils/fire.dart';
 import 'package:flutter_testing/model/account.dart';
 import 'dart:math' as math;
 
@@ -236,7 +236,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       imagePath:
                           "assets/Icons/Icon_" + iconNum.toString() + ".png",
                     );
-                    var _result = await Firestore.setUser(newAccount);
+                    var _result = await Fire.setUser(newAccount);
                     if (_result == true) {
                       Navigator.pop(context);
                     }

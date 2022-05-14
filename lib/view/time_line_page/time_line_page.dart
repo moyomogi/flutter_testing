@@ -8,7 +8,7 @@ import 'package:provider/provider.dart';
 import 'package:flutter_testing/main.dart';
 import 'package:flutter_testing/model/subject.dart';
 import 'package:flutter_testing/utils/vars.dart';
-import 'package:flutter_testing/utils/firestore.dart';
+import 'package:flutter_testing/utils/fire.dart';
 import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/model/post.dart';
 
@@ -209,7 +209,7 @@ class _TimeLinePageState extends State<TimeLinePage> {
                           userId: myAccount.internalId,
                           roomId: widget.subject.id,
                         );
-                        await Firestore.addPost(newPost);
+                        await Fire.addPost(newPost);
 
                         controller.clear();
                       }
