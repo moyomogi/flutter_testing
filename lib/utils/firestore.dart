@@ -85,7 +85,7 @@ class Firestore {
 
   // 【Dart】Futureクラスとasync/awaitの基本的な使い方
   // https://zenn.dev/iwaku/articles/2020-12-29-iwaku
-  static Future<List<Post>> getPosts(String roomId) async {
+  /*static Future<List<Post>> getPosts(String roomId) async {
     List<Post> _postList = [];
     try {
       // Get all posts whose roomId is equal to roomId
@@ -128,7 +128,7 @@ class Firestore {
       debugPrint("posts 取得エラー");
     }
     return _postList;
-  }
+  }*/
 
   static Future<dynamic> updateUser(Account updateAccount) async{
     try{

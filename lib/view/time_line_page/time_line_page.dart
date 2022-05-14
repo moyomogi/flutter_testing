@@ -14,10 +14,9 @@ import 'package:flutter_testing/model/post.dart';
 
 class TimeLinePage extends StatefulWidget {
   final Subject subject;
-  final Account myAccount;
   // 以前のページである default_page.dart の情報を this.subject として引き継ぎ。
+  const TimeLinePage(this.subject);
 
-  TimeLinePage(this.subject,this.myAccount);
 
   @override
   _TimeLinePageState createState() => _TimeLinePageState();
@@ -25,7 +24,16 @@ class TimeLinePage extends StatefulWidget {
 
 class _TimeLinePageState extends State<TimeLinePage> {
   
+  Account myAccount = Authentication.myAccount!;
 
+  List<Post> postList = [
+    Post(
+         id: '1',
+         userId: '1',
+         roomId: '',
+         text: 'やぁ＾＾',
+         postTime: Timestamp.now()),
+     ];
   // List<Post> postList = [
   //   Post(
   //       id: '1',
@@ -86,6 +94,7 @@ class _TimeLinePageState extends State<TimeLinePage> {
   TextEditingController controller = TextEditingController(); //送信するメッセージを格納
   @override
   Widget build(BuildContext context) {
+    print("yaa");
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -120,7 +129,7 @@ class _TimeLinePageState extends State<TimeLinePage> {
                       children: [
                         CircleAvatar(
                           radius: 30,
-                          foregroundImage: NetworkImage(widget.myAccount.imagePath),
+                          foregroundImage: NetworkImage(myAccount.imagePath),
                           backgroundColor: Colors.white,
                         ),
                         Expanded(
@@ -137,13 +146,13 @@ class _TimeLinePageState extends State<TimeLinePage> {
                                             horizontal: 2.0),
                                         // myAccount.name
                                         child: Text(
-                                          widget.myAccount.name,
+                                          myAccount.name,
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold),
                                         ),
                                       ),
                                       Text(
-                                        "@${widget.myAccount.userId}",
+                                        "@${myAccount.userId}",
                                         style: TextStyle(color: Colors.grey),
                                       ),
                                       Padding(
@@ -197,9 +206,9 @@ class _TimeLinePageState extends State<TimeLinePage> {
                       // controller: 送信するメッセージ
                       if (controller.text.isNotEmpty) {
                         Post newPost = Post(
-                          id: widget.myAccount.internalId,
+                          id: myAccount.internalId,
                           text: controller.text,
-                          userId: widget.myAccount.internalId,
+                          userId: myAccount.internalId,
                           roomId: widget.subject.id,
                         );
                         await Firestore.addPost(newPost);
