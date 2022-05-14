@@ -1,82 +1,87 @@
+import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
+import 'package:intl/intl.dart';
+import 'package:provider/provider.dart';
+
+import 'package:flutter_testing/main.dart';
 import 'package:flutter_testing/model/subject.dart';
 import 'package:flutter_testing/utils/authentication.dart';
 import 'package:flutter_testing/utils/firestore.dart';
 import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/model/post.dart';
-import 'package:intl/date_symbol_data_local.dart';
-import 'package:intl/intl.dart';
 
 class TimeLinePage extends StatefulWidget {
   final Subject subject;
   final Account myAccount;
   // 以前のページである default_page.dart の情報を this.subject として引き継ぎ。
+
   TimeLinePage(this.subject,this.myAccount);
 
   @override
-  State<TimeLinePage> createState() => _TimeLinePageState();
+  _TimeLinePageState createState() => _TimeLinePageState();
 }
 
 class _TimeLinePageState extends State<TimeLinePage> {
   
 
-  List<Post> postList = [
-    Post(
-        id: '1',
-        userId: '1',
-        roomId: '',
-        text: 'やぁ＾＾',
-        postTime: Timestamp.now()),
-    Post(
-        id: '1',
-        userId: '1',
-        roomId: '',
-        text: 'やぁ＾＾',
-        postTime: Timestamp.now()),
-    Post(
-        id: '1',
-        userId: '1',
-        roomId: '',
-        text: 'やぁ＾＾',
-        postTime: Timestamp.now()),
-    Post(
-        id: '1',
-        userId: '1',
-        roomId: '',
-        text: 'やぁ＾＾',
-        postTime: Timestamp.now()),
-    Post(
-        id: '1',
-        userId: '1',
-        roomId: '',
-        text: 'やぁ＾＾',
-        postTime: Timestamp.now()),
-    Post(
-        id: '1',
-        userId: '1',
-        roomId: '',
-        text: 'やぁ＾＾',
-        postTime: Timestamp.now()),
-    Post(
-        id: '1',
-        userId: '1',
-        roomId: '',
-        text: 'やぁ＾＾',
-        postTime: Timestamp.now()),
-    Post(
-        id: '1',
-        userId: '1',
-        roomId: '',
-        text: 'やぁ＾＾',
-        postTime: Timestamp.now()),
-    Post(
-        id: '1',
-        userId: '1',
-        roomId: '',
-        text: 'やぁ＾＾',
-        postTime: Timestamp.now()),
-  ];
+  // List<Post> postList = [
+  //   Post(
+  //       id: '1',
+  //       userId: '1',
+  //       roomId: '',
+  //       text: 'やぁ＾＾',
+  //       postTime: Timestamp.now()),
+  //   Post(
+  //       id: '1',
+  //       userId: '1',
+  //       roomId: '',
+  //       text: 'やぁ＾＾',
+  //       postTime: Timestamp.now()),
+  //   Post(
+  //       id: '1',
+  //       userId: '1',
+  //       roomId: '',
+  //       text: 'やぁ＾＾',
+  //       postTime: Timestamp.now()),
+  //   Post(
+  //       id: '1',
+  //       userId: '1',
+  //       roomId: '',
+  //       text: 'やぁ＾＾',
+  //       postTime: Timestamp.now()),
+  //   Post(
+  //       id: '1',
+  //       userId: '1',
+  //       roomId: '',
+  //       text: 'やぁ＾＾',
+  //       postTime: Timestamp.now()),
+  //   Post(
+  //       id: '1',
+  //       userId: '1',
+  //       roomId: '',
+  //       text: 'やぁ＾＾',
+  //       postTime: Timestamp.now()),
+  //   Post(
+  //       id: '1',
+  //       userId: '1',
+  //       roomId: '',
+  //       text: 'やぁ＾＾',
+  //       postTime: Timestamp.now()),
+  //   Post(
+  //       id: '1',
+  //       userId: '1',
+  //       roomId: '',
+  //       text: 'やぁ＾＾',
+  //       postTime: Timestamp.now()),
+  //   Post(
+  //       id: '1',
+  //       userId: '1',
+  //       roomId: '',
+  //       text: 'やぁ＾＾',
+  //       postTime: Timestamp.now()),
+  // ];
 
   TextEditingController controller = TextEditingController(); //送信するメッセージを格納
   @override
@@ -192,6 +197,7 @@ class _TimeLinePageState extends State<TimeLinePage> {
                       // controller: 送信するメッセージ
                       if (controller.text.isNotEmpty) {
                         Post newPost = Post(
+                          id: widget.myAccount.internalId,
                           text: controller.text,
                           userId: widget.myAccount.internalId,
                           roomId: widget.subject.id,

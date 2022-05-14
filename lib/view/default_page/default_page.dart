@@ -15,45 +15,45 @@ class DefaultPage extends StatefulWidget {
 
 class _DefaultPageState extends State<DefaultPage> {
 
+
   @override
   Widget build(BuildContext context) {
-    
-
     List<Subject> subjetList = [
       Subject(
-          id: '1',
+          id: '15HiJNcV91Mi5qV0zmvF',
           name: 'アルゴリズムとデータ構造',
           professers: ['宇野'],
           dayOfTheWeek: ['Mon3'],
           grade: 2),
       Subject(
-          id: '2',
+          id: '5n0A7c3Ek2lLc7gMSguu',
           name: '人工知能',
           professers: ['黄瀬', '内海'],
           dayOfTheWeek: ['Wed3'],
           grade: 3),
       Subject(
-          id: '3',
+          id: 'KfwqLfSu84NT8g7fOmMK',
           name: '情報工学実験',
           professers: ['生方', '内海'],
           dayOfTheWeek: ['Wed3'],
           grade: 3),
       Subject(
-          id: '4',
+          id: 'MpstdlraBgynY6HcBfSG',
           name: '情報工学演習',
           professers: ['生方', '本多'],
           dayOfTheWeek: ['Thu3'],
           grade: 3),
       Subject(
-          id: '5',
+          id: 'Q7iKMR6YaDPlG5B0MWbL',
           name: 'データ解析',
           professers: ['林'],
           dayOfTheWeek: ['Fri3'],
           grade: 3)
     ];
 
-    List<int> appropriateIndices =
-        []; //accountのsubjects_idに合致したsubjectListのindexを以下のfor文で格納O(n^2)
+    // accountのsubjects_idに合致したsubjectListのindexを以下のfor文で格納O(n^2)
+    // 長さ myAccount.subjectIds.length の List
+    List<int> appropriateIndices = List.filled(myAccount.subjectIds.length, -1);
 
     for (int i = 0; i < widget.myAccount.subjectIds.length; i++) {
       for (int j = 0; j < subjetList.length; j++) {
@@ -62,6 +62,9 @@ class _DefaultPageState extends State<DefaultPage> {
         } else {
           debugPrint("Inappropriate");
         }
+      }
+      if (appropriateIndices[i] == -1) {
+        debugPrint("Inappropriate です！");
       }
     }
     appropriateIndices.sort((a, b) => a.compareTo(b));

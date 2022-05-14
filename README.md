@@ -15,6 +15,7 @@
 - Flutter 環境構築 for WSL [docs/setup-wsl.md](https://github.com/moyomogi/flutter_testing/blob/master/docs/setup-wsl.md)
 - Flutter + Firebase [docs/firebase.md](https://github.com/moyomogi/flutter_testing/blob/master/docs/firebase.md)
 - Fork して共同開発 [docs/git-fork.md](https://github.com/moyomogi/flutter_testing/blob/master/docs/git-fork.md)
+- Firebase でのデータの持ち方について [docs/how-to-manage-data.md](https://github.com/moyomogi/flutter_testing/blob/master/docs/how-to-manage-data.md)
 
 ## 指南系サイト
 

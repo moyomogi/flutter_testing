@@ -1,7 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+// import 'package:flutter/services.dart';
+
 import 'package:flutter_testing/screen.dart';
 import 'package:flutter_testing/utils/authentication.dart';
 import 'package:flutter_testing/utils/firestore.dart';
@@ -16,8 +17,9 @@ const Color kButtonColorPrimary = Color(0xFFECEFF1);
 const Color kButtonTextColorPrimary = Color(0xFF455A64);
 const Color kIconColor = Color(0xFF455A64);
 
-
 class LoginPage extends StatelessWidget {
+  const LoginPage({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -82,7 +84,7 @@ class _HeaderBackground extends StatelessWidget {
       child: Container(
         width: double.infinity,
         height: height,
-        decoration: BoxDecoration(
+        decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: FractionalOffset.topLeft,
             end: FractionalOffset.bottomRight,
@@ -240,7 +242,6 @@ class _CustomTextField extends StatelessWidget {
     required this.decoration,
   }) : super(key: key);
 
-
   @override
   Widget build(BuildContext context) {
     return TextField(
@@ -263,7 +264,6 @@ class _CustomTextField extends StatelessWidget {
         ),
       ),
       obscureText: obscureText,
-
       onTap: () {},
     );
   }
@@ -279,8 +279,6 @@ class _SignInForm extends StatelessWidget {
 
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
-
-  
 
   @override
   Widget build(BuildContext context) {
@@ -313,10 +311,9 @@ class _SignInForm extends StatelessWidget {
               if (value.length >= 8) {
                 newPassword = value;
 
-                print('ok'); //
+                debugPrint('ok');
               } else {
                 //入力した文字列をリセットしたい or エラー文を表示させたい
-
                 pswdOk = false;
               }
             }
@@ -360,14 +357,16 @@ class _SignInForm extends StatelessWidget {
                 borderRadius: BorderRadius.circular(8),
               ),
             ),
-            onPressed: () async{
+            onPressed: () async {
               //条件
-              var result = await Authentication.emailSignIn(email: emailController.text, pass: passController.text);
-              if(result is UserCredential){
+              var result = await Authentication.emailSignIn(
+                  email: emailController.text, pass: passController.text);
+              if (result is UserCredential) {
                 print(result.user!.uid);
                 var _result = await Firestore.getUser(result.user!.uid);
-                if(_result == true){
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Screen(0)));
+                if (_result == true) {
+                  Navigator.pushReplacement(context,
+                      MaterialPageRoute(builder: (context) => Screen()));
                 }
                 print("サインイン成功、別の画面飛ぶ");
               }
@@ -383,19 +382,19 @@ class _SignInForm extends StatelessWidget {
         ),
         SizedBox(height: 16),
         RichText(
-          text: TextSpan(
-            style: TextStyle(color: Colors.grey),
-            children: [
-              TextSpan(text: 'Don\'t have Account?'),
-              TextSpan(text: 'Sign up',
+            text: TextSpan(style: TextStyle(color: Colors.grey), children: [
+          TextSpan(text: "Don't have an account? "),
+          TextSpan(
+              text: 'Sign up',
               style: TextStyle(color: Colors.blue),
-              recognizer: TapGestureRecognizer()..onTap = (){
-                Navigator.push(context, MaterialPageRoute(builder: (context) => CreateAccountPage()));
-              }
-              ),
-            ]
-          )
-        ),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CreateAccountPage()));
+                }),
+        ])),
 
         /*Text(
           'Don\'t have Account?',
