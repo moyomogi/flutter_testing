@@ -49,6 +49,7 @@ app.*.map.json
 # Directory
 node_modules
 
+/.firebase
 /.vscode
 /bin
 /book
@@ -60,5 +61,5 @@ node_modules
 *.pdf
 
 /cptest.py
-/cptest.sh
 /input.md
+/memo.md
