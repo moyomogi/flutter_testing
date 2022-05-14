@@ -23,7 +23,7 @@ class TimeLinePage extends StatefulWidget {
 
 class _TimeLinePageState extends State<TimeLinePage> {
   
-  Account myAccount = Authentication.myAccount!;
+  Account myAccount = Vars.myAccount!;
   TextEditingController controller = TextEditingController(); //送信するメッセージを格納
 
 
@@ -49,15 +49,15 @@ class _TimeLinePageState extends State<TimeLinePage> {
               builder: (context, postSnapshot) {
                 if(postSnapshot.hasData){
                   print("postSnapshot.hasData");
-                  List<String> postAccountsId = [];
+                  List<String> postAccountsIds = [];
                   postSnapshot.data!.docs.forEach((doc) {
                     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-                    if(!postAccountsId.contains(data['userId'])){
-                      postAccountsId.add(data['userId']);
+                    if(!postAccountsIds.contains(data['userId'])){
+                      postAccountsIds.add(data['userId']);
                     }
                   });
                   return FutureBuilder<Map<String,Account>?>(
-                    future: Firestore.getPostUserMap(postAccountsId),
+                    future: Firestore.getPostUserMap(postAccountsIds),
                     builder: (context, userSnapshot) {
                       if(userSnapshot.hasData && userSnapshot.connectionState == ConnectionState.done){
                         return ListView.builder(

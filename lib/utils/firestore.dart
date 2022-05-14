@@ -146,8 +146,8 @@ class Firestore {
   Map<String,Account> map = {};
   try{
     await Future.forEach(internalIds, (String internalId) async{
-      var doc = await usersRef.doc(internalId).get();
-      Map<String,dynamic> data = doc.data() as Map<String, dynamic>;
+      var _data = await usersRef.doc(internalId).get();
+      Map<String,dynamic> data = _data.data() as Map<String, dynamic>;
       List<String> undergraduate = List<String>.from(data['undergraduate'] as List);
       List<String> subjectIds = List<String>.from(data['subjectIds'] as List);
       Account postAccount = Account(
@@ -183,7 +183,7 @@ class Firestore {
             Subject(
               id: doc.data()['id'] as String,
               name: doc.data()['name'] as String,
-              professers: doc.data()['professors'] as List<String>,
+              professors: doc.data()['professors'] as List<String>,
               dayOfTheWeek: doc.data()['dayOfTheWeek'] as List<String>,
               grade: doc.data()['grade'] as int,
             ),
