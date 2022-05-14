@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'package:flutter_testing/main.dart';
 import 'package:flutter_testing/model/subject.dart';
-import 'package:flutter_testing/utils/authentication.dart';
+import 'package:flutter_testing/utils/vars.dart';
 import 'package:flutter_testing/utils/firestore.dart';
 import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/model/post.dart';
@@ -16,7 +16,6 @@ class TimeLinePage extends StatefulWidget {
   final Subject subject;
   // 以前のページである default_page.dart の情報を this.subject として引き継ぎ。
   const TimeLinePage(this.subject);
-
 
   @override
   _TimeLinePageState createState() => _TimeLinePageState();

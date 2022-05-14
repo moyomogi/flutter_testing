@@ -168,49 +168,49 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 onPressed: () async {
                   if (userIdController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('ユーザーIDを入力してください')),
+                      const SnackBar(content: Text('ユーザーIDを入力してください')),
                     );
                     return;
                   }
                   if (gakuikiController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('学部を入力してください')),
+                      const SnackBar(content: Text('学部を入力してください')),
                     );
                     return;
                   }
                   if (kateiController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('学科を入力してください')),
+                      const SnackBar(content: Text('学科を入力してください')),
                     );
                     return;
                   }
                   if (kamoku1Controller.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('科目名1を入力してください')),
+                      const SnackBar(content: Text('科目名1を入力してください')),
                     );
                     return;
                   }
                   if (kamoku2Controller.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(content: Text('科目名2を入力してください')),
+                      const SnackBar(content: Text('科目名2を入力してください')),
                     );
                     return;
                   }
                   if (kamoku3Controller.text.isEmpty) {
-                    Scaffold.of(context).showSnackBar(
-                      SnackBar(content: Text('科目名3を入力してください')),
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('科目名3を入力してください')),
                     );
                     return;
                   }
                   if (emailController.text.isEmpty) {
-                    Scaffold.of(context).showSnackBar(
-                      SnackBar(content: Text('メールアドレスを入力してください')),
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('メールアドレスを入力してください')),
                     );
                     return;
                   }
                   if (passController.text.isEmpty) {
-                    Scaffold.of(context).showSnackBar(
-                      SnackBar(content: Text('パスワードを入力してください')),
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text('パスワードを入力してください')),
                     );
                     return;
                   }

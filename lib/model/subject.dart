@@ -1,9 +1,15 @@
-class Subject{
+class Subject {
   String id;
   String name;
-  List<String> professers;
-  List<String> dayOfTheWeek;//Listにしてぇ～
+  List<String> professors;
+  List<String> dayOfTheWeek; // Listにしてぇ～
   int grade;
 
-  Subject({this.id = '',this.name='',required this.professers,required this.dayOfTheWeek,this.grade= 0,});
+  Subject({
+    this.id = '',
+    this.name = '',
+    required this.professors,
+    required this.dayOfTheWeek,
+    this.grade = 0,
+  });
 }

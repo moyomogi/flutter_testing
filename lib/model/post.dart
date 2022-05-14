@@ -1,8 +1,9 @@
 import 'dart:async'; // FutureOr
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart'; // StatefulWidget
-import 'package:flutter_testing/model/account.dart';
 
+import 'package:flutter_testing/main.dart';
+import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/utils/widgets.dart';
 
 class Post {
@@ -19,11 +20,15 @@ class Post {
   final String userId;
 }
 
+// postList の内容を twitter 風に描画する
 class PostList extends StatefulWidget {
   // Modify the following line 7
-  const PostList({required this.addPost, required this.postList});
-  final FutureOr<void> Function(String message) addPost;
+  const PostList(
+      {required this.addPost, required this.postList, required this.myAccount});
+  final FutureOr<void> Function(String userId, String subjectId, String text)
+      addPost;
   final List<Post> postList; // new 7
+  final Account myAccount;
 
   @override
   _PostListState createState() => _PostListState();
@@ -36,13 +41,16 @@ class _PostListState extends State<PostList> {
   // Modify the following line 7
   List<Post> _postList = [];
   List<Post> get postList => _postList;
-  Account myAccount = Account();
+  // 未代入
+  Account _myAccount = Account();
+  Account get myAccount => _myAccount;
 
   @override
   void initState() {
     super.initState();
     // Modify the following line 7
     _postList = widget.postList;
+    _myAccount = widget.myAccount;
   }
 
   @override
@@ -75,7 +83,8 @@ class _PostListState extends State<PostList> {
                 StyledButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
-                      await widget.addPost(_controller.text);
+                      await widget.addPost(
+                          myAccount.userId, myAccount.userId, _controller.text);
                       _controller.clear();
                     }
                   },
