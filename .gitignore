@@ -49,6 +49,7 @@ app.*.map.json
 # Directory
 node_modules
 
+/.firebase
 /.vscode
 /bin
 /book
