@@ -1,8 +1,10 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_testing/screen.dart';
 import 'package:flutter_testing/utils/authentication.dart';
+import 'package:flutter_testing/utils/firestore.dart';
 import 'package:flutter_testing/view/account/create_account_page.dart';
 //import 'package:flutter_login.dart';
 
@@ -361,10 +363,13 @@ class _SignInForm extends StatelessWidget {
             onPressed: () async{
               //条件
               var result = await Authentication.emailSignIn(email: emailController.text, pass: passController.text);
-              print(result);
-              if(result == true){
+              if(result is UserCredential){
+                print(result.user!.uid);
+                var _result = await Firestore.getUser(result.user!.uid);
+                if(_result == true){
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Screen()));
+                }
                 print("サインイン成功、別の画面飛ぶ");
-                Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Screen()));
               }
             },
             child: Text(

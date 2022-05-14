@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/model/subject.dart';
+import 'package:flutter_testing/utils/authentication.dart';
 import 'package:flutter_testing/view/time_line_page/time_line_page.dart';
 
 class DefaultPage extends StatefulWidget {
@@ -12,17 +13,12 @@ class DefaultPage extends StatefulWidget {
 }
 
 class _DefaultPageState extends State<DefaultPage> {
+
+  Account myAccount = Authentication.myAccount!;
+
   @override
   Widget build(BuildContext context) {
-    Account myAccount = Account(
-      internalId: '1',
-      name: 'やたぺんぎん',
-      userId: 'yatapngn',
-      undergraduate: ["工学域", "電気電子系学類", "情報工学課程"],
-      subjectIds: ['1', '2'],
-      imagePath:
-          'https://1.bp.blogspot.com/-_CVATibRMZQ/XQjt4fzUmjI/AAAAAAABTNY/nprVPKTfsHcihF4py1KrLfIqioNc_c41gCLcBGAs/s800/animal_chara_smartphone_penguin.png',
-    );
+    
 
     List<Subject> subjetList = [
       Subject(

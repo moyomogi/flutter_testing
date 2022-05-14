@@ -3,6 +3,7 @@ import 'package:flutter_testing/model/account.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter_testing/model/post.dart';
 import 'package:flutter_testing/model/subject.dart';
+import 'package:flutter_testing/utils/authentication.dart';
 
 //todo ルームに入るときにroomIdごとにPost取得してPostList作成する
 //todo subjectListをFirestoreから取得
@@ -20,10 +21,10 @@ class Firestore {
 
   static Future<dynamic> setUser(Account newAccount) async {
     try {
-      final docId = await userRef.add({});
-      print(docId.id);
-      await userRef.doc(docId.id).set({
-        'internalId': docId.id,
+      /*final docId = await userRef.add({});
+      print(docId.id);*/
+      await userRef.doc(newAccount.internalId).set({
+        'internalId': newAccount.internalId,
         'userid': newAccount.userId,
         'name': newAccount.name,
         'imagePath': newAccount.imagePath,
@@ -31,24 +32,36 @@ class Firestore {
         'subjectIds': newAccount.subjectIds,
       });
       print("新アカウント作成完了");
+      return true;
     } catch (e) {
       print("アカウント作成に失敗しました");
+      return false;
     }
   }
 
   static Future<dynamic> getUser(String internalId) async {
     try {
       DocumentSnapshot documentSnapshot = await userRef.doc(internalId).get();
-      Map<String, dynamic> data =
-          documentSnapshot.data() as Map<String, dynamic>;
-      Account myAccount = Account(
-          internalId: internalId,
-          userId: data['userId'],
+      print("documentSnapshot: $documentSnapshot");
+      Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+      print("data: $data");
+      List<String> undergraduate = List<String>.from(data['undergraduate'] as List);
+      List<String> subjectIds = List<String>.from(data['subjectIds'] as List);
+
+      Account _myAccount = Account(
+          internalId: data['internalId'],
+          name: data['name'],
+          userId: data['userid'],
+          undergraduate: undergraduate,
+          subjectIds: subjectIds,
           imagePath: data['imagePath'],
-          undergraduate: data['undergraduate'],
-          subjectIds: data['subjectIds']);
-    } catch (e) {
-      print("ユーザー取得失敗");
+      );
+      Authentication.myAccount = _myAccount;
+      print("ユーザー取得完了");
+      return true;
+    } on FirebaseException catch (e) {
+      print("ユーザー取得失敗: $e");
+      return false;
     }
   }
 
