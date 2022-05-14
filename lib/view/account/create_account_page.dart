@@ -1,21 +1,21 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_testing/utils/authentication.dart';
-import 'dart:html';
 import 'package:image_picker_for_web/image_picker_for_web.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_picker_web/image_picker_web.dart';
+
+import 'package:flutter_testing/utils/authentication.dart';
+import 'package:flutter_testing/utils/firestore.dart';
 import 'package:flutter_testing/model/account.dart';
 
 class CreateAccountPage extends StatefulWidget {
-  const CreateAccountPage({ Key? key }) : super(key: key);
+  const CreateAccountPage({Key? key}) : super(key: key);
 
   @override
   State<CreateAccountPage> createState() => _CreateAccountPageState();
 }
 
 class _CreateAccountPageState extends State<CreateAccountPage> {
-
   /*XFile? Ximage;
   File? image;
   ImagePicker picker = ImagePicker();
@@ -35,162 +35,207 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
 
-  TextEditingController gakuikiController = TextEditingController();
+  TextEditingController gakubuController = TextEditingController();
   TextEditingController gakuruiController = TextEditingController();
-  TextEditingController kateiController = TextEditingController();
+  TextEditingController gakkaController = TextEditingController();
 
   TextEditingController kamoku1Controller = TextEditingController();
   TextEditingController kamoku2Controller = TextEditingController();
   TextEditingController kamoku3Controller = TextEditingController();
-  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        iconTheme: IconThemeData(color: Colors.black),
-        title: Text('新規登録',style: TextStyle(color:Colors.black),),
-        centerTitle: true,
-      ),
-      body: Container(
-        width: double.infinity,
-        child: Column(
-          children: [
-            SizedBox(height: 30),
-            GestureDetector(
-              /*onTap: (){
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          iconTheme: IconThemeData(color: Colors.black),
+          title: Text(
+            '新規登録',
+            style: TextStyle(color: Colors.black),
+          ),
+          centerTitle: true,
+        ),
+        body: Container(
+          width: double.infinity,
+          child: Column(
+            children: [
+              SizedBox(height: 30),
+              GestureDetector(
+                /*onTap: (){
                 getImageFromGallery();
               },*/
-              child: CircleAvatar(
-                //foregroundImage: Ximage == null ? null: FileImage(Ximage),
-                radius: 40,
-                child: Icon(Icons.add),
-              ),
-            ),
-            Container(
-              width: 300,
-              child: TextField(
-                controller: nameController,
-                decoration: InputDecoration(
-                  hintText: '名前',
+                child: CircleAvatar(
+                  //foregroundImage: Ximage == null ? null: FileImage(Ximage),
+                  radius: 40,
+                  child: Icon(Icons.add),
                 ),
               ),
-            ),
-            Container(
-              width: 300,
-              child: TextField(
-                controller: userIdController,
-                decoration: InputDecoration(
-                  hintText: 'ユーザーID',
+              Container(
+                width: 300,
+                child: TextField(
+                  controller: nameController,
+                  decoration: InputDecoration(
+                    hintText: '名前',
+                  ),
                 ),
               ),
-            ),
-            Container(
-              width: 300,
-              child: TextField(
-                controller: gakuruiController,
-                decoration: InputDecoration(
-                  hintText: '学類',
+              Container(
+                width: 300,
+                child: TextField(
+                  controller: userIdController,
+                  decoration: InputDecoration(
+                    hintText: 'ユーザーID',
+                  ),
                 ),
               ),
-            ),
-            Container(
-              width: 300,
-              child: TextField(
-                controller: gakuikiController,
-                decoration: InputDecoration(
-                  hintText: '学域',
+              Container(
+                width: 300,
+                child: TextField(
+                  controller: gakubuController,
+                  decoration: InputDecoration(
+                    hintText: '学部',
+                  ),
                 ),
               ),
-            ),
-            Container(
-              width: 300,
-              child: TextField(
-                controller: kateiController,
-                decoration: InputDecoration(
-                  hintText: '課程',
+              Container(
+                width: 300,
+                child: TextField(
+                  controller: gakkaController,
+                  decoration: InputDecoration(
+                    hintText: '学科',
+                  ),
                 ),
               ),
-            ),
-            Container(
-              width: 300,
-              child: TextField(
-                controller: kamoku1Controller,
-                decoration: InputDecoration(
-                  hintText: '科目名1',
+              Container(
+                width: 300,
+                child: TextField(
+                  controller: kamoku1Controller,
+                  decoration: InputDecoration(
+                    hintText: '科目名1',
+                  ),
                 ),
               ),
-            ),
-            Container(
-              width: 300,
-              child: TextField(
-                controller: kamoku2Controller,
-                decoration: InputDecoration(
-                  hintText: '科目名2',
+              Container(
+                width: 300,
+                child: TextField(
+                  controller: kamoku2Controller,
+                  decoration: InputDecoration(
+                    hintText: '科目名2',
+                  ),
                 ),
               ),
-            ),
-            Container(
-              width: 300,
-              child: TextField(
-                controller: kamoku3Controller,
-                decoration: InputDecoration(
-                  hintText: '科目名3',
+              Container(
+                width: 300,
+                child: TextField(
+                  controller: kamoku3Controller,
+                  decoration: InputDecoration(
+                    hintText: '科目名3',
+                  ),
                 ),
               ),
-            ),
-            Container(
-              width: 300,
-              child: TextField(
-                controller: emailController,
-                decoration: InputDecoration(
-                  hintText: 'メールアドレス',
+              Container(
+                width: 300,
+                child: TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    hintText: 'メールアドレス',
+                  ),
                 ),
               ),
-            ),
-            Container(
-              width: 300,
-              child: TextField(
-                controller: passController,
-                decoration: InputDecoration(
-                  hintText: 'パスワード',
+              Container(
+                width: 300,
+                child: TextField(
+                  controller: passController,
+                  decoration: InputDecoration(
+                    hintText: 'パスワード',
+                  ),
                 ),
               ),
-            ),
-            SizedBox(height: 50),
-            ElevatedButton(
-              onPressed: () async{
-                if(nameController.text.isNotEmpty
-                && userIdController.text.isNotEmpty
-                && gakuruiController.text.isNotEmpty
-                && gakuikiController.text.isNotEmpty
-                && gakuruiController.text.isNotEmpty
-                && kateiController.text.isNotEmpty
-                && kamoku1Controller.text.isNotEmpty
-                && kamoku2Controller.text.isNotEmpty
-                && kamoku3Controller.text.isNotEmpty
-                && emailController.text.isNotEmpty
-                && passController.text.isNotEmpty
-                //&& image != null
-                ) {
-                  var result = await Authentication.signUp(email: emailController.text, pass: passController.text);
-                  /*if(result is UserCredential){
-                    Account newAccount = Account(
-                      userId: 
+              SizedBox(height: 50),
+              ElevatedButton(
+                onPressed: () async {
+                  if (nameController.text.isEmpty) {
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(content: Text('名前を入力してください')),
                     );
-                  }*/
-                  if(result == true){
-                    Navigator.pop(context);  
+                    return;
                   }
-                }
-              },
-              child: Text('アカウントを作成'),
-            )
-          ],
-        ),
-      )
-    );
+                  if (userIdController.text.isEmpty) {
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(content: Text('ユーザーIDを入力してください')),
+                    );
+                    return;
+                  }
+                  if (gakubuController.text.isEmpty) {
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(content: Text('学部を入力してください')),
+                    );
+                    return;
+                  }
+                  if (gakkaController.text.isEmpty) {
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(content: Text('学科を入力してください')),
+                    );
+                    return;
+                  }
+                  if (kamoku1Controller.text.isEmpty) {
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(content: Text('科目名1を入力してください')),
+                    );
+                    return;
+                  }
+                  if (kamoku2Controller.text.isEmpty) {
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(content: Text('科目名2を入力してください')),
+                    );
+                    return;
+                  }
+                  if (kamoku3Controller.text.isEmpty) {
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(content: Text('科目名3を入力してください')),
+                    );
+                    return;
+                  }
+                  if (emailController.text.isEmpty) {
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(content: Text('メールアドレスを入力してください')),
+                    );
+                    return;
+                  }
+                  if (passController.text.isEmpty) {
+                    Scaffold.of(context).showSnackBar(
+                      SnackBar(content: Text('パスワードを入力してください')),
+                    );
+                    return;
+                  }
+                  var result = await Authentication.signUp(
+                      email: emailController.text, pass: passController.text);
+                  if (result == true) {
+                    // 前の page に戻る。
+                    // 今回の場合は、login_page.dart に遷移。
+                    Firestore.setAccount(Account(
+                        id: userIdController.text,
+                        userId: userIdController.text,
+                        name: nameController.text,
+                        undergraduate: [
+                          gakubuController.text,
+                          gakkaController.text
+                        ],
+                        // test by moyomogi
+                        subjectIds: [
+                          '15HiJNcV91Mi5qV0zmvF',
+                          '5n0A7c3Ek2lLc7gMSguu'
+                        ],
+                        imagePath: ''));
+
+                    Navigator.pop(context);
+                  }
+                },
+                child: Text('アカウントを作成'),
+              )
+            ],
+          ),
+        ));
   }
 }
