@@ -39,12 +39,8 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
 
-<<<<<<< HEAD
   //TextEditingController gakuikiController = TextEditingController();
   TextEditingController gakuikiController = TextEditingController();
-=======
-  TextEditingController gakuruiController = TextEditingController();
->>>>>>> d4bd105 (Add critical bug (2))
   TextEditingController kateiController = TextEditingController();
 
   TextEditingController kamoku1Controller = TextEditingController();
@@ -99,18 +95,6 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                 width: 300,
                 child: TextField(
                   controller: userIdController,
-<<<<<<< HEAD
-=======
-                  decoration: InputDecoration(
-                    hintText: 'ユーザーID',
-                  ),
-                ),
-              ),
-              Container(
-                width: 300,
-                child: TextField(
-                  controller: gakuruiController,
->>>>>>> d4bd105 (Add critical bug (2))
                   decoration: InputDecoration(
                     hintText: 'ユーザーID',
                   ),
@@ -188,7 +172,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     );
                     return;
                   }
-                  if (gakuruiController.text.isEmpty) {
+                  if (gakuikiController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('学部を入力してください')),
                     );

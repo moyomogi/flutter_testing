@@ -8,7 +8,7 @@ import 'package:flutter_testing/main.dart';
 import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/model/post.dart';
 import 'package:flutter_testing/model/subject.dart';
-import 'package:flutter_testing/utils/authentication.dart';
+import 'package:flutter_testing/utils/vars.dart';
 
 //todo ルームに入るときにroomIdごとにPost取得してPostList作成する
 //todo subjectListをFirestoreから取得
@@ -56,7 +56,7 @@ class Firestore {
           List<String>.from(data['undergraduate'] as List);
       List<String> subjectIds = List<String>.from(data['subjectIds'] as List);
 
-      Authentication.myAccount = Account(
+      Vars.myAccount = Account(
         internalId: data['internalId'],
         name: data['name'],
         userId: data['userid'],
@@ -125,22 +125,20 @@ class Firestore {
     return _postList;
   }*/
 
-  static Future<dynamic> updateUser(Account updateAccount) async{
-    try{
-
-      userRef.doc(updateAccount.internalId).update({
+  static Future<dynamic> updateUser(Account updateAccount) async {
+    try {
+      usersRef.doc(updateAccount.internalId).update({
         'name': updateAccount.name,
-        'userId':updateAccount.userId,
+        'userId': updateAccount.userId,
         'undergraduate': updateAccount.undergraduate,
         'subjectIds': updateAccount.subjectIds,
       });
       print("アカウントの情報更新");
       return true;
-    } on FirebaseException catch(e){
+    } on FirebaseException catch (e) {
       print("アカウントの情報更新失敗");
       return false;
     }
-    return postList;
   }
 
   static Future<List<Subject>> getSubjectList(List<String> subjectIds) async {

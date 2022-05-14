@@ -18,39 +18,37 @@ class DefaultPage extends StatefulWidget {
 }
 
 class _DefaultPageState extends State<DefaultPage> {
-
-
   @override
   Widget build(BuildContext context) {
     List<Subject> subjectList = [
       Subject(
           id: '15HiJNcV91Mi5qV0zmvF',
           name: 'アルゴリズムとデータ構造',
-          professers: ['宇野'],
+          professors: ['宇野'],
           dayOfTheWeek: ['Mon3'],
           grade: 2),
       Subject(
           id: '5n0A7c3Ek2lLc7gMSguu',
           name: '人工知能',
-          professers: ['黄瀬', '内海'],
+          professors: ['黄瀬', '内海'],
           dayOfTheWeek: ['Wed3'],
           grade: 3),
       Subject(
           id: 'KfwqLfSu84NT8g7fOmMK',
           name: '情報工学実験',
-          professers: ['生方', '内海'],
+          professors: ['生方', '内海'],
           dayOfTheWeek: ['Wed3'],
           grade: 3),
       Subject(
           id: 'MpstdlraBgynY6HcBfSG',
           name: '情報工学演習',
-          professers: ['生方', '本多'],
+          professors: ['生方', '本多'],
           dayOfTheWeek: ['Thu3'],
           grade: 3),
       Subject(
           id: 'Q7iKMR6YaDPlG5B0MWbL',
           name: 'データ解析',
-          professers: ['林'],
+          professors: ['林'],
           dayOfTheWeek: ['Fri3'],
           grade: 3)
     ];
@@ -88,7 +86,8 @@ class _DefaultPageState extends State<DefaultPage> {
         elevation: 2,
       ),
       body: ListView.builder(
-        itemCount: widget.subjectList.length,
+        // itemCount: widget.subjectList.length,
+        itemCount: appropriateIndices.length,
         itemBuilder: (context, index) {
           return InkWell(
             // s

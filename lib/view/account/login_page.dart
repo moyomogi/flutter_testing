@@ -1,13 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 // import 'package:flutter/services.dart';
 
-import 'package:flutter_testing/main.dart';
 import 'package:flutter_testing/screen.dart';
-import 'package:flutter_testing/model/account.dart';
-import 'package:flutter_testing/model/subject.dart';
 import 'package:flutter_testing/utils/authentication.dart';
 import 'package:flutter_testing/utils/firestore.dart';
 import 'package:flutter_testing/view/account/create_account_page.dart';
@@ -159,7 +155,7 @@ class _HeaderTitle extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          '大阪公立大学 非公式SNS',
+          '大阪公立大学生向けSNS(仮称)',
           style: Theme.of(context).textTheme.headline4!.copyWith(
                 color: kTextColorPrimary,
                 fontWeight: FontWeight.w500,
@@ -200,23 +196,23 @@ class _HeaderTitle extends StatelessWidget {
 class _Header extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    const double height = 320;
-    return SizedBox(
+    final double height = 320;
+    return Container(
       height: height,
       child: Stack(
         children: [
-          const Align(
+          Align(
             alignment: Alignment.topCenter,
             child: _HeaderBackground(height: height),
           ),
-          const Align(
+          Align(
             alignment: Alignment.topCenter,
             child: _HeaderCircles(height: height),
           ),
           Align(
             alignment: Alignment.topCenter,
             child: Padding(
-              padding: const EdgeInsets.only(top: 128),
+              padding: EdgeInsets.only(top: 128),
               child: _HeaderTitle(),
             ),
           ),
@@ -252,17 +248,17 @@ class _CustomTextField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,
-        hintStyle: const TextStyle(color: Colors.white),
+        hintStyle: TextStyle(color: Colors.white),
         floatingLabelBehavior: FloatingLabelBehavior.always,
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
+          borderSide: BorderSide(
             color: Colors.white,
           ),
         ),
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(8),
-          borderSide: const BorderSide(
+          borderSide: BorderSide(
             color: Colors.white,
           ),
         ),
@@ -279,55 +275,52 @@ class _SignInForm extends StatelessWidget {
   String newPassword = "";
   String infoText = "";
   bool pswdOk = false;
+  final controller = TextEditingController();
 
-  // final controller = TextEditingController();
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
 
-  Account myAccount = Authentication.myAccount!;
-
   @override
   Widget build(BuildContext context) {
-    return Consumer<ApplicationState>(
-      builder: (context, appState, _) => Column(
-        children: [
-          TextFormField(
-              controller: emailController,
-              obscureText: false,
-              decoration: InputDecoration(
-                labelText: 'Email',
-                hintText: 'メールアドレスを入力してください',
-              ),
+    return Column(
+      children: [
+        TextFormField(
+            controller: emailController,
+            obscureText: false,
+            decoration: InputDecoration(
+              labelText: 'Email',
+              hintText: 'メールアドレスを入力してください',
+            ),
 
-              //適切なメールアドレスに誘導する
-              onChanged: (String value) {
-                newEmail = value;
-              }),
-          SizedBox(height: 48),
-          TextFormField(
-              controller: passController,
-              decoration: const InputDecoration(
-                labelText: 'Pass',
-                hintText: 'パスワードを入力してください(8文字以上)',
-              ),
-              keyboardType: TextInputType.visiblePassword,
-              obscureText: true,
-              maxLength: 20,
-              textInputAction: TextInputAction.done,
-              onFieldSubmitted: (value) {
-                if (value.length >= 8) {
-                  newPassword = value;
+            //適切なメールアドレスに誘導する
+            onChanged: (String value) {
+              newEmail = value;
+            }),
+        SizedBox(height: 48),
+        TextFormField(
+            controller: passController,
+            decoration: const InputDecoration(
+              labelText: 'Pass',
+              hintText: 'パスワードを入力してください(8文字以上)',
+            ),
+            keyboardType: TextInputType.visiblePassword,
+            obscureText: true,
+            maxLength: 20,
+            textInputAction: TextInputAction.done,
+            onFieldSubmitted: (value) {
+              if (value.length >= 8) {
+                newPassword = value;
 
-                  debugPrint('ok');
-                } else {
-                  //入力した文字列をリセットしたい or エラー文を表示させたい
-                  pswdOk = false;
-                }
+                debugPrint('ok');
+              } else {
+                //入力した文字列をリセットしたい or エラー文を表示させたい
+                pswdOk = false;
               }
+            }
 
-              //パスワード文字数判別
-              ),
-          /*SizedBox(height: 8),
+            //パスワード文字数判別
+            ),
+        /*SizedBox(height: 8),
         TextFormField(
             decoration: const InputDecoration(
               labelText: 'rewrite Pass',
@@ -345,7 +338,7 @@ class _SignInForm extends StatelessWidget {
                 print('no');
               } //パスワード文字数判別
             }),*/
-          /*Text(
+        /*Text(
           'パスワードを忘れましたか？',
           style: Theme.of(context)
               .textTheme
@@ -353,45 +346,15 @@ class _SignInForm extends StatelessWidget {
               .copyWith(color: kTextColorSecondary),
         ),
         SizedBox(height: 48),*/
-          Container(
-            width: double.infinity,
-            child: TextButton(
-              style: TextButton.styleFrom(
-                primary: kButtonTextColorPrimary,
-                backgroundColor: kButtonColorPrimary,
-                padding: EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(8),
-                ),
-              ),
-              onPressed: () async {
-                // 条件
-                var result = await Authentication.emailSignIn(
-                    email: emailController.text, pass: passController.text);
-                if (result is UserCredential) {
-                  debugPrint(result.user!.uid);
-                  var _result = await Firestore.getUser(result.user!.uid);
-
-                  // Flutterで別画面（route）で状態（state）を共有する
-                  // https://rinoguchi.net/2021/05/share-state-between-other-routes.html
-                  final List<Subject> _subjectList =
-                      await Firestore.getSubjectList(myAccount.subjectIds);
-                  if (_result == true) {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Screen(_subjectList)));
-                    Firestore.getSubjectList(myAccount.subjectIds);
-                  }
-                  debugPrint("サインイン成功、別の画面飛ぶ");
-                }
-              },
-              child: Text(
-                'Sign in',
-                style: Theme.of(context)
-                    .textTheme
-                    .button!
-                    .copyWith(color: kButtonTextColorPrimary, fontSize: 18),
+        Container(
+          width: double.infinity,
+          child: TextButton(
+            style: TextButton.styleFrom(
+              primary: kButtonTextColorPrimary,
+              backgroundColor: kButtonColorPrimary,
+              padding: EdgeInsets.symmetric(vertical: 16),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
               ),
             ),
             onPressed: () async {
@@ -416,23 +379,24 @@ class _SignInForm extends StatelessWidget {
                   .copyWith(color: kButtonTextColorPrimary, fontSize: 18),
             ),
           ),
-          SizedBox(height: 16),
-          RichText(
-              text: TextSpan(style: TextStyle(color: Colors.grey), children: [
-            TextSpan(text: "Don't have an account? "),
-            TextSpan(
-                text: 'Sign up',
-                style: TextStyle(color: Colors.blue),
-                recognizer: TapGestureRecognizer()
-                  ..onTap = () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => CreateAccountPage()));
-                  }),
-          ])),
+        ),
+        SizedBox(height: 16),
+        RichText(
+            text: TextSpan(style: TextStyle(color: Colors.grey), children: [
+          TextSpan(text: "Don't have an account? "),
+          TextSpan(
+              text: 'Sign up',
+              style: TextStyle(color: Colors.blue),
+              recognizer: TapGestureRecognizer()
+                ..onTap = () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => CreateAccountPage()));
+                }),
+        ])),
 
-          /*Text(
+        /*Text(
           'Don\'t have Account?',
           style: Theme.of(context)
               .textTheme
@@ -446,7 +410,7 @@ class _SignInForm extends StatelessWidget {
               .bodyText2!
               .copyWith(color: kTextColorPrimary),
         ),*/
-          /*Text(
+        /*Text(
           'OR',
           style: Theme.of(context)
               .textTheme
@@ -480,8 +444,7 @@ class _SignInForm extends StatelessWidget {
             ),
           ],
         )*/
-        ],
-      ),
+      ],
     );
   }
 }
@@ -512,6 +475,8 @@ class _SignInForm extends StatelessWidget {
     );
   }
 }*/
+
+
 
 /// ボタン押下時
 /*void _validateAndSubmit(AuthViewModel viewModel) async {

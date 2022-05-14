@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:flutter_testing/utils/vars.dart';
 import 'package:flutter_testing/utils/authentication.dart';
 import 'package:flutter_testing/model/subject.dart';
 import 'package:flutter_testing/view/default_page/default_page.dart';
@@ -11,8 +12,8 @@ import 'package:flutter_testing/utils/authentication.dart';
 import 'package:flutter_testing/model/account.dart';
 
 class Screen extends StatefulWidget {
-  final int Index;
-  Screen(this.Index);
+  final int index;
+  Screen(this.index);
 
   @override
   State<Screen> createState() => _ScreenState();
@@ -20,7 +21,7 @@ class Screen extends StatefulWidget {
 
 class _ScreenState extends State<Screen> {
   int selectedIndex = 0; //0が最初の画面
-  Account myAccount = Authentication.myAccount!;
+  Account myAccount = Vars.myAccount!;
   //List<Widget> pageList = [DefaultPage(), AccountPage()]; //ページ追加するなら
 
 
@@ -45,7 +46,7 @@ class _ScreenState extends State<Screen> {
           // 押したタイミングでindexの値が変わる
           setState(() {
             print("Accountの値更新");
-            myAccount = Authentication.myAccount!;
+            myAccount = Vars.myAccount!;
             selectedIndex = index;
           });
         },
