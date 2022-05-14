@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/model/subject.dart';
 import 'package:flutter_testing/utils/authentication.dart';
+import 'package:flutter_testing/view/account/create_account_page.dart';
 import 'package:flutter_testing/view/time_line_page/time_line_page.dart';
 
 class DefaultPage extends StatefulWidget {
@@ -18,7 +19,7 @@ class _DefaultPageState extends State<DefaultPage> {
 
   @override
   Widget build(BuildContext context) {
-    List<Subject> subjetList = [
+    List<Subject> subjectList = [
       Subject(
           id: '15HiJNcV91Mi5qV0zmvF',
           name: 'アルゴリズムとデータ構造',
@@ -53,14 +54,13 @@ class _DefaultPageState extends State<DefaultPage> {
 
     // accountのsubjects_idに合致したsubjectListのindexを以下のfor文で格納O(n^2)
     // 長さ myAccount.subjectIds.length の List
-    List<int> appropriateIndices = List.filled(myAccount.subjectIds.length, -1);
+    List<int> appropriateIndices = List.filled(widget.myAccount.subjectIds.length, -1);
 
     for (int i = 0; i < widget.myAccount.subjectIds.length; i++) {
-      for (int j = 0; j < subjetList.length; j++) {
-        if (subjetList[j].id == widget.myAccount.subjectIds[i]) {
-          appropriateIndices.add(j);
-        } else {
-          debugPrint("Inappropriate");
+      for (int j = 0; j < subjectList.length; j++) {
+        if (subjectList[j].id == widget.myAccount.subjectIds[i]) {
+          appropriateIndices[i] = j;
+          break;
         }
       }
       if (appropriateIndices[i] == -1) {
@@ -92,7 +92,7 @@ class _DefaultPageState extends State<DefaultPage> {
                   MaterialPageRoute(
                       // time_line_page.dart に遷移。
                       builder: (context) =>
-                          TimeLinePage(subjetList[appropriateIndices[index]],widget.myAccount)));
+                          TimeLinePage(subjectList[appropriateIndices[index]])));
             },
             child: Column(
               children: [
@@ -104,14 +104,14 @@ class _DefaultPageState extends State<DefaultPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: CircleAvatar(
                           backgroundImage: NetworkImage('assets/' +
-                              subjetList[appropriateIndices[index]]
+                              subjectList[appropriateIndices[index]]
                                   .dayOfTheWeek[0]
                                   .substring(0, 3) +
                               '.png'), //dayOfTheWeekの最初の3文字取って曜日(一週間の中で複数ある場合は早い方)
                           backgroundColor: Colors.white,
                         ),
                       ),
-                      Text(subjetList[appropriateIndices[index]].name),
+                      Text(subjectList[appropriateIndices[index]].name),
                     ],
                   ),
                 ),

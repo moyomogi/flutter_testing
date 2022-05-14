@@ -7,7 +7,7 @@ import 'package:flutter_testing/utils/widgets.dart';
 
 class Post {
   Post(
-      {required this.id,
+      {this.id = '',
       this.postTime,
       required this.roomId,
       this.text = '',
