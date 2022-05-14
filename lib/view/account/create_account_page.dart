@@ -39,7 +39,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   TextEditingController passController = TextEditingController();
 
   //TextEditingController gakuikiController = TextEditingController();
-  TextEditingController gakuruiController = TextEditingController();
+  TextEditingController gakuikiController = TextEditingController();
   TextEditingController kateiController = TextEditingController();
 
   TextEditingController kamoku1Controller = TextEditingController();
@@ -100,9 +100,9 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
             Container(
               width: 300,
               child: TextField(
-                controller: gakuruiController,
+                controller: gakuikiController,
                 decoration: InputDecoration(
-                  hintText: '学類/学部',
+                  hintText: '学域/学部',
                 ),
               ),
             ),
@@ -111,7 +111,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               child: TextField(
                 controller: kateiController,
                 decoration: InputDecoration(
-                  hintText: '課程/科',
+                  hintText: '課程/学科',
                 ),
               ),
             ),
@@ -165,7 +165,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               onPressed: () async{
                 if(nameController.text.isNotEmpty
                 && userIdController.text.isNotEmpty
-                && gakuruiController.text.isNotEmpty
+                && gakuikiController.text.isNotEmpty
                 && kateiController.text.isNotEmpty
                 && kamoku1Controller.text.isNotEmpty
                 && kamoku2Controller.text.isNotEmpty
@@ -182,7 +182,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       internalId: result.user!.uid,
                       userId: userIdController.text,
                       name: nameController.text,
-                      undergraduate: [gakuruiController.text , kateiController.text],
+                      undergraduate: [gakuikiController.text , kateiController.text],
                       subjectIds: [kamoku1Controller.text,kamoku2Controller.text,kamoku3Controller.text],//ここsubjectListでidに変更したい
                       imagePath: "assets/Icons/Icon_" + iconNum.toString() + ".png",
                     );

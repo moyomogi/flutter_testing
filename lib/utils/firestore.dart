@@ -86,4 +86,21 @@ class Firestore {
       print("post取得エラー");
     }
   }
+
+  static Future<dynamic> updateUser(Account updateAccount) async{
+    try{
+      
+      userRef.doc(updateAccount.internalId).update({
+        'name': updateAccount.name,
+        'userId':updateAccount.userId,
+        'undergraduate': updateAccount.undergraduate,
+        'subjectIds': updateAccount.subjectIds,
+      });
+      print("アカウントの情報更新");
+      return true;
+    } on FirebaseException catch(e){
+      print("アカウントの情報更新失敗");
+      return false;
+    }
+  }
 }
