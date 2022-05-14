@@ -23,7 +23,7 @@ class TimeLinePage extends StatefulWidget {
 
 class _TimeLinePageState extends State<TimeLinePage> {
   Account myAccount = Account(
-    id: '1',
+    internalId: '1',
     name: 'やたぺんぎん',
     userId: 'yatapngn',
     undergraduate: ["工学域", "電気電子系学類", "情報工学課程"],
@@ -108,75 +108,75 @@ class _TimeLinePageState extends State<TimeLinePage> {
           Padding(
             padding: const EdgeInsets.only(bottom: 60.0),
             child: Consumer<ApplicationState>(
-            builder: (context, appState, _) => Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                if (appState.loginState == ApplicationLoginState.loggedIn) ...[
-                  PostList(
-                    addPost: (post) =>
-                      appState.addPostToPostList(post),
-                    postList: appState.postList,
-                  ),
-                ]
-                  // Container(
-                  //   decoration: BoxDecoration(
-                  //       border: Border(
-                  //               bottom:
-                  //                   BorderSide(color: Colors.grey, width: 0))),
-                  //   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
-                  //   child: Row(
-                  //     children: [
-                  //       CircleAvatar(
-                  //         radius: 30,
-                  //         foregroundImage: NetworkImage(myAccount.imagePath),
-                  //         backgroundColor: Colors.white,
-                  //       ),
-                  //       Expanded(
-                  //         child: Container(
-                  //           child: Column(
-                  //             children: [
-                  //               Row(
-                  //                 mainAxisAlignment:
-                  //                     MainAxisAlignment.spaceBetween,
-                  //                 children: [
-                  //                   Row(children: [
-                  //                     Padding(
-                  //                       padding: const EdgeInsets.symmetric(
-                  //                           horizontal: 2.0),
-                  //                       // myAccount.name
-                  //                       child: Text(
-                  //                         myAccount.name,
-                  //                         style: TextStyle(
-                  //                             fontWeight: FontWeight.bold),
-                  //                       ),
-                  //                     ),
-                  //                     Text(
-                  //                       "@${myAccount.userId}",
-                  //                       style: TextStyle(color: Colors.grey),
-                  //                     ),
-                  //                     Padding(
-                  //                       padding: const EdgeInsets.symmetric(
-                  //                           horizontal: 8.0),
-                  //                       // 日付
-                  //                       // postList: やあ＾＾やあ＾＾
-                  //                       child: Text(DateFormat('20yy/M/d H:m')
-                  //                           .format(postList[index]
-                  //                               .postTime!
-                  //                               .toDate())),
-                  //                     ), //year:month/day hour:minute
-                  //                   ]),
-                  //                   //Text(DateFormat('20yy/M/d H:m').format(postList[index].postTime!.toDate()))//year:month/day hour:minute
-                  //                 ],
-                  //               ),
-                  //               Text(postList[index].text),
-                  //             ],
-                  //           ),
-                  //         ),
-                  //       )
-                  //     ],
-                  //   ),
-                  // ),
-              ]),
+              builder: (context, appState, _) => Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    if (appState.loginState ==
+                        ApplicationLoginState.loggedIn) ...[
+                      PostList(
+                        addPost: (post) => appState.addPostToPostList(post),
+                        postList: appState.postList,
+                      ),
+                    ]
+                    // Container(
+                    //   decoration: BoxDecoration(
+                    //       border: Border(
+                    //               bottom:
+                    //                   BorderSide(color: Colors.grey, width: 0))),
+                    //   padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+                    //   child: Row(
+                    //     children: [
+                    //       CircleAvatar(
+                    //         radius: 30,
+                    //         foregroundImage: NetworkImage(myAccount.imagePath),
+                    //         backgroundColor: Colors.white,
+                    //       ),
+                    //       Expanded(
+                    //         child: Container(
+                    //           child: Column(
+                    //             children: [
+                    //               Row(
+                    //                 mainAxisAlignment:
+                    //                     MainAxisAlignment.spaceBetween,
+                    //                 children: [
+                    //                   Row(children: [
+                    //                     Padding(
+                    //                       padding: const EdgeInsets.symmetric(
+                    //                           horizontal: 2.0),
+                    //                       // myAccount.name
+                    //                       child: Text(
+                    //                         myAccount.name,
+                    //                         style: TextStyle(
+                    //                             fontWeight: FontWeight.bold),
+                    //                       ),
+                    //                     ),
+                    //                     Text(
+                    //                       "@${myAccount.userId}",
+                    //                       style: TextStyle(color: Colors.grey),
+                    //                     ),
+                    //                     Padding(
+                    //                       padding: const EdgeInsets.symmetric(
+                    //                           horizontal: 8.0),
+                    //                       // 日付
+                    //                       // postList: やあ＾＾やあ＾＾
+                    //                       child: Text(DateFormat('20yy/M/d H:m')
+                    //                           .format(postList[index]
+                    //                               .postTime!
+                    //                               .toDate())),
+                    //                     ), //year:month/day hour:minute
+                    //                   ]),
+                    //                   //Text(DateFormat('20yy/M/d H:m').format(postList[index].postTime!.toDate()))//year:month/day hour:minute
+                    //                 ],
+                    //               ),
+                    //               Text(postList[index].text),
+                    //             ],
+                    //           ),
+                    //         ),
+                    //       )
+                    //     ],
+                    //   ),
+                    // ),
+                  ]),
             ),
           ),
           Align(
@@ -206,7 +206,7 @@ class _TimeLinePageState extends State<TimeLinePage> {
                       // controller: 送信するメッセージ
                       if (controller.text.isNotEmpty) {
                         Post newPost = Post(
-                          id: myAccount.id,
+                          id: myAccount.internalId,
                           text: controller.text,
                           userId: myAccount.userId,
                           roomId: widget.subject.id,

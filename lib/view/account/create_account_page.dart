@@ -1,5 +1,8 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_testing/utils/authentication.dart';
+import 'package:flutter_testing/utils/firestore.dart';
+import 'dart:html';
 import 'package:image_picker_for_web/image_picker_for_web.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:image_picker_web/image_picker_web.dart';
@@ -7,6 +10,7 @@ import 'package:image_picker_web/image_picker_web.dart';
 import 'package:flutter_testing/utils/authentication.dart';
 import 'package:flutter_testing/utils/firestore.dart';
 import 'package:flutter_testing/model/account.dart';
+import 'dart:math' as math;
 
 class CreateAccountPage extends StatefulWidget {
   const CreateAccountPage({Key? key}) : super(key: key);
@@ -35,13 +39,20 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   TextEditingController emailController = TextEditingController();
   TextEditingController passController = TextEditingController();
 
-  TextEditingController gakubuController = TextEditingController();
+  //TextEditingController gakuikiController = TextEditingController();
   TextEditingController gakuruiController = TextEditingController();
-  TextEditingController gakkaController = TextEditingController();
+  TextEditingController kateiController = TextEditingController();
 
   TextEditingController kamoku1Controller = TextEditingController();
   TextEditingController kamoku2Controller = TextEditingController();
   TextEditingController kamoku3Controller = TextEditingController();
+
+  var random = math.Random();
+  var iconNum;
+
+  void AssignIconNumber() {
+    iconNum = random.nextInt(5);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,17 +71,17 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
           width: double.infinity,
           child: Column(
             children: [
-              SizedBox(height: 30),
-              GestureDetector(
-                /*onTap: (){
+              /*SizedBox(height: 30),
+            GestureDetector(
+              /*onTap: (){
                 getImageFromGallery();
               },*/
-                child: CircleAvatar(
-                  //foregroundImage: Ximage == null ? null: FileImage(Ximage),
-                  radius: 40,
-                  child: Icon(Icons.add),
-                ),
+              child: CircleAvatar(
+                //foregroundImage: Ximage == null ? null: FileImage(Ximage),
+                radius: 40,
+                child: Icon(Icons.add),
               ),
+            ),*/
               Container(
                 width: 300,
                 child: TextField(
@@ -83,27 +94,18 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               Container(
                 width: 300,
                 child: TextField(
-                  controller: userIdController,
+                  controller: gakuruiController,
                   decoration: InputDecoration(
-                    hintText: 'ユーザーID',
+                    hintText: '学類/学部',
                   ),
                 ),
               ),
               Container(
                 width: 300,
                 child: TextField(
-                  controller: gakubuController,
+                  controller: kateiController,
                   decoration: InputDecoration(
-                    hintText: '学部',
-                  ),
-                ),
-              ),
-              Container(
-                width: 300,
-                child: TextField(
-                  controller: gakkaController,
-                  decoration: InputDecoration(
-                    hintText: '学科',
+                    hintText: '課程/科',
                   ),
                 ),
               ),
@@ -155,25 +157,19 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               SizedBox(height: 50),
               ElevatedButton(
                 onPressed: () async {
-                  if (nameController.text.isEmpty) {
-                    Scaffold.of(context).showSnackBar(
-                      SnackBar(content: Text('名前を入力してください')),
-                    );
-                    return;
-                  }
                   if (userIdController.text.isEmpty) {
                     Scaffold.of(context).showSnackBar(
                       SnackBar(content: Text('ユーザーIDを入力してください')),
                     );
                     return;
                   }
-                  if (gakubuController.text.isEmpty) {
+                  if (gakuruiController.text.isEmpty) {
                     Scaffold.of(context).showSnackBar(
                       SnackBar(content: Text('学部を入力してください')),
                     );
                     return;
                   }
-                  if (gakkaController.text.isEmpty) {
+                  if (kateiController.text.isEmpty) {
                     Scaffold.of(context).showSnackBar(
                       SnackBar(content: Text('学科を入力してください')),
                     );
@@ -209,27 +205,31 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     );
                     return;
                   }
+                  AssignIconNumber();
+                  print(iconNum);
                   var result = await Authentication.signUp(
                       email: emailController.text, pass: passController.text);
-                  if (result == true) {
-                    // 前の page に戻る。
-                    // 今回の場合は、login_page.dart に遷移。
-                    Firestore.setAccount(Account(
-                        id: userIdController.text,
-                        userId: userIdController.text,
-                        name: nameController.text,
-                        undergraduate: [
-                          gakubuController.text,
-                          gakkaController.text
-                        ],
-                        // test by moyomogi
-                        subjectIds: [
-                          '15HiJNcV91Mi5qV0zmvF',
-                          '5n0A7c3Ek2lLc7gMSguu'
-                        ],
-                        imagePath: ''));
-
-                    Navigator.pop(context);
+                  if (result is UserCredential) {
+                    Account newAccount = Account(
+                      internalId: result.user!.uid,
+                      userId: userIdController.text,
+                      name: nameController.text,
+                      undergraduate: [
+                        gakuruiController.text,
+                        kateiController.text
+                      ],
+                      subjectIds: [
+                        kamoku1Controller.text,
+                        kamoku2Controller.text,
+                        kamoku3Controller.text
+                      ], //ここsubjectListでidに変更したい
+                      imagePath:
+                          "assets/Icons/Icon_" + iconNum.toString() + ".png",
+                    );
+                    var _result = await Firestore.setUser(newAccount);
+                    if (_result == true) {
+                      Navigator.pop(context);
+                    }
                   }
                 },
                 child: Text('アカウントを作成'),

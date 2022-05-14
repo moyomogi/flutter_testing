@@ -1,6 +1,6 @@
 class Account {
   Account({
-    this.id = '',
+    this.internalId = '',
     this.userId = '',
     this.name = '',
     this.undergraduate = const [],
@@ -8,7 +8,7 @@ class Account {
     this.imagePath = '',
   });
 
-  String id; //FireStoreで管理用
+  String internalId; //FireStoreで管理用
   String userId;
   String name; //ユーザー名
   List<String> undergraduate; //Listにしてぇ～

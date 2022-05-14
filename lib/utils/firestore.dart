@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_testing/main.dart';
 import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/model/post.dart';
+import 'package:flutter_testing/model/subject.dart';
+import 'package:flutter_testing/utils/authentication.dart';
 
 //todo ルームに入るときにroomIdごとにPost取得してPostList作成する
 //todo subjectListをFirestoreから取得
@@ -18,41 +20,52 @@ class Firestore {
   static final subjectsRef = _firestoreInstance.collection('subjects');
   static final postsRef = _firestoreInstance.collection('posts');
 
-  static Future<void> setAccount(Account newAccount) async {
+  static Future<dynamic> setUser(Account newAccount) async {
     // ApplicationState.myAccount = newAccount;
     try {
-      final docRef = await userRef.add({});
-      debugPrint(docRef.id);
-      await userRef.doc(docRef.id).set({
-        'id': docRef.id,
-        'userId': newAccount.userId, // yatapngn
+      /*final docId = await userRef.add({});
+      print(docId.id);*/
+      await userRef.doc(newAccount.internalId).set({
+        'internalId': newAccount.internalId,
+        'userid': newAccount.userId,
         'name': newAccount.name,
         'imagePath': newAccount.imagePath,
         'undergraduate': newAccount.undergraduate,
         'subjectIds': newAccount.subjectIds,
       });
-      debugPrint("新アカウント作成完了");
+      print("新アカウント作成完了");
+      return true;
     } catch (e) {
-      debugPrint("アカウント作成に失敗しました");
+      print("アカウント作成に失敗しました");
+      return false;
     }
   }
 
-  // Future<void> getUser(String id) async {
-  //   try {
-  //     DocumentSnapshot documentSnapshot = await userRef.doc(id).get();
-  //     Map<String, dynamic> data =
-  //         documentSnapshot.data() as Map<String, dynamic>;
-  //     myAccount = Account(
-  //         id: id,
-  //         userId: data['userId'],
-  //         imagePath: data['imagePath'],
-  //         undergraduate: data['undergraduate'],
-  //         subjectIds: data['subjectIds']);
-  //   } catch (e) {
-  //     debugPrint("ユーザー取得失敗");
-  //   }
-  //   // return myAccount;
-  // }
+  static Future<dynamic> getUser(String internalId) async {
+    try {
+      DocumentSnapshot documentSnapshot = await userRef.doc(internalId).get();
+      print("documentSnapshot: $documentSnapshot");
+      Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+      print("data: $data");
+      List<String> undergraduate = List<String>.from(data['undergraduate'] as List);
+      List<String> subjectIds = List<String>.from(data['subjectIds'] as List);
+
+      Account _myAccount = Account(
+          internalId: data['internalId'],
+          name: data['name'],
+          userId: data['userid'],
+          undergraduate: undergraduate,
+          subjectIds: subjectIds,
+          imagePath: data['imagePath'],
+      );
+      Authentication.myAccount = _myAccount;
+      print("ユーザー取得完了");
+      return true;
+    } on FirebaseException catch (e) {
+      print("ユーザー取得失敗: $e");
+      return false;
+    }
+  }
 
   static Future<void> addPost(Post newPost) async {
     try {

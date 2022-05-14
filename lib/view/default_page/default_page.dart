@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/model/subject.dart';
+import 'package:flutter_testing/utils/authentication.dart';
 import 'package:flutter_testing/view/time_line_page/time_line_page.dart';
 
 class DefaultPage extends StatefulWidget {
@@ -12,18 +13,10 @@ class DefaultPage extends StatefulWidget {
 }
 
 class _DefaultPageState extends State<DefaultPage> {
+  Account myAccount = Authentication.myAccount!;
+
   @override
   Widget build(BuildContext context) {
-    Account myAccount = Account(
-      id: '1',
-      name: 'やたぺんぎん',
-      userId: 'yatapngn',
-      undergraduate: ["工学域", "電気電子系学類", "情報工学課程"],
-      subjectIds: ['1', '2'],
-      imagePath:
-          'https://1.bp.blogspot.com/-_CVATibRMZQ/XQjt4fzUmjI/AAAAAAABTNY/nprVPKTfsHcihF4py1KrLfIqioNc_c41gCLcBGAs/s800/animal_chara_smartphone_penguin.png',
-    );
-
     List<Subject> subjetList = [
       Subject(
           id: '15HiJNcV91Mi5qV0zmvF',
@@ -57,16 +50,19 @@ class _DefaultPageState extends State<DefaultPage> {
           grade: 3)
     ];
 
-    List<int> appropriateIndices =
-        []; //accountのsubjects_idに合致したsubjectListのindexを以下のfor文で格納O(n^2)
+    // accountのsubjects_idに合致したsubjectListのindexを以下のfor文で格納O(n^2)
+    // 長さ myAccount.subjectIds.length の List
+    List<int> appropriateIndices = List.filled(myAccount.subjectIds.length, -1);
 
     for (int i = 0; i < myAccount.subjectIds.length; i++) {
       for (int j = 0; j < subjetList.length; j++) {
         if (subjetList[j].id == myAccount.subjectIds[i]) {
-          appropriateIndices.add(j);
-        } else {
-          debugPrint("Inappropriate です！");
+          appropriateIndices[i] = j;
+          break;
         }
+      }
+      if (appropriateIndices[i] == -1) {
+        debugPrint("Inappropriate です！");
       }
     }
     appropriateIndices.sort((a, b) => a.compareTo(b));
