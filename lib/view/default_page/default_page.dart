@@ -6,15 +6,14 @@ import 'package:flutter_testing/utils/authentication.dart';
 import 'package:flutter_testing/view/time_line_page/time_line_page.dart';
 
 class DefaultPage extends StatefulWidget {
-  const DefaultPage({Key? key}) : super(key: key);
+  final Account myAccount;
+  const DefaultPage(this.myAccount);
 
   @override
   State<DefaultPage> createState() => _DefaultPageState();
 }
 
 class _DefaultPageState extends State<DefaultPage> {
-
-  Account myAccount = Authentication.myAccount!;
 
   @override
   Widget build(BuildContext context) {
@@ -56,9 +55,9 @@ class _DefaultPageState extends State<DefaultPage> {
     List<int> appropriateIndices =
         []; //accountのsubjects_idに合致したsubjectListのindexを以下のfor文で格納O(n^2)
 
-    for (int i = 0; i < myAccount.subjectIds.length; i++) {
+    for (int i = 0; i < widget.myAccount.subjectIds.length; i++) {
       for (int j = 0; j < subjetList.length; j++) {
-        if (subjetList[j].id == myAccount.subjectIds[i]) {
+        if (subjetList[j].id == widget.myAccount.subjectIds[i]) {
           appropriateIndices.add(j);
         } else {
           debugPrint("Inappropriate");
@@ -90,7 +89,7 @@ class _DefaultPageState extends State<DefaultPage> {
                   MaterialPageRoute(
                       // time_line_page.dart に遷移。
                       builder: (context) =>
-                          TimeLinePage(subjetList[appropriateIndices[index]])));
+                          TimeLinePage(subjetList[appropriateIndices[index]],widget.myAccount)));
             },
             child: Column(
               children: [

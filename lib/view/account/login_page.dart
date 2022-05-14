@@ -367,7 +367,7 @@ class _SignInForm extends StatelessWidget {
                 print(result.user!.uid);
                 var _result = await Firestore.getUser(result.user!.uid);
                 if(_result == true){
-                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Screen()));
+                  Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => Screen(0)));
                 }
                 print("サインイン成功、別の画面飛ぶ");
               }

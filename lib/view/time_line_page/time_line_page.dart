@@ -10,23 +10,16 @@ import 'package:intl/intl.dart';
 
 class TimeLinePage extends StatefulWidget {
   final Subject subject;
+  final Account myAccount;
   // 以前のページである default_page.dart の情報を this.subject として引き継ぎ。
-  TimeLinePage(this.subject);
+  TimeLinePage(this.subject,this.myAccount);
 
   @override
   State<TimeLinePage> createState() => _TimeLinePageState();
 }
 
 class _TimeLinePageState extends State<TimeLinePage> {
-  Account myAccount = Account(
-    internalId: '1',
-    name: 'やたぺんぎん',
-    userId: 'yatapngn',
-    undergraduate: ["工学域", "電気電子系学類", "情報工学課程"],
-    subjectIds: ['0', '1'],
-    imagePath:
-        'https://1.bp.blogspot.com/-_CVATibRMZQ/XQjt4fzUmjI/AAAAAAABTNY/nprVPKTfsHcihF4py1KrLfIqioNc_c41gCLcBGAs/s800/animal_chara_smartphone_penguin.png',
-  );
+  
 
   List<Post> postList = [
     Post(
@@ -122,7 +115,7 @@ class _TimeLinePageState extends State<TimeLinePage> {
                       children: [
                         CircleAvatar(
                           radius: 30,
-                          foregroundImage: NetworkImage(myAccount.imagePath),
+                          foregroundImage: NetworkImage(widget.myAccount.imagePath),
                           backgroundColor: Colors.white,
                         ),
                         Expanded(
@@ -139,13 +132,13 @@ class _TimeLinePageState extends State<TimeLinePage> {
                                             horizontal: 2.0),
                                         // myAccount.name
                                         child: Text(
-                                          myAccount.name,
+                                          widget.myAccount.name,
                                           style: TextStyle(
                                               fontWeight: FontWeight.bold),
                                         ),
                                       ),
                                       Text(
-                                        "@${myAccount.userId}",
+                                        "@${widget.myAccount.userId}",
                                         style: TextStyle(color: Colors.grey),
                                       ),
                                       Padding(
@@ -200,7 +193,7 @@ class _TimeLinePageState extends State<TimeLinePage> {
                       if (controller.text.isNotEmpty) {
                         Post newPost = Post(
                           text: controller.text,
-                          userId: myAccount.internalId,
+                          userId: widget.myAccount.internalId,
                           roomId: widget.subject.id,
                         );
                         await Firestore.addPost(newPost);
