@@ -6,10 +6,10 @@ class Subject {
   int grade;
 
   Subject({
-    this.id = '',
-    this.name = '',
-    required this.professors,
-    required this.dayOfTheWeek,
+    required this.id,
+    required this.name,
+    this.professors = const ['None'],
+    this.dayOfTheWeek = const ['None'],
     this.grade = 0,
   });
 }

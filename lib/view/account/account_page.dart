@@ -23,12 +23,12 @@ class _AccountPageState extends State<AccountPage> {
   //TextEditingController gakuikiController = TextEditingController();
   TextEditingController kateiController = TextEditingController();
 
-  bool isCheaked0 = false;
-  bool isCheaked1 = false;
-  bool isCheaked2 = false;
-  bool isCheaked3 = false;
-  bool isCheaked4 = false;
-  List<Subject> subjectList = Vars.subjectList;
+  bool isChecked0 = false;
+  bool isChecked1 = false;
+  bool isChecked2 = false;
+  bool isChecked3 = false;
+  bool isChecked4 = false;
+  List<Subject> subjectList = Vars.subjectList!;
   List<String> kamokuIdList = [];
   //Account myAccount = Vars.myAccount!;
 
@@ -36,14 +36,14 @@ class _AccountPageState extends State<AccountPage> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    List<Subject> subjectList = Vars.subjectList;
+    List<Subject> subjectList = Vars.subjectList!;
     nameController = TextEditingController(text: widget.myAccount.name);
     userIdController = TextEditingController(text: widget.myAccount.userId);
     gakuikiController =
         TextEditingController(text: widget.myAccount.undergraduate[0]);
     kateiController =
         TextEditingController(text: widget.myAccount.undergraduate[1]);
-    List<bool> flag = [false,false,false,false,false];
+    List<bool> flag = [false, false, false, false, false];
 
     /*for (var i = 0;
         i < subjectList.length;
@@ -54,14 +54,12 @@ class _AccountPageState extends State<AccountPage> {
             }
           }
         } //ここの処理 idから名前に変換してどうすんだろ
-
-    if(flag[0] == true) isCheaked0 = true;
-    if(flag[1] == true) isCheaked1 = true;
-    if(flag[2] == true) isCheaked2 = true;
-    if(flag[3] == true) isCheaked3 = true;
-    if(flag[4] == true) isCheaked4 = true;*/
+    if(flag[0] == true) isChecked0 = true;
+    if(flag[1] == true) isChecked1 = true;
+    if(flag[2] == true) isChecked2 = true;
+    if(flag[3] == true) isChecked3 = true;
+    if(flag[4] == true) isChecked4 = true;*/
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -150,104 +148,92 @@ class _AccountPageState extends State<AccountPage> {
                   ),
                 ),
                 Container(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Checkbox(
-                          value: isCheaked0, 
-                          onChanged: (value){
-                            setState(() {
-                              isCheaked0 = value!;
-                            });
-                          }
-                        ),
-                        Text(subjectList[0].name),
-                      ]
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Checkbox(
-                          value: isCheaked1, 
-                          onChanged: (value){
-                            setState(() {
-                              isCheaked1 = value!;
-                            });
-                          }
-                        ),
-                        Text(subjectList[1].name),
-                      ]
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Checkbox(
-                          value: isCheaked2, 
-                          onChanged: (value){
-                            setState(() {
-                              isCheaked2 = value!;
-                            });
-                          }
-                        ),
-                        Text(subjectList[2].name),
-                      ]
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Checkbox(
-                          value: isCheaked3, 
-                          onChanged: (value){
-                            setState(() {
-                              isCheaked3 = value!;
-                            });
-                          }
-                        ),
-                        Text(subjectList[3].name),
-                      ]
-                    ),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Checkbox(
-                          value: isCheaked4, 
-                          onChanged: (value){
-                            setState(() {
-                              isCheaked4 = value!;
-                            });
-                          }
-                        ),
-                        Text(subjectList[4].name),
-                      ]
-                    ),
-                  ],
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Checkbox(
+                                value: isChecked0,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isChecked0 = value!;
+                                  });
+                                }),
+                            Text(subjectList[0].name),
+                          ]),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Checkbox(
+                                value: isChecked1,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isChecked1 = value!;
+                                  });
+                                }),
+                            Text(subjectList[1].name),
+                          ]),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Checkbox(
+                                value: isChecked2,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isChecked2 = value!;
+                                  });
+                                }),
+                            Text(subjectList[2].name),
+                          ]),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Checkbox(
+                                value: isChecked3,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isChecked3 = value!;
+                                  });
+                                }),
+                            Text(subjectList[3].name),
+                          ]),
+                      Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Checkbox(
+                                value: isChecked4,
+                                onChanged: (value) {
+                                  setState(() {
+                                    isChecked4 = value!;
+                                  });
+                                }),
+                            Text(subjectList[4].name),
+                          ]),
+                    ],
+                  ),
                 ),
-              ),
                 SizedBox(height: 50),
                 ElevatedButton(
                   onPressed: () async {
                     if (nameController.text.isNotEmpty &&
                         userIdController.text.isNotEmpty &&
                         gakuikiController.text.isNotEmpty &&
-                        kateiController.text.isNotEmpty
-                        ) {
-
-                      if(isCheaked0 == true){
+                        kateiController.text.isNotEmpty) {
+                      if (isChecked0 == true) {
                         kamokuIdList.add(subjectList[0].id);
                       }
-                      if(isCheaked1 == true){
+                      if (isChecked1 == true) {
                         kamokuIdList.add(subjectList[1].id);
                       }
-                      if(isCheaked2 == true){
+                      if (isChecked2 == true) {
                         kamokuIdList.add(subjectList[2].id);
                       }
-                      if(isCheaked3 == true){
+                      if (isChecked3 == true) {
                         kamokuIdList.add(subjectList[3].id);
                       }
-                      if(isCheaked4 == true){
+                      if (isChecked4 == true) {
                         kamokuIdList.add(subjectList[4].id);
                       }
                       Account updateAccount = Account(
@@ -263,7 +249,7 @@ class _AccountPageState extends State<AccountPage> {
                       Vars.myAccount = updateAccount;
                       var result = await Fire.updateUser(updateAccount);
                       if (result == true) {
-                        debugPrint("DefaultPageに遷移");
+                        print("DefaultPageに遷移");
                         Navigator.pushReplacement(context,
                             MaterialPageRoute(builder: (context) => Screen(0)));
                       }

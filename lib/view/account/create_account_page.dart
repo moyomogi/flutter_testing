@@ -61,18 +61,18 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   bool isCheaked2 = false;
   bool isCheaked3 = false;
   bool isCheaked4 = false;
-  List<Subject> subjectList = Vars.subjectList;
+  List<Subject> subjectList = Vars.subjectList!;
   List<String> kamokuIdList = [];
 
-  @override
-  void initState() {
-    super.initState();
-    Future(() async {
-      print(Vars.subjectIds);
-      //await Firestore.getsubjectList(Vars.subjectIds!);
-      //print(Vars.subjectList!);
-    });
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   Future(() async {
+  //     print(Vars.subjectIds!);
+  //     //await Firestore.getsubjectList(Vars.subjectIds!);
+  //     //print(Vars.subjectList!);
+  //   });
+  // }
 
   @override
   Widget build(BuildContext context) {

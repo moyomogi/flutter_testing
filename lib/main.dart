@@ -4,7 +4,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_testing/model/subject.dart';
-import 'package:flutter_testing/utils/firestore.dart';
+import 'package:flutter_testing/utils/fire.dart';
 import 'package:flutter_testing/utils/vars.dart';
 import 'package:image_picker_for_web/image_picker_for_web.dart';
 import 'package:intl/date_symbol_data_local.dart';
@@ -45,7 +45,7 @@ void main() async {
   // 【Flutter】現在日時を日本語で取得する
   // https://zenn.dev/kenara/articles/7f93790003da50
   // DateFormat.yMMMMEEEEd('ja').format(DateTime.now()).toString() が使えるようになる。
-  Firestore.getsubjectIds();
+  // Fire.getSubjectIds();
   initializeDateFormatting('fr_FR', null).then((_) => runApp(const MyApp()));
 }
 //todo の追加
@@ -94,7 +94,7 @@ class ApplicationState extends ChangeNotifier {
       options: DefaultFirebaseOptions.currentPlatform,
     );
 
-    Firestore.getsubjectList(Firestore.getsubjectIds() as List<String>);
+    // Fire.getsubjectList(Fire.getSubjectIds() as List<String>);
 
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {
