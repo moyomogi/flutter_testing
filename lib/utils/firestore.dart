@@ -168,34 +168,47 @@ class Firestore {
   }
   }
 
-  static Future<List<Subject>> getSubjectList(List<String> subjectIds) async {
-    List<Subject> subjectList = [];
-    try {
-      // Get all rooms whose subject is contained in the subjectIds.
-      FirebaseFirestore.instance
-          .collection('subjects')
-          .where('subjectId', whereIn: subjectIds)
-          .orderBy('postTime', descending: true)
-          .snapshots()
-          .listen((snapshot) {
-        for (final doc in snapshot.docs) {
-          subjectList.add(
-            Subject(
-              id: doc.data()['id'] as String,
-              name: doc.data()['name'] as String,
-              professors: doc.data()['professors'] as List<String>,
-              dayOfTheWeek: doc.data()['dayOfTheWeek'] as List<String>,
-              grade: doc.data()['grade'] as int,
-            ),
-          );
-        }
+  static Future<List<String>?> getsubjectIds() async{
+    List<String> subjectIds = [];
+    try{
+      await Firestore._firestoreInstance.collection('subjects').get().then((QuerySnapshot snapshot) {
+         snapshot.docs.forEach((doc) {
+           subjectIds.add(doc.id);
+          });
       });
-    } on FirebaseException catch (_) {
-      debugPrint("posts 取得エラー");
+      Vars.subjectIds = subjectIds;
+      return subjectIds;
+    } on FirebaseException catch(e){
+      return null;
     }
-    return subjectList;
-    }
+  }
 
+  static Future<List<Subject>?> getsubjectList(List<String> subjectIds) async{
+
+    List<Subject> subjectList = [];
+    try{
+      await Future.forEach(subjectIds, (String sId) async{
+        var _data = await usersRef.doc(sId).get();
+        Map<String,dynamic> data = _data.data() as Map<String, dynamic>;
+        List<String> professors = List<String>.from(data['professors'] as List);
+        List<String> dayOfTheWeek = List<String>.from(data['dayOfTheWeek'] as List);
+
+        Subject subject = Subject(
+          id : sId,
+          name : data['name'],
+          grade: data['grade'],
+          professors: professors,
+          dayOfTheWeek: dayOfTheWeek,
+        );
+
+        subjectList.add(subject);
+      });
+      Vars.subjectList = subjectList;
+      return subjectList;
+    } on FirebaseException catch(e){
+      return null;
+    }
+  }
 }
 
 
