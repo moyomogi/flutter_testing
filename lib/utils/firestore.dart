@@ -1,3 +1,6 @@
+// async
+import 'dart:async';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
@@ -5,7 +8,7 @@ import 'package:flutter_testing/main.dart';
 import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/model/post.dart';
 import 'package:flutter_testing/model/subject.dart';
-import 'package:flutter_testing/utils/authentication.dart';
+import 'package:flutter_testing/utils/vars.dart';
 
 //todo ルームに入るときにroomIdごとにPost取得してPostList作成する
 //todo subjectListをFirestoreから取得
@@ -14,18 +17,19 @@ import 'package:flutter_testing/utils/authentication.dart';
 //todo ソフトウェア工学第4回課題
 //todo GithubDesktopの記事書く
 
+// 【async 関数置き場】
 class Firestore {
   static final _firestoreInstance = FirebaseFirestore.instance;
-  static final userRef = _firestoreInstance.collection('users');
+  static final usersRef = _firestoreInstance.collection('users');
   static final subjectsRef = _firestoreInstance.collection('subjects');
   static final postsRef = _firestoreInstance.collection('posts');
 
   static Future<dynamic> setUser(Account newAccount) async {
     // ApplicationState.myAccount = newAccount;
     try {
-      /*final docId = await userRef.add({});
+      /*final docId = await usersRef.add({});
       print(docId.id);*/
-      await userRef.doc(newAccount.internalId).set({
+      await usersRef.doc(newAccount.internalId).set({
         'internalId': newAccount.internalId,
         'userid': newAccount.userId,
         'name': newAccount.name,
@@ -43,22 +47,23 @@ class Firestore {
 
   static Future<dynamic> getUser(String internalId) async {
     try {
-      DocumentSnapshot documentSnapshot = await userRef.doc(internalId).get();
+      DocumentSnapshot documentSnapshot = await usersRef.doc(internalId).get();
       print("documentSnapshot: $documentSnapshot");
-      Map<String, dynamic> data = documentSnapshot.data() as Map<String, dynamic>;
+      Map<String, dynamic> data =
+          documentSnapshot.data() as Map<String, dynamic>;
       print("data: $data");
-      List<String> undergraduate = List<String>.from(data['undergraduate'] as List);
+      List<String> undergraduate =
+          List<String>.from(data['undergraduate'] as List);
       List<String> subjectIds = List<String>.from(data['subjectIds'] as List);
 
-      Account _myAccount = Account(
-          internalId: data['internalId'],
-          name: data['name'],
-          userId: data['userid'],
-          undergraduate: undergraduate,
-          subjectIds: subjectIds,
-          imagePath: data['imagePath'],
+      Vars.myAccount = Account(
+        internalId: data['internalId'],
+        name: data['name'],
+        userId: data['userid'],
+        undergraduate: undergraduate,
+        subjectIds: subjectIds,
+        imagePath: data['imagePath'],
       );
-      Authentication.myAccount = _myAccount;
       print("ユーザー取得完了");
       return true;
     } on FirebaseException catch (e) {
@@ -72,6 +77,7 @@ class Firestore {
       final docRef = await postsRef.add({});
       await postsRef.doc(docRef.id).set({
         'id': docRef.id,
+        'name': newPost.userId,
         'userId': newPost.userId,
         'roomId': newPost.roomId,
         'text': newPost.text,
@@ -102,7 +108,7 @@ class Firestore {
         // - text: String
         // - userId: String
         for (final doc in snapshot.docs) {
-          _postList.add(
+          postList.add(
             Post(
               id: doc.data()['id'] as String,
               postTime: doc.data()['postTime'] as Timestamp,
@@ -111,17 +117,6 @@ class Firestore {
               userId: doc.data()['userId'] as String,
             ),
           );
-          // snapshot.docs.forEach((doc) {
-          //   _postList.add(
-          //     Post(
-          //       id: doc.data()['id'] as int,
-          //       postTime: doc.data()['postTime'] as String,
-          //       roomId: doc.data()['roomId'] as int,
-          //       text: doc.data()['text'] as String,
-          //       userId: doc.data()['userId'] as int,
-          //     ),
-          //   );
-          //   );
         }
       });
     } on FirebaseException catch (_) {
@@ -130,29 +125,29 @@ class Firestore {
     return _postList;
   }*/
 
-  static Future<dynamic> updateUser(Account updateAccount) async{
-    try{
-      
-      userRef.doc(updateAccount.internalId).update({
+  static Future<dynamic> updateUser(Account updateAccount) async {
+    try {
+      usersRef.doc(updateAccount.internalId).update({
         'name': updateAccount.name,
-        'userId':updateAccount.userId,
+        'userId': updateAccount.userId,
         'undergraduate': updateAccount.undergraduate,
         'subjectIds': updateAccount.subjectIds,
       });
       print("アカウントの情報更新");
       return true;
-    } on FirebaseException catch(e){
+    } on FirebaseException catch (e) {
       print("アカウントの情報更新失敗");
       return false;
     }
   }
+  
   //部屋に参加してツイートしてる垢のMap
   static Future<Map<String,Account>?> getPostUserMap(List<String> internalIds) async{
   Map<String,Account> map = {};
   try{
     await Future.forEach(internalIds, (String internalId) async{
-      var doc = await userRef.doc(internalId).get();
-      Map<String,dynamic> data = doc.data() as Map<String, dynamic>;
+      var _data = await usersRef.doc(internalId).get();
+      Map<String,dynamic> data = _data.data() as Map<String, dynamic>;
       List<String> undergraduate = List<String>.from(data['undergraduate'] as List);
       List<String> subjectIds = List<String>.from(data['subjectIds'] as List);
       Account postAccount = Account(
@@ -171,7 +166,49 @@ class Firestore {
     print('投稿ユーザーの情報取得エラー');
     return null;
   }
-}
+  }
+
+  static Future<List<String>?> getsubjectIds() async{
+    List<String> subjectIds = [];
+    try{
+      await Firestore._firestoreInstance.collection('subjects').get().then((QuerySnapshot snapshot) {
+         snapshot.docs.forEach((doc) {
+           subjectIds.add(doc.id);
+          });
+      });
+      Vars.subjectIds = subjectIds;
+      return subjectIds;
+    } on FirebaseException catch(e){
+      return null;
+    }
+  }
+
+  static Future<List<Subject>?> getsubjectList(List<String> subjectIds) async{
+
+    List<Subject> subjectList = [];
+    try{
+      await Future.forEach(subjectIds, (String sId) async{
+        var _data = await usersRef.doc(sId).get();
+        Map<String,dynamic> data = _data.data() as Map<String, dynamic>;
+        List<String> professors = List<String>.from(data['professors'] as List);
+        List<String> dayOfTheWeek = List<String>.from(data['dayOfTheWeek'] as List);
+
+        Subject subject = Subject(
+          id : sId,
+          name : data['name'],
+          grade: data['grade'],
+          professors: professors,
+          dayOfTheWeek: dayOfTheWeek,
+        );
+
+        subjectList.add(subject);
+      });
+      Vars.subjectList = subjectList;
+      return subjectList;
+    } on FirebaseException catch(e){
+      return null;
+    }
+  }
 }
 
 

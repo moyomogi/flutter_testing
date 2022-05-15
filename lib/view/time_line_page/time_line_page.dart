@@ -7,7 +7,7 @@ import 'package:provider/provider.dart';
 
 import 'package:flutter_testing/main.dart';
 import 'package:flutter_testing/model/subject.dart';
-import 'package:flutter_testing/utils/authentication.dart';
+import 'package:flutter_testing/utils/vars.dart';
 import 'package:flutter_testing/utils/firestore.dart';
 import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/model/post.dart';
@@ -17,14 +17,13 @@ class TimeLinePage extends StatefulWidget {
   // 以前のページである default_page.dart の情報を this.subject として引き継ぎ。
   const TimeLinePage(this.subject);
 
-
   @override
   _TimeLinePageState createState() => _TimeLinePageState();
 }
 
 class _TimeLinePageState extends State<TimeLinePage> {
   
-  Account myAccount = Authentication.myAccount!;
+  Account myAccount = Vars.myAccount!;
   TextEditingController controller = TextEditingController(); //送信するメッセージを格納
 
 
@@ -50,15 +49,15 @@ class _TimeLinePageState extends State<TimeLinePage> {
               builder: (context, postSnapshot) {
                 if(postSnapshot.hasData){
                   print("postSnapshot.hasData");
-                  List<String> postAccountsId = [];
+                  List<String> postAccountsIds = [];
                   postSnapshot.data!.docs.forEach((doc) {
                     Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
-                    if(!postAccountsId.contains(data['userId'])){
-                      postAccountsId.add(data['userId']);
+                    if(!postAccountsIds.contains(data['userId'])){
+                      postAccountsIds.add(data['userId']);
                     }
                   });
                   return FutureBuilder<Map<String,Account>?>(
-                    future: Firestore.getPostUserMap(postAccountsId),
+                    future: Firestore.getPostUserMap(postAccountsIds),
                     builder: (context, userSnapshot) {
                       if(userSnapshot.hasData && userSnapshot.connectionState == ConnectionState.done){
                         return ListView.builder(

@@ -3,7 +3,6 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_testing/model/account.dart';
 import 'package:flutter/material.dart';
 
-
 enum ApplicationLoginState {
   loggedOut,
   emailAddress,
@@ -14,15 +13,16 @@ enum ApplicationLoginState {
 
 class Authentication {
   static final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  static User? currentFirebaseUser;
-  static Account? myAccount;
+  static User? curFirebaseUser;
 
-  static Future<dynamic> signUp({required String email,required String pass}) async{
-    try{
-      final UserCredential _result = await _firebaseAuth.createUserWithEmailAndPassword(email: email, password: pass);
+  static Future<dynamic> signUp(
+      {required String email, required String pass}) async {
+    try {
+      final UserCredential _result = await _firebaseAuth
+          .createUserWithEmailAndPassword(email: email, password: pass);
       debugPrint("auth signup完了//outh signではない");
       return _result;
-    } on FirebaseAuthException catch(_){
+    } on FirebaseAuthException catch (_) {
       debugPrint("auth error");
       return false;
     }
@@ -33,12 +33,12 @@ class Authentication {
     try {
       final UserCredential _result = await _firebaseAuth
           .signInWithEmailAndPassword(email: email, password: pass);
-      currentFirebaseUser = _result.user;
-      debugPrint("currentFirebaseUser");
-      debugPrint(currentFirebaseUser!.uid);
+      curFirebaseUser = _result.user;
+      debugPrint("curFirebaseUser");
+      debugPrint(curFirebaseUser!.uid);
       debugPrint('auth signin');
       return _result;
-    } on FirebaseAuthException catch(e){
+    } on FirebaseAuthException catch (_) {
       debugPrint("auth signin error");
       return false;
     }
