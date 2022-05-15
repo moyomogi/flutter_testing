@@ -22,7 +22,9 @@ class _DefaultPageState extends State<DefaultPage> {
   @override
   Widget build(BuildContext context) {
     List<Subject> subjectList = Vars.subjectList!;
-    debugPrint('(_DefaultPageState) subjectList: $subjectList');
+    for (Subject subject in subjectList) {
+      debugPrint('(_DefaultPageState) subject.name: ${subject.name}');
+    }
     // List<Subject> subjectList = [
     //   Subject(
     //       id: '15HiJNcV91Mi5qV0zmvF',
