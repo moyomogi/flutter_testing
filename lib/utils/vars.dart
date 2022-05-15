@@ -1,5 +1,6 @@
 import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/model/post.dart';
+import 'package:flutter_testing/utils/firestore.dart';
 import 'package:flutter_testing/model/subject.dart';
 
 // 【グローバル変数置き場】

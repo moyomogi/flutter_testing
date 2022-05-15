@@ -4,6 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter_testing/model/subject.dart';
+import 'package:flutter_testing/utils/firestore.dart';
+import 'package:flutter_testing/utils/vars.dart';
+import 'package:image_picker_for_web/image_picker_for_web.dart';
 import 'package:intl/date_symbol_data_local.dart';
 import 'package:provider/provider.dart';
 
@@ -19,6 +22,7 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
+
   /*Account newAccount = Account(
 
     name: 'やたぺんぎん',
@@ -41,6 +45,7 @@ void main() async {
   // 【Flutter】現在日時を日本語で取得する
   // https://zenn.dev/kenara/articles/7f93790003da50
   // DateFormat.yMMMMEEEEd('ja').format(DateTime.now()).toString() が使えるようになる。
+  Firestore.getsubjectIds();
   initializeDateFormatting('fr_FR', null).then((_) => runApp(const MyApp()));
 }
 //todo の追加
@@ -51,6 +56,7 @@ class MyApp extends StatelessWidget {
 
   // This widget is the root of your application.
   @override
+
   Widget build(BuildContext context) {
     //nisk branch作ったよ
     return MaterialApp(
@@ -62,6 +68,8 @@ class MyApp extends StatelessWidget {
       home: LoginPage(),
     );
   }
+
+
 }
 
 // class Singleton {
@@ -80,9 +88,13 @@ class ApplicationState extends ChangeNotifier {
   }
 
   Future<void> init() async {
+
+
     await Firebase.initializeApp(
       options: DefaultFirebaseOptions.currentPlatform,
     );
+
+    Firestore.getsubjectList(Firestore.getsubjectIds() as List<String>);
 
     FirebaseAuth.instance.userChanges().listen((user) {
       if (user != null) {

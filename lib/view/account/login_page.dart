@@ -22,6 +22,7 @@ class LoginPage extends StatelessWidget {
   const LoginPage({Key? key}) : super(key: key);
 
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kBackgroundColor,
@@ -79,6 +80,7 @@ class _HeaderBackground extends StatelessWidget {
   }) : super(key: key);
 
   @override
+
   Widget build(BuildContext context) {
     return ClipPath(
       clipper: _HeaderCurveClipper(),
