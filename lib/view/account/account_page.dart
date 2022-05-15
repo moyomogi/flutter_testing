@@ -23,34 +23,45 @@ class _AccountPageState extends State<AccountPage> {
   //TextEditingController gakuikiController = TextEditingController();
   TextEditingController kateiController = TextEditingController();
 
-  TextEditingController kamoku1Controller = TextEditingController();
-  TextEditingController kamoku2Controller = TextEditingController();
-  TextEditingController kamoku3Controller = TextEditingController();
-
+  bool isCheaked0 = false;
+  bool isCheaked1 = false;
+  bool isCheaked2 = false;
+  bool isCheaked3 = false;
+  bool isCheaked4 = false;
+  List<Subject> subjectList = Vars.subjectList;
+  List<String> kamokuIdList = [];
   //Account myAccount = Vars.myAccount!;
 
   @override
   void initState() {
     // TODO: implement initState
     super.initState();
+    List<Subject> subjectList = Vars.subjectList;
     nameController = TextEditingController(text: widget.myAccount.name);
     userIdController = TextEditingController(text: widget.myAccount.userId);
     gakuikiController =
         TextEditingController(text: widget.myAccount.undergraduate[0]);
     kateiController =
         TextEditingController(text: widget.myAccount.undergraduate[1]);
+    List<bool> flag = [false,false,false,false,false];
 
-    for (var i = 0;
-        i < widget.myAccount.subjectIds.length;
-        i++) {} //ここの処理 idから名前に変換してどうすんだろ
+    /*for (var i = 0;
+        i < subjectList.length;
+        i++) {
+          for(var j=0;i<widget.myAccount.subjectIds.length;j++){
+            if(subjectList[i].id == widget.myAccount.subjectIds[j]){
+              flag[i] == true;
+            }
+          }
+        } //ここの処理 idから名前に変換してどうすんだろ
 
-    kamoku1Controller =
-        TextEditingController(text: widget.myAccount.subjectIds[0]);
-    kamoku2Controller =
-        TextEditingController(text: widget.myAccount.subjectIds[1]);
-    kamoku3Controller =
-        TextEditingController(text: widget.myAccount.subjectIds[2]);
+    if(flag[0] == true) isCheaked0 = true;
+    if(flag[1] == true) isCheaked1 = true;
+    if(flag[2] == true) isCheaked2 = true;
+    if(flag[3] == true) isCheaked3 = true;
+    if(flag[4] == true) isCheaked4 = true;*/
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -139,42 +150,106 @@ class _AccountPageState extends State<AccountPage> {
                   ),
                 ),
                 Container(
-                  width: 300,
-                  child: TextField(
-                    controller: kamoku1Controller,
-                    decoration: InputDecoration(
-                      hintText: '科目名1',
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Checkbox(
+                          value: isCheaked0, 
+                          onChanged: (value){
+                            setState(() {
+                              isCheaked0 = value!;
+                            });
+                          }
+                        ),
+                        Text(subjectList[0].name),
+                      ]
                     ),
-                  ),
-                ),
-                Container(
-                  width: 300,
-                  child: TextField(
-                    controller: kamoku2Controller,
-                    decoration: InputDecoration(
-                      hintText: '科目名2',
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Checkbox(
+                          value: isCheaked1, 
+                          onChanged: (value){
+                            setState(() {
+                              isCheaked1 = value!;
+                            });
+                          }
+                        ),
+                        Text(subjectList[1].name),
+                      ]
                     ),
-                  ),
-                ),
-                Container(
-                  width: 300,
-                  child: TextField(
-                    controller: kamoku3Controller,
-                    decoration: InputDecoration(
-                      hintText: '科目名3',
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Checkbox(
+                          value: isCheaked2, 
+                          onChanged: (value){
+                            setState(() {
+                              isCheaked2 = value!;
+                            });
+                          }
+                        ),
+                        Text(subjectList[2].name),
+                      ]
                     ),
-                  ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Checkbox(
+                          value: isCheaked3, 
+                          onChanged: (value){
+                            setState(() {
+                              isCheaked3 = value!;
+                            });
+                          }
+                        ),
+                        Text(subjectList[3].name),
+                      ]
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Checkbox(
+                          value: isCheaked4, 
+                          onChanged: (value){
+                            setState(() {
+                              isCheaked4 = value!;
+                            });
+                          }
+                        ),
+                        Text(subjectList[4].name),
+                      ]
+                    ),
+                  ],
                 ),
+              ),
                 SizedBox(height: 50),
                 ElevatedButton(
                   onPressed: () async {
                     if (nameController.text.isNotEmpty &&
                         userIdController.text.isNotEmpty &&
                         gakuikiController.text.isNotEmpty &&
-                        kateiController.text.isNotEmpty &&
-                        kamoku1Controller.text.isNotEmpty &&
-                        kamoku2Controller.text.isNotEmpty &&
-                        kamoku3Controller.text.isNotEmpty) {
+                        kateiController.text.isNotEmpty
+                        ) {
+
+                      if(isCheaked0 == true){
+                        kamokuIdList.add(subjectList[0].id);
+                      }
+                      if(isCheaked1 == true){
+                        kamokuIdList.add(subjectList[1].id);
+                      }
+                      if(isCheaked2 == true){
+                        kamokuIdList.add(subjectList[2].id);
+                      }
+                      if(isCheaked3 == true){
+                        kamokuIdList.add(subjectList[3].id);
+                      }
+                      if(isCheaked4 == true){
+                        kamokuIdList.add(subjectList[4].id);
+                      }
                       Account updateAccount = Account(
                           internalId: widget.myAccount.internalId,
                           userId: userIdController.text,
@@ -183,11 +258,7 @@ class _AccountPageState extends State<AccountPage> {
                             gakuikiController.text,
                             kateiController.text
                           ],
-                          subjectIds: [
-                            kamoku1Controller.text,
-                            kamoku2Controller.text,
-                            kamoku3Controller.text
-                          ], //ここsubjectListでidに変更したい
+                          subjectIds: kamokuIdList, //ここsubjectListでidに変更したい
                           imagePath: widget.myAccount.imagePath);
                       Vars.myAccount = updateAccount;
                       var result = await Firestore.updateUser(updateAccount);

@@ -1,7 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_testing/utils/authentication.dart';
 import 'package:flutter_testing/utils/firestore.dart';
+import 'package:flutter_testing/utils/vars.dart';
 import 'dart:html';
 import 'package:image_picker_for_web/image_picker_for_web.dart';
 import 'package:image_picker/image_picker.dart';
@@ -10,6 +12,7 @@ import 'package:image_picker_web/image_picker_web.dart';
 import 'package:flutter_testing/utils/authentication.dart';
 import 'package:flutter_testing/utils/firestore.dart';
 import 'package:flutter_testing/model/account.dart';
+import 'package:flutter_testing/model/subject.dart';
 import 'dart:math' as math;
 
 class CreateAccountPage extends StatefulWidget {
@@ -46,12 +49,29 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
   TextEditingController kamoku1Controller = TextEditingController();
   TextEditingController kamoku2Controller = TextEditingController();
   TextEditingController kamoku3Controller = TextEditingController();
-
+  
   var random = math.Random();
   var iconNum;
 
   void AssignIconNumber() {
     iconNum = random.nextInt(5);
+  }
+  bool isCheaked0 = false;
+  bool isCheaked1 = false;
+  bool isCheaked2 = false;
+  bool isCheaked3 = false;
+  bool isCheaked4 = false;
+  List<Subject> subjectList = Vars.subjectList;
+  List<String> kamokuIdList = [];
+  
+  @override
+  void initState() {
+    super.initState();
+    Future(() async {
+      print(Vars.subjectIds);
+      //await Firestore.getsubjectList(Vars.subjectIds!);
+      //print(Vars.subjectList!);
+    });
   }
 
   @override
@@ -121,6 +141,102 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
               Container(
                 width: 300,
                 child: TextField(
+                  controller: emailController,
+                  decoration: InputDecoration(
+                    hintText: 'メールアドレス',
+                  ),
+                ),
+              ),
+              Container(
+                width: 300,
+                child: TextField(
+                  controller: passController,
+                  decoration: InputDecoration(
+                    hintText: 'パスワード',
+                  ),
+                ),
+              ),
+              Text("あなたの履修している科目を選択してください"),
+              Container(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Checkbox(
+                          value: isCheaked0, 
+                          onChanged: (value){
+                            setState(() {
+                              isCheaked0 = value!;
+                            });
+                          }
+                        ),
+                        Text(subjectList[0].name),
+                      ]
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Checkbox(
+                          value: isCheaked1, 
+                          onChanged: (value){
+                            setState(() {
+                              isCheaked1 = value!;
+                            });
+                          }
+                        ),
+                        Text(subjectList[1].name),
+                      ]
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Checkbox(
+                          value: isCheaked2, 
+                          onChanged: (value){
+                            setState(() {
+                              isCheaked2 = value!;
+                            });
+                          }
+                        ),
+                        Text(subjectList[2].name),
+                      ]
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Checkbox(
+                          value: isCheaked3, 
+                          onChanged: (value){
+                            setState(() {
+                              isCheaked3 = value!;
+                            });
+                          }
+                        ),
+                        Text(subjectList[3].name),
+                      ]
+                    ),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Checkbox(
+                          value: isCheaked4, 
+                          onChanged: (value){
+                            setState(() {
+                              isCheaked4 = value!;
+                            });
+                          }
+                        ),
+                        Text(subjectList[4].name),
+                      ]
+                    ),
+                  ],
+                ),
+              ),
+              /*Container(
+                width: 300,
+                child: TextField(
                   controller: kamoku1Controller,
                   decoration: InputDecoration(
                     hintText: '科目名1',
@@ -144,25 +260,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     hintText: '科目名3',
                   ),
                 ),
-              ),
-              Container(
-                width: 300,
-                child: TextField(
-                  controller: emailController,
-                  decoration: InputDecoration(
-                    hintText: 'メールアドレス',
-                  ),
-                ),
-              ),
-              Container(
-                width: 300,
-                child: TextField(
-                  controller: passController,
-                  decoration: InputDecoration(
-                    hintText: 'パスワード',
-                  ),
-                ),
-              ),
+              ),*/
               SizedBox(height: 50),
               ElevatedButton(
                 onPressed: () async {
@@ -184,7 +282,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                     );
                     return;
                   }
-                  if (kamoku1Controller.text.isEmpty) {
+                  /*if (kamoku1Controller.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('科目名1を入力してください')),
                     );
@@ -201,7 +299,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                       const SnackBar(content: Text('科目名3を入力してください')),
                     );
                     return;
-                  }
+                  }*/
                   if (emailController.text.isEmpty) {
                     ScaffoldMessenger.of(context).showSnackBar(
                       const SnackBar(content: Text('メールアドレスを入力してください')),
@@ -216,6 +314,22 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                   }
                   AssignIconNumber();
                   print(iconNum);
+
+                  if(isCheaked0 == true){
+                    kamokuIdList.add(subjectList[0].id);
+                  }
+                  if(isCheaked1 == true){
+                    kamokuIdList.add(subjectList[1].id);
+                  }
+                  if(isCheaked2 == true){
+                    kamokuIdList.add(subjectList[2].id);
+                  }
+                  if(isCheaked3 == true){
+                    kamokuIdList.add(subjectList[3].id);
+                  }
+                  if(isCheaked4 == true){
+                    kamokuIdList.add(subjectList[4].id);
+                  }
                   var result = await Authentication.signUp(
                       email: emailController.text, pass: passController.text);
                   if (result is UserCredential) {
@@ -228,11 +342,7 @@ class _CreateAccountPageState extends State<CreateAccountPage> {
                         gakuikiController.text,
                         kateiController.text
                       ],
-                      subjectIds: [
-                        kamoku1Controller.text,
-                        kamoku2Controller.text,
-                        kamoku3Controller.text
-                      ], //ここsubjectListでidに変更したい
+                      subjectIds: kamokuIdList, //ここsubjectListでidに変更したい
                       imagePath:
                           "assets/Icons/Icon_" + iconNum.toString() + ".png",
                     );
