@@ -23,7 +23,9 @@ class _DefaultPageState extends State<DefaultPage> {
   @override
   Widget build(BuildContext context) {
     List<Subject> subjectList = Vars.subjectList!;
-    debugPrint('(_DefaultPageState) subjectList: $subjectList');
+    for (Subject subject in subjectList) {
+      debugPrint('(_DefaultPageState) subject.name: ${subject.name}');
+    }
 
     // https://stackoverflow.com/questions/67078111/flutter-app-hide-appbar-action-according-to-applicationstate-value
     // final appState = Provider.of<ApplicationState>(context);
