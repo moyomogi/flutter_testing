@@ -13,8 +13,8 @@ import 'package:flutter_testing/utils/authentication.dart';
 import 'package:flutter_testing/model/account.dart';
 
 class Screen extends StatefulWidget {
-  final int index;
-  Screen(this.index);
+  final int _index;
+  Screen(this._index);
 
   @override
   State<Screen> createState() => _ScreenState();
@@ -29,18 +29,19 @@ class _ScreenState extends State<Screen> {
   // https://qiita.com/sekitaka_1214/items/b087f9e9fc13424a64bb
   // 【Flutter入門】StatefulWidgetで使われるStateのライフサイクルを徹底解説！
   // https://tech-rise.net/what-is-lifecycle-of-state/
-  @override
-  void initState() {
-    super.initState();
-    debugPrint("initState start");
-    initSubjectList();
-    debugPrint("initState end");
-  }
+  // @override
+  // void initState() {
+  //   super.initState();
+  //   debugPrint("initState start");
+  //   initSubjectList();
+  //   debugPrint("initState end");
+  // }
 
-  void initSubjectList() async {
-    debugPrint('myAccount.subjectIds: ${myAccount.subjectIds} -> assignSubjectList');
-    await Fire.assignSubjectList(myAccount.subjectIds);
-  }
+  // dynamic initSubjectList() async {
+  //   debugPrint(
+  //       'myAccount.subjectIds: ${myAccount.subjectIds} -> assignSubjectList');
+  //   await Fire.assignSubjectList(myAccount.subjectIds);
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -54,11 +55,17 @@ class _ScreenState extends State<Screen> {
               icon: Icon(Icons.perm_identity_outlined), label: ''),
         ],
         currentIndex: selectedIndex,
-        onTap: (index) {
+        onTap: (index) async {
+          debugPrint('onTap');
+
+          // debugPrint("initSubjectList");
+          // await initSubjectList();
+
           // 押したタイミングでindexの値が変わる
           setState(() {
             debugPrint("Accountの値更新");
             myAccount = Vars.myAccount!;
+
             selectedIndex = index;
           });
         },

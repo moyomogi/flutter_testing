@@ -8,7 +8,7 @@ import 'package:flutter_testing/utils/widgets.dart';
 
 class Post {
   Post(
-      {required this.id,
+      {this.id = '',
       this.postTime,
       required this.roomId,
       this.text = '',
@@ -83,6 +83,9 @@ class _PostListState extends State<PostList> {
                 StyledButton(
                   onPressed: () async {
                     if (_formKey.currentState!.validate()) {
+                      // todo: SUBJECT_ID
+                      // await widget.addPost(
+                      //     SUBJECT_ID, myAccount.userId, _controller.text);
                       await widget.addPost(
                           myAccount.userId, myAccount.userId, _controller.text);
                       _controller.clear();

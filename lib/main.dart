@@ -131,9 +131,6 @@ class ApplicationState extends ChangeNotifier {
   ApplicationLoginState _loginState = ApplicationLoginState.loggedOut;
   ApplicationLoginState get loginState => _loginState;
 
-  // Account? _myAccount;
-  // Account? get myAccount => _myAccount;
-
   String? _email;
   String? get email => _email;
 

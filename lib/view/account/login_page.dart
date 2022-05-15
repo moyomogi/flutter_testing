@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_testing/screen.dart';
 import 'package:flutter_testing/utils/authentication.dart';
 import 'package:flutter_testing/utils/fire.dart';
+import 'package:flutter_testing/utils/vars.dart';
 import 'package:flutter_testing/view/account/create_account_page.dart';
 //import 'package:flutter_login.dart';
 
@@ -364,10 +365,13 @@ class _SignInForm extends StatelessWidget {
               if (result is UserCredential) {
                 print(result.user!.uid);
                 var _result = await Fire.getUser(result.user!.uid);
-                if (_result == true) {
-                  Navigator.pushReplacement(context,
-                      MaterialPageRoute(builder: (context) => Screen(0)));
-                }
+                if (_result == false) return;
+
+                // また悪さするんか
+                await Fire.assignSubjectList(Vars.myAccount!.subjectIds);
+
+                Navigator.pushReplacement(context,
+                    MaterialPageRoute(builder: (context) => Screen(0)));
                 print("サインイン成功、別の画面飛ぶ");
               }
             },

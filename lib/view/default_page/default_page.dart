@@ -22,9 +22,7 @@ class _DefaultPageState extends State<DefaultPage> {
   @override
   Widget build(BuildContext context) {
     List<Subject> subjectList = Vars.subjectList!;
-    debugPrint('subjectList: $subjectList');
-    // Account myAccount = widget.myAccount;
-    Account myAccount = Vars.myAccount!;
+    debugPrint('(_DefaultPageState) subjectList: $subjectList');
     // List<Subject> subjectList = [
     //   Subject(
     //       id: '15HiJNcV91Mi5qV0zmvF',
@@ -64,21 +62,21 @@ class _DefaultPageState extends State<DefaultPage> {
     // List<Subject> subjetList;
     // accountのsubjects_idに合致したsubjectListのindexを以下のfor文で格納O(n^2)
     // 長さ myAccount.subjectIds.length の List
-    List<int> appropriateIndices = [];
+    // List<int> appropriateIndices = [];
 
-    for (int i = 0; i < myAccount.subjectIds.length; i++) {
-      for (int j = 0; j < subjectList.length; j++) {
-        if (subjectList[j].id == myAccount.subjectIds[i]) {
-          appropriateIndices.add(j);
-          break;
-        }
-      }
-      if (appropriateIndices[i] == -1) {
-        debugPrint("Inappropriate です: ${myAccount.subjectIds[i]}");
-      }
-    }
-    appropriateIndices.sort((a, b) => a.compareTo(b));
-    debugPrint('appropriateIndices: $appropriateIndices');
+    // for (int i = 0; i < myAccount.subjectIds.length; i++) {
+    //   for (int j = 0; j < subjectList.length; j++) {
+    //     if (subjectList[j].id == myAccount.subjectIds[i]) {
+    //       appropriateIndices.add(j);
+    //       break;
+    //     }
+    //   }
+    //   if (appropriateIndices[i] == -1) {
+    //     debugPrint("Inappropriate です: ${myAccount.subjectIds[i]}");
+    //   }
+    // }
+    // appropriateIndices.sort((a, b) => a.compareTo(b));
+    // debugPrint('appropriateIndices: $appropriateIndices');
 
     return Scaffold(
       appBar: AppBar(
@@ -91,8 +89,8 @@ class _DefaultPageState extends State<DefaultPage> {
         elevation: 2,
       ),
       body: ListView.builder(
+        itemCount: subjectList.length,
         // itemCount: widget.subjectList.length,
-        itemCount: appropriateIndices.length,
         itemBuilder: (context, index) {
           return InkWell(
             // s
@@ -103,7 +101,8 @@ class _DefaultPageState extends State<DefaultPage> {
                   MaterialPageRoute(
                       // time_line_page.dart に遷移。
                       builder: (context) => TimeLinePage(
-                          subjectList[appropriateIndices[index]])));
+                          subjectList[index])));
+                          // subjectList[appropriateIndices[index]])));
             },
             child: Column(
               children: [
@@ -115,14 +114,16 @@ class _DefaultPageState extends State<DefaultPage> {
                         padding: const EdgeInsets.symmetric(horizontal: 10.0),
                         child: CircleAvatar(
                           backgroundImage: NetworkImage('assets/' +
-                              subjectList[appropriateIndices[index]]
+                              subjectList[index]
+                              // subjectList[appropriateIndices[index]]
                                   .dayOfTheWeek[0]
                                   .substring(0, 3) +
                               '.png'), //dayOfTheWeekの最初の3文字取って曜日(一週間の中で複数ある場合は早い方)
                           backgroundColor: Colors.white,
                         ),
                       ),
-                      Text(subjectList[appropriateIndices[index]].name),
+                      Text(subjectList[index].name),
+                      // Text(subjectList[appropriateIndices[index]].name),
                     ],
                   ),
                 ),
