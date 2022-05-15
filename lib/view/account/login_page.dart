@@ -158,7 +158,7 @@ class _HeaderTitle extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         Text(
-          '大阪公立大学生向けSNS(仮称)',
+          '大阪公立大学 非公式SNS',
           style: Theme.of(context).textTheme.headline4!.copyWith(
                 color: kTextColorPrimary,
                 fontWeight: FontWeight.w500,
