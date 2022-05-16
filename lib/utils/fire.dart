@@ -4,7 +4,6 @@ import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
-import 'package:flutter_testing/main.dart';
 import 'package:flutter_testing/model/account.dart';
 import 'package:flutter_testing/model/post.dart';
 import 'package:flutter_testing/model/subject.dart';
@@ -25,7 +24,7 @@ class Fire {
   static final postsRef = _firestoreInstance.collection('posts');
 
   // List<dynamic> -> List<String>
-  static listStringify(List<dynamic> listDynamic) {
+  static List<String> listStringify(List<dynamic> listDynamic) {
     return List<String>.from(listDynamic);
   }
 
@@ -98,47 +97,48 @@ class Fire {
 
   // 【Dart】Futureクラスとasync/awaitの基本的な使い方
   // https://zenn.dev/iwaku/articles/2020-12-29-iwaku
-  static Future<void> assignPosts(String roomId) async {
-    List<Post> postList = [];
-    try {
-      // Get all posts whose roomId is equal to roomId
-      FirebaseFirestore.instance
-          .collection('posts')
-          .where('roomId', isEqualTo: roomId)
-          .orderBy('postTime', descending: true)
-          .snapshots()
-          .listen((snapshot) {
-        // post:
-        // - id: String
-        // - postTime: Timestamp
-        // - roomId: String
-        // - text: String
-        // - userId: String
-        for (final doc in snapshot.docs) {
-          postList.add(
-            Post(
-              id: doc.data()['id'] as String,
-              postTime: doc.data()['postTime'] as Timestamp,
-              roomId: doc.data()['roomId'] as String,
-              text: doc.data()['text'] as String,
-              userId: doc.data()['userId'] as String,
-            ),
-          );
-        }
-      });
-      Vars.postList = postList;
-    } on FirebaseException catch (_) {
-      debugPrint('posts 取得エラー');
-    }
-  }
+  // static Future<void> assignToPostList(String roomId) async {
+  //   List<Post> postList = [];
+  //   try {
+  //     // Get all posts whose roomId is equal to roomId
+  //     FirebaseFirestore.instance
+  //         .collection('posts')
+  //         .where('roomId', isEqualTo: roomId)
+  //         .orderBy('postTime', descending: true)
+  //         .snapshots()
+  //         .listen((snapshot) {
+  //       // post:
+  //       // - id: String
+  //       // - postTime: Timestamp
+  //       // - roomId: String
+  //       // - text: String
+  //       // - userId: String
+  //       for (final doc in snapshot.docs) {
+  //         postList.add(
+  //           Post(
+  //             id: doc.data()['id'] as String,
+  //             postTime: doc.data()['postTime'] as Timestamp,
+  //             roomId: doc.data()['roomId'] as String,
+  //             text: doc.data()['text'] as String,
+  //             userId: doc.data()['userId'] as String,
+  //           ),
+  //         );
+  //       }
+  //     });
+  //     Vars.postList = postList;
+  //   } on FirebaseException catch (_) {
+  //     debugPrint('posts 取得エラー');
+  //   }
+  // }
 
-  static Future<dynamic> updateUser(Account updateAccount) async {
+  static Future<dynamic> updateUser(Account newAccount) async {
+    Vars.myAccount = newAccount;
     try {
-      usersRef.doc(updateAccount.internalId).update({
-        'name': updateAccount.name,
-        'userId': updateAccount.userId,
-        'undergraduate': updateAccount.undergraduate,
-        'subjectIds': updateAccount.subjectIds,
+      usersRef.doc(newAccount.internalId).update({
+        'name': newAccount.name,
+        'userId': newAccount.userId,
+        'undergraduate': newAccount.undergraduate,
+        'subjectIds': newAccount.subjectIds,
       });
       debugPrint('アカウントの情報更新');
       return true;
@@ -169,22 +169,24 @@ class Fire {
             subjectIds: listStringify(data['subjectIds']));
         map[internalId] = postAccount;
       });
-      print('投稿ユーザーの情報取得完了');
+      debugPrint('投稿ユーザーの情報取得完了');
       return map;
     } on FirebaseException catch (e) {
-      print('投稿ユーザーの情報取得エラー');
+      debugPrint('投稿ユーザーの情報取得エラー');
       return null;
     }
   }
 
-  static Future<dynamic> assignSubjectList(List<String> subjectIds) async {
-    List<Subject> subjectList = [];
+  static Future<dynamic> assignToSubjectList(List<String> subjectIds) async {
+    List<Subject> subjectList = [], allSubjectList = [];
     try {
-      debugPrint('(assignSubjectList) subjectIds: $subjectIds');
+      debugPrint('(assignToSubjectList) subjectIds: $subjectIds');
 
+      // Vars.subjectList に代入するわよ！
       // 【Flutter×Firebase】Cloud Firestoreクエリ一覧
       // https://zenn.dev/mamushi/articles/a5e6c9f71e6ea4
       // Get all rooms whose subject is contained in the subjectIds.
+      // 部分取得には `subjectsRef.doc(subjectId).get()` を用います。
       await Future.forEach(subjectIds, (String subjectId) async {
         debugPrint('subjectId: $subjectId');
 
@@ -206,47 +208,53 @@ class Fire {
           ),
         );
       });
-      // final snapshot = await subjectsRef.doc().get();
-      // for (final doc in snapshot.docs) {
-      //   String s = doc.data()['id'] as String;
-      //   if (subjectIds.toSet().contains(s)) {
-      //     subjectList.add(
-      //       Subject(
-      //         id: doc.data()['id'] as String,
-      //         name: doc.data()['name'] as String,
-      //         professors: doc.data()['professors'] as List<String>,
-      //         dayOfTheWeek: doc.data()['dayOfTheWeek'] as List<String>,
-      //         grade: doc.data()['grade'] as int,
-      //       ),
-      //     );
-      //   }
       Vars.subjectList = subjectList;
-      debugPrint('(assignSubjectList) subjectList: $subjectList');
+      debugPrint('(assignToSubjectList) subjectList: $subjectList');
+
+      // Get all of 'subjects/xxx'
+      // Vars.allSubjectList
+      // 全取得には `subjectsRef.get()` を用います。
+      await subjectsRef.get().then((snapshot) {
+        for (final doc in snapshot.docs) {
+          allSubjectList.add(
+            Subject(
+              id: doc.data()['id'] as String,
+              name: doc.data()['name'] as String,
+              professors: listStringify(doc.data()['professors']),
+              dayOfTheWeek: listStringify(doc.data()['dayOfTheWeek']),
+              grade: doc.data()['grade'] as int,
+            ),
+          );
+        }
+      });
+      Vars.allSubjectList = allSubjectList;
+      debugPrint('(assignToSubjectList) allSubjectList: $allSubjectList');
+
       // FirebaseFirestore.instance
       //     .collection('subjects')
       //     // .where('id', whereIn: subjectIds)
-      //     .snapshots()
+      //     .snapshots();
       //     .listen((snapshot) {
       //   for (final doc in snapshot.docs) {
       //     String s = doc.data()['id'] as String;
       //     if (subjectIds.toSet().contains(s)) {
-      //       subjectList.add(
+      //       allSubjectList.add(
       //         Subject(
       //           id: doc.data()['id'] as String,
       //           name: doc.data()['name'] as String,
-      //           professors: doc.data()['professors'] as List<String>,
-      //           dayOfTheWeek: doc.data()['dayOfTheWeek'] as List<String>,
+      //           professors: listStringify(doc.data()['professors']),
+      //           dayOfTheWeek: listStringify(doc.data()['dayOfTheWeek']),
       //           grade: doc.data()['grade'] as int,
       //         ),
       //       );
       //     }
       //   }
-      //   Vars.subjectList = subjectList;
-      //   debugPrint('(assignSubjectList) subjectList: $subjectList');
+      //   Vars.allSubjectList = allSubjectList;
+      //   debugPrint('(assignToSubjectList) subjectList: $subjectList');
       // });
     } on FirebaseException catch (_) {
       // Vars.subjectList = [];
-      print('subjectList 取得エラー');
+      debugPrint('subjectList 取得エラー');
     }
   }
 }

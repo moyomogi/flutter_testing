@@ -32,11 +32,11 @@ class _TimeLinePageState extends State<TimeLinePage> {
         centerTitle: true,
         title: Text(
           widget.subject.name,
-          style: TextStyle(color: Colors.black),
+          style: const TextStyle(color: Colors.black),
         ),
         backgroundColor: Theme.of(context).canvasColor,
         elevation: 2,
-        iconTheme: IconThemeData(color: Colors.black),
+        iconTheme: const IconThemeData(color: Colors.black),
       ),
       body: Stack(
         children: [
@@ -48,7 +48,7 @@ class _TimeLinePageState extends State<TimeLinePage> {
                     .snapshots(), //postsに追加されたもの感知
                 builder: (context, postSnapshot) {
                   if (postSnapshot.hasData) {
-                    print("postSnapshot.hasData");
+                    debugPrint("postSnapshot.hasData");
                     List<String> postAccountsIds = [];
                     postSnapshot.data!.docs.forEach((doc) {
                       Map<String, dynamic> data =
@@ -65,7 +65,7 @@ class _TimeLinePageState extends State<TimeLinePage> {
                                   ConnectionState.done) {
                             return ListView.builder(
                                 itemCount:
-                                    postSnapshot.data!.docs.length, //postの数だけ探索
+                                    postSnapshot.data!.docs.length, // postの数だけ探索
                                 itemBuilder: (context, index) {
                                   Map<String, dynamic> data =
                                       postSnapshot.data!.docs[index].data()
@@ -77,13 +77,13 @@ class _TimeLinePageState extends State<TimeLinePage> {
                                         userId: data['userId'],
                                         roomId: data['roomId'],
                                         postTime: data['postTime']);
-                                    print("post生成${post}");
+                                    debugPrint('post生成 $post');
                                     Account postAccount = userSnapshot.data![post
-                                        .userId]!; //postのuserIdからpostAccount特定
+                                        .userId]!; // postのuserIdからpostAccount特定
                                     return Container(
                                       decoration: BoxDecoration(
                                           border: index == 0
-                                              ? Border(
+                                              ? const Border(
                                                   top: BorderSide(
                                                       color: Colors.grey,
                                                       width: 0),
@@ -91,11 +91,11 @@ class _TimeLinePageState extends State<TimeLinePage> {
                                                       color: Colors.grey,
                                                       width: 0),
                                                 )
-                                              : Border(
+                                              : const Border(
                                                   bottom: BorderSide(
                                                       color: Colors.grey,
                                                       width: 0))),
-                                      padding: EdgeInsets.symmetric(
+                                      padding: const EdgeInsets.symmetric(
                                           horizontal: 10, vertical: 15),
                                       child: Row(
                                         children: [
@@ -106,57 +106,55 @@ class _TimeLinePageState extends State<TimeLinePage> {
                                             backgroundColor: Colors.white,
                                           ),
                                           Expanded(
-                                            child: Container(
-                                              child: Column(
-                                                children: [
-                                                  Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Row(children: [
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .symmetric(
-                                                                  horizontal:
-                                                                      2.0),
-                                                          // myAccount.name
-                                                          child: Text(
-                                                            postAccount.name,
-                                                            style: TextStyle(
-                                                                fontWeight:
-                                                                    FontWeight
-                                                                        .bold),
-                                                          ),
+                                            child: Column(
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment:
+                                                      MainAxisAlignment
+                                                          .spaceBetween,
+                                                  children: [
+                                                    Row(children: [
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                horizontal:
+                                                                    2.0),
+                                                        // myAccount.name
+                                                        child: Text(
+                                                          postAccount.name,
+                                                          style: const TextStyle(
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .bold),
                                                         ),
-                                                        Text(
-                                                          "@${postAccount.userId}",
-                                                          style: TextStyle(
-                                                              color:
-                                                                  Colors.grey),
-                                                        ),
-                                                        Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                      .symmetric(
-                                                                  horizontal:
-                                                                      8.0),
-                                                          // 日付
-                                                          // postList: やあ＾＾やあ＾＾
-                                                          child: Text(DateFormat(
-                                                                  '20yy/M/d H:m')
-                                                              .format(post
-                                                                  .postTime!
-                                                                  .toDate())),
-                                                        ), //year:month/day hour:minute
-                                                      ]),
-                                                      //Text(DateFormat('20yy/M/d H:m').format(postList[index].postTime!.toDate()))//year:month/day hour:minute
-                                                    ],
-                                                  ),
-                                                  Text(post.text),
-                                                ],
-                                              ),
+                                                      ),
+                                                      Text(
+                                                        '@${postAccount.userId}',
+                                                        style: const TextStyle(
+                                                            color:
+                                                                Colors.grey),
+                                                      ),
+                                                      Padding(
+                                                        padding:
+                                                            const EdgeInsets
+                                                                    .symmetric(
+                                                                horizontal:
+                                                                    8.0),
+                                                        // 日付
+                                                        // postList: やあ＾＾やあ＾＾
+                                                        child: Text(DateFormat(
+                                                                '20yy/M/d H:m')
+                                                            .format(post
+                                                                .postTime!
+                                                                .toDate())),
+                                                      ), //year:month/day hour:minute
+                                                    ]),
+                                                    //Text(DateFormat('20yy/M/d H:m').format(postList[index].postTime!.toDate()))//year:month/day hour:minute
+                                                  ],
+                                                ),
+                                                Text(post.text),
+                                              ],
                                             ),
                                           )
                                         ],
@@ -172,7 +170,7 @@ class _TimeLinePageState extends State<TimeLinePage> {
                         });
                   } else {
                     //snapshot.hasntData
-                    print("postsに物がない");
+                    debugPrint("postsに物がない");
                     return Container();
                   }
                 }),
@@ -189,7 +187,7 @@ class _TimeLinePageState extends State<TimeLinePage> {
                     padding: const EdgeInsets.all(8.0),
                     child: TextField(
                       controller: controller, // 送信するメッセージである controller を受け取る
-                      decoration: InputDecoration(
+                      decoration: const InputDecoration(
                         border: OutlineInputBorder(),
                         hintText: "ツイートを送信",
                       ),
