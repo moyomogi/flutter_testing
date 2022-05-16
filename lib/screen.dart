@@ -39,8 +39,8 @@ class _ScreenState extends State<Screen> {
 
   // dynamic initSubjectList() async {
   //   debugPrint(
-  //       'myAccount.subjectIds: ${myAccount.subjectIds} -> assignSubjectList');
-  //   await Fire.assignSubjectList(myAccount.subjectIds);
+  //       'myAccount.subjectIds: ${myAccount.subjectIds} -> assignToSubjectList');
+  //   await Fire.assignToSubjectList(myAccount.subjectIds);
   // }
 
   @override

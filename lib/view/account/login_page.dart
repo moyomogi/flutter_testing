@@ -370,7 +370,7 @@ class _SignInForm extends StatelessWidget {
                 if (_result == false) return;
 
                 // また悪さするんか
-                await Fire.assignSubjectList(Vars.myAccount!.subjectIds);
+                await Fire.assignToSubjectList(Vars.myAccount!.subjectIds);
 
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => Screen(0)));

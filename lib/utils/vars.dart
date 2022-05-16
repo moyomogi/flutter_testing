@@ -57,4 +57,5 @@ class Vars {
     ),
   ];
   static List<Post>? postList = [];
+  static List<Subject>? allSubjectList = [];
 }
